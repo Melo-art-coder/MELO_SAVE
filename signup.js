@@ -183,42 +183,11 @@ meloToast(
     "success"
 );
 
-// Melo AI Voice
+setTimeout(() => {
 
-    if ("speechSynthesis" in window) {
+    window.location.href = "home.html";
 
-    speechSynthesis.cancel();
-
-    const speech = new SpeechSynthesisUtterance(
-
-        `Welcome to MELOSAV, ${name}.
-        I'm Melo AI.
-        I'll help you save smarter, manage better, and achieve your financial goals.
-        Let's begin your journey together.`
-
-    );
-
-    speech.rate = 1;
-    speech.pitch = 1;
-    speech.volume = 1;
-
-    speech.onend = () => {
-
-        window.location.href = "home.html";
-
-    };
-
-    speechSynthesis.speak(speech);
-
-} else {
-
-    setTimeout(() => {
-
-        window.location.href = "home.html";
-
-    }, 3500);
-
-}
+}, 3500);
 
 }
    

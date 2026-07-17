@@ -1,0 +1,280 @@
+/* =====================================
+   MELOSAV DASHBOARD STYLE
+===================================== */
+
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial, sans-serif;
+}
+
+
+body{
+
+    min-height:100vh;
+    padding:20px;
+    padding-bottom:90px;
+
+    background:var(--background);
+    color:var(--text);
+
+}
+
+
+
+/* =========================
+   HEADER
+========================= */
+
+
+.top-header{
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    margin-bottom:25px;
+
+}
+
+
+.user-area{
+
+    display:flex;
+    align-items:center;
+    gap:12px;
+
+}
+
+
+.profile-img{
+
+    width:55px;
+    height:55px;
+
+    border-radius:50%;
+
+    object-fit:contain;
+
+    background:var(--card);
+
+}
+
+
+
+#greeting{
+
+    font-size:14px;
+    color:var(--muted);
+
+}
+
+
+#username{
+
+    font-size:22px;
+
+}
+
+
+
+/* =========================
+   THEME BUTTON
+========================= */
+
+
+.theme-btn{
+
+    border:none;
+
+    background:var(--card);
+
+    color:var(--text);
+
+    width:45px;
+    height:45px;
+
+    border-radius:50%;
+
+    font-size:20px;
+
+    cursor:pointer;
+
+}
+
+
+
+/* =========================
+   BALANCE CARD
+========================= */
+
+
+.balance-card{
+
+    background:linear-gradient(
+        135deg,
+        var(--primary),
+        var(--secondary)
+    );
+
+
+    color:white;
+
+    padding:25px;
+
+    border-radius:25px;
+
+    margin-bottom:25px;
+
+}
+
+
+.balance-card p{
+
+    opacity:.8;
+
+}
+
+
+.balance-card h1{
+
+    font-size:38px;
+
+    margin-top:10px;
+
+}
+
+
+
+
+
+/* =========================
+   QUICK ACTIONS
+========================= */
+
+
+.quick-actions{
+
+    display:grid;
+
+    grid-template-columns:repeat(4,1fr);
+
+    gap:12px;
+
+    margin-bottom:30px;
+
+}
+
+
+
+.quick-actions button{
+
+    border:none;
+
+    background:var(--card);
+
+    color:var(--text);
+
+    padding:15px 5px;
+
+    border-radius:18px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    gap:8px;
+
+    cursor:pointer;
+
+    font-size:20px;
+
+}
+
+
+
+.quick-actions span{
+
+    font-size:12px;
+
+}
+
+
+
+
+/* =========================
+   TRANSACTIONS
+========================= */
+
+
+.dashboard-section{
+
+    background:var(--card);
+
+    padding:20px;
+
+    border-radius:25px;
+
+}
+
+
+
+.dashboard-section h2{
+
+    margin-bottom:15px;
+
+}
+
+
+
+#transactionList{
+
+    color:var(--muted);
+
+}
+
+
+
+
+/* =========================
+   BOTTOM NAV
+========================= */
+
+
+.bottom-nav{
+
+    position:fixed;
+
+    bottom:15px;
+
+    left:20px;
+
+    right:20px;
+
+
+    background:var(--card);
+
+    border-radius:25px;
+
+
+    display:flex;
+
+    justify-content:space-around;
+
+    padding:15px;
+
+
+}
+
+
+.bottom-nav a{
+
+    text-decoration:none;
+
+    font-size:25px;
+
+}

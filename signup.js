@@ -183,11 +183,15 @@ meloToast(
     "success"
 );
 
+// Redirect (Temporary Test)
+
 setTimeout(() => {
 
     window.location.href = "home.html";
 
 }, 3500);
+
+}
 
 }
    

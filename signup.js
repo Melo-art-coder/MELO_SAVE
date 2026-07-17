@@ -34,9 +34,11 @@ function createAccount() {
 
     if (!name || !email || !pin || !confirmPin) {
 
-        alert("Please complete all fields.");
-
-        return;
+        meloToast(
+    "📝 A Few Details Missing",
+    "Please fill in all the required fields before continuing.",
+    "warning"
+);
 
     }
 
@@ -50,17 +52,21 @@ function createAccount() {
 
     if (pin !== confirmPin) {
 
-        alert("PINs do not match.");
-
-        return;
+        meloToast(
+    "🔒 PINs Don't Match",
+    "Double-check both PINs and try again.",
+    "error"
+);
 
     }
 
     if (!agreed) {
 
-        alert("Please accept the Terms & Conditions.");
-
-        return;
+        meloToast(
+    "📜 One Last Step",
+    "Please accept the Terms & Conditions to continue.",
+    "warning"
+);
 
     }
 
@@ -75,7 +81,11 @@ function createAccount() {
 
     if (exists) {
 
-        alert("An account already exists with this email.");
+        meloToast(
+    "💜 Welcome Back!",
+    "This email is already registered. Try logging in or use another email.",
+    "warning"
+);
 
         return;
 
@@ -157,7 +167,11 @@ function createAccount() {
 
     // Welcome
 
-    alert(`💜 Welcome to MELOSAV, ${name}!`);
+    meloToast(
+    "🎉 Welcome to MELOSAV!",
+    "Your account has been created successfully. Let's start your savings journey!",
+    "success"
+);
 
     // Melo AI Voice
 

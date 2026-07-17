@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Choose Theme | MELOSAV</title>
+
+<link rel="stylesheet" href="theme-setup.css">
+
+</head>
+
+<body>
+
+<div class="theme-container">
+
+    <!-- Logo -->
+
+    <img
+        src="Melo/logo.png"
+        class="logo"
+        alt="MELOSAV">
+
+    <h1>Welcome to MELOSAV</h1>
+
+    <p id="welcomeText">
+
+        Let's personalize your experience.
+
+    </p>
+
+    <!-- Color -->
+
+    <h2>Choose Your Color</h2>
+
+    <div class="theme-grid">
+
+        <button class="theme-card active"
+            data-theme="purple">
+
+            💜
+
+            <span>Purple</span>
+
+        </button>
+
+        <button class="theme-card"
+            data-theme="emerald">
+
+            💚
+
+            <span>Emerald</span>
+
+        </button>
+
+        <button class="theme-card"
+            data-theme="ocean">
+
+            💙
+
+            <span>Ocean</span>
+
+        </button>
+
+        <button class="theme-card"
+            data-theme="rose">
+
+            🩷
+
+            <span>Rose</span>
+
+        </button>
+
+        <button class="theme-card"
+            data-theme="gold">
+
+            💛
+
+            <span>Gold</span>
+
+        </button>
+
+        <button class="theme-card"
+            data-theme="midnight">
+
+            🌙
+
+            <span>Midnight</span>
+
+        </button>
+
+    </div>
+
+    <!-- Appearance -->
+
+    <h2>Appearance</h2>
+
+    <div class="appearance">
+
+        <label class="mode-card">
+
+            <input
+                type="radio"
+                name="mode"
+                value="light"
+                checked>
+
+            ☀️
+
+            <span>Light</span>
+
+        </label>
+
+        <label class="mode-card">
+
+            <input
+                type="radio"
+                name="mode"
+                value="dark">
+
+            🌙
+
+            <span>Dark</span>
+
+        </label>
+
+    </div>
+
+    <!-- Continue -->
+
+    <button id="continueBtn">
+
+        Continue to MELOSAV →
+
+    </button>
+
+</div>
+
+<script src="storage.js"></script>
+<script src="theme.js"></script>
+<script src="theme-setup.js"></script>
+
+</body>
+
+</html>

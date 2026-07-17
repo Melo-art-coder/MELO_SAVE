@@ -99,43 +99,13 @@ function loginUser() {
     "success"
 );
 
-    // Melo AI Voice
-if ("speechSynthesis" in window) {
+    // Redirect to Dashboard
 
-    speechSynthesis.cancel();
+setTimeout(() => {
 
-    const speech = new SpeechSynthesisUtterance(
-        `Welcome back ${user.name}.
-        It's good to see you again.
-        Let's save smarter and manage better.`
-    );
+    window.location.href = "home.html";
 
-    speech.rate = 1;
-    speech.pitch = 1;
-    speech.volume = 1;
-
-    speech.onend = () => {
-
-    setTimeout(() => {
-
-        window.location.href = "home.html";
-
-    }, 500);
-
-};
-
-    speechSynthesis.speak(speech);
-
-} else {
-
-    // If speech isn't supported
-    setTimeout(() => {
-
-        window.location.href = "home.html";
-
-    }, 3500);
-
-}
+}, 1200);
 }
 
     

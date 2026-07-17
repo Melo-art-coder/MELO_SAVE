@@ -187,11 +187,14 @@ meloToast(
 
     if ("speechSynthesis" in window) {
 
+    speechSynthesis.cancel();
+
     const speech = new SpeechSynthesisUtterance(
 
-        `Welcome to MeloSave ${name}.
+        `Welcome to MELOSAV, ${name}.
         I'm Melo AI.
-        I'll help you save smarter and manage better.`
+        I'll help you save smarter, manage better, and achieve your financial goals.
+        Let's begin your journey together.`
 
     );
 
@@ -199,7 +202,21 @@ meloToast(
     speech.pitch = 1;
     speech.volume = 1;
 
+    speech.onend = () => {
+
+        window.location.href = "home.html";
+
+    };
+
     speechSynthesis.speak(speech);
+
+} else {
+
+    setTimeout(() => {
+
+        window.location.href = "home.html";
+
+    }, 3500);
 
 }
 

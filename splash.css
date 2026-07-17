@@ -255,5 +255,13 @@ color:#CCCCCC;
 color:white;
 
 }
-
+.logo{
+    width:90px;
+    height:90px;
+    object-fit:contain;
+}
+.footer-logo{
+    width:45px;
+    height:45px;
+    object-fit:contain;
 }

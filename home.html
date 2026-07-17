@@ -4,9 +4,7 @@
 <head>
 
 <meta charset="UTF-8">
-
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Home | MELOSAV</title>
 
@@ -14,24 +12,29 @@ content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="home.css">
 <link rel="stylesheet" href="melo-toast.css">
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
 </head>
 
 <body>
 
+<!-- ================= HEADER ================= -->
+
 <header class="top-header">
 
 <div class="user-info">
 
-<img
-src="logo.png"
+<img src="logo.png"
 class="profile-pic"
 alt="MELOSAV">
 
 <div>
 
 <p id="greeting">
-Good Morning 👋
+Good Morning ☀️
 </p>
 
 <h2 id="username">
@@ -57,153 +60,322 @@ Loading...
 </header>
 
 
+<!-- ================= WALLET ================= -->
+
 <section class="balance-card">
 
 <div class="wallet-slider" id="walletSlider">
 
-    <!-- Naira -->
+<!-- Naira -->
 
-    <div class="wallet-card naira">
+<div class="wallet-card naira">
 
-        <div class="wallet-top">
+<div class="wallet-top">
 
-            <span>Total Balance</span>
+<div>
 
-            <div class="wallet-actions">
+<p class="wallet-title">
+Total Balance
+</p>
 
-                <button id="toggleBalance">👁️</button>
+<h1 id="balance">
+₦0.00
+</h1>
 
-            </div>
+</div>
 
-        </div>
+<button id="toggleBalance">
+👁️
+</button>
 
-        <h1 id="balance">
-            ₦0.00
-        </h1>
+</div>
 
-        <div class="wallet-stats">
+<div class="wallet-stats">
 
-            <div>
-                <small>Income</small>
-                <h3 id="income">₦0</h3>
-            </div>
+<div>
 
-            <div>
-                <small>Expense</small>
-                <h3 id="expenses">₦0</h3>
-            </div>
+<small>Income</small>
 
-            <div>
-                <small>Savings</small>
-                <h3 id="savings">₦0</h3>
-            </div>
+<h3 id="income">
+₦0
+</h3>
 
-        </div>
+</div>
 
-    </div>
+<div>
 
-    <!-- Dollar -->
+<small>Expense</small>
 
-    <div class="wallet-card dollar">
+<h3 id="expenses">
+₦0
+</h3>
 
-        <div class="wallet-top">
-            <span>US Wallet 🇺🇸</span>
-        </div>
+</div>
 
-        <h1 id="usdBalance">$0.00</h1>
+<div>
 
-    </div>
+<small>Savings</small>
 
-    <!-- Euro -->
+<h3 id="savings">
+₦0
+</h3>
 
-    <div class="wallet-card euro">
+</div>
 
-        <div class="wallet-top">
-            <span>Euro Wallet 🇪🇺</span>
-        </div>
+</div>
 
-        <h1 id="eurBalance">€0.00</h1>
+<div class="budget-box">
 
-    </div>
+<div class="budget-top">
 
-    <!-- Pound -->
+<span>Daily Budget</span>
 
-    <div class="wallet-card pound">
+<span id="budgetPercent">
+0%
+</span>
 
-        <div class="wallet-top">
-            <span>UK Wallet 🇬🇧</span>
-        </div>
+</div>
 
-        <h1 id="gbpBalance">£0.00</h1>
+<div class="budget-bar">
 
-    </div>
+<div class="budget-fill"
+id="budgetFill"></div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- Dollar -->
+
+<div class="wallet-card dollar">
+
+<p class="wallet-title">
+US Wallet 🇺🇸
+</p>
+
+<h1 id="usdBalance">
+$0.00
+</h1>
+
+</div>
+
+<!-- Euro -->
+
+<div class="wallet-card euro">
+
+<p class="wallet-title">
+Euro Wallet 🇪🇺
+</p>
+
+<h1 id="eurBalance">
+€0.00
+</h1>
+
+</div>
+
+<!-- Pound -->
+
+<div class="wallet-card pound">
+
+<p class="wallet-title">
+UK Wallet 🇬🇧
+</p>
+
+<h1 id="gbpBalance">
+£0.00
+</h1>
+
+</div>
 
 </div>
 
 <div class="wallet-dots">
 
-    <span class="active"></span>
-    <span></span>
-    <span></span>
-    <span></span>
+<span class="active"></span>
+<span></span>
+<span></span>
+<span></span>
 
 </div>
 
 </section>
 
+
+<!-- ================= QUICK ACTIONS ================= -->
 
 <section class="quick-actions">
 
 <button id="incomeBtn">
-💰
+<div>💰</div>
 <span>Income</span>
 </button>
 
 <button id="expenseBtn">
-💸
+<div>💸</div>
 <span>Expense</span>
 </button>
 
 <button id="saveBtn">
-🏦
+<div>🏦</div>
 <span>Save</span>
 </button>
 
 <button id="goalBtn">
-🎯
+<div>🎯</div>
 <span>Goals</span>
+</button>
+
+<button id="transferBtn">
+<div>💳</div>
+<span>Transfer</span>
+</button>
+
+<button id="budgetBtn">
+<div>📊</div>
+<span>Budget</span>
 </button>
 
 </section>
 
 
-<section class="dashboard-card">
+<!-- ================= MELO AI ================= -->
 
-<h2>Recent Transactions</h2>
+<section class="melo-ai">
 
-<div id="transactionList">
+<div class="ai-icon">
+🤖
+</div>
 
-<p>No transactions yet.</p>
+<div>
+
+<h3>Melo AI</h3>
+
+<p id="aiMessage">
+Welcome back! Let's grow your savings today.
+</p>
 
 </div>
 
 </section>
 
 
+<!-- ================= TRANSACTIONS ================= -->
+
+<section class="dashboard-card">
+
+<div class="section-title">
+
+<h2>
+Recent Transactions
+</h2>
+
+<a href="#">
+See All
+</a>
+
+</div>
+
+<div id="transactionList">
+
+<p class="empty">
+No transactions yet.
+</p>
+
+</div>
+
+</section>
+
+
+<!-- ================= GOALS ================= -->
+
+<section class="dashboard-card">
+
+<div class="section-title">
+
+<h2>
+Goals Progress
+</h2>
+
+<a href="goals.html">
+Open
+</a>
+
+</div>
+
+<div id="goalPreview">
+
+<p class="empty">
+No goals created yet.
+</p>
+
+</div>
+
+</section>
+
+
+<!-- ================= ACHIEVEMENTS ================= -->
+
+<section class="dashboard-card">
+
+<div class="section-title">
+
+<h2>
+Achievements
+</h2>
+
+</div>
+
+<div class="achievement-list">
+
+<div class="achievement">
+🏆
+<span>Starter</span>
+</div>
+
+<div class="achievement">
+🔥
+<span>Streak</span>
+</div>
+
+<div class="achievement">
+💎
+<span>Premium</span>
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= FAB ================= -->
+
 <button class="fab" id="fab">
+
 +
+
 </button>
 
 
+<!-- ================= BOTTOM NAV ================= -->
+
 <nav class="bottom-nav">
 
-<a href="home.html">🏠</a>
+<a href="home.html" class="active">
+🏠
+</a>
 
-<a href="goals.html">🎯</a>
+<a href="goals.html">
+🎯
+</a>
 
-<a href="profile.html">👤</a>
+<a href="profile.html">
+👤
+</a>
 
 </nav>
+
 
 <script src="storage.js"></script>
 <script src="theme.js"></script>
@@ -211,5 +383,4 @@ Loading...
 <script src="home.js"></script>
 
 </body>
-
 </html>

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Create Account | MELOSAV</title>
+
+<link rel="stylesheet" href="signup.css">
+
+</head>
+
+<body>
+
+<div class="signup-container">
+
+    <!-- Logo -->
+
+    <img
+        src="Melo/logo.png"
+        class="logo"
+        alt="MELOSAV Logo">
+
+    <h1>MELOSAV</h1>
+
+    <p class="subtitle">
+
+        Create your account and start saving smarter.
+
+    </p>
+
+    <!-- Card -->
+
+    <div class="signup-card">
+
+        <h2>Create Account</h2>
+
+        <p class="card-text">
+
+            Join thousands of smart savers today.
+
+        </p>
+
+        <!-- Name -->
+
+        <div class="input-group">
+
+            <label>Full Name</label>
+
+            <input
+                type="text"
+                id="name"
+                placeholder="e.g Melody David">
+
+        </div>
+
+        <!-- Email -->
+
+        <div class="input-group">
+
+            <label>Email Address</label>
+
+            <input
+                type="email"
+                id="email"
+                placeholder="example@email.com">
+
+        </div>
+
+        <!-- PIN -->
+
+        <div class="input-group">
+
+            <label>Create PIN</label>
+
+            <input
+                type="password"
+                id="pin"
+                maxlength="6"
+                inputmode="numeric"
+                placeholder="4 - 6 digit PIN">
+
+        </div>
+
+        <!-- Confirm -->
+
+        <div class="input-group">
+
+            <label>Confirm PIN</label>
+
+            <input
+                type="password"
+                id="confirmPin"
+                maxlength="6"
+                inputmode="numeric"
+                placeholder="Confirm PIN">
+
+        </div>
+
+        <!-- Initial Theme -->
+
+        <h3 class="theme-title">
+
+            Choose Your Theme
+
+        </h3>
+
+        <div class="theme-select">
+
+            <label class="theme-box">
+
+                <input
+                    type="radio"
+                    name="mode"
+                    value="light"
+                    checked>
+
+                ☀️
+
+                <span>Light</span>
+
+            </label>
+
+            <label class="theme-box">
+
+                <input
+                    type="radio"
+                    name="mode"
+                    value="dark">
+
+                🌙
+
+                <span>Dark</span>
+
+            </label>
+
+        </div>
+
+        <!-- Terms -->
+
+        <label class="terms">
+
+            <input
+                type="checkbox"
+                id="terms">
+
+            I agree to the
+
+            <a href="#">
+
+                Terms & Conditions
+
+            </a>
+
+        </label>
+
+        <!-- Button -->
+
+        <button id="signupBtn">
+
+            Create Account
+
+        </button>
+
+        <div class="login-link">
+
+            Already have an account?
+
+            <a href="login.html">
+
+                Log In
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="storage.js"></script>
+<script src="theme.js"></script>
+<script src="signup.js"></script>
+
+</body>
+
+</html>

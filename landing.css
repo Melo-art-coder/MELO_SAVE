@@ -62,11 +62,16 @@ body{
 
 .hero-logo{
 
-    width:120px;
+    width:90px;
+    height:90px;
 
-    margin-bottom:25px;
+    object-fit:contain;
 
-    animation:float 3s infinite ease-in-out;
+    display:block;
+
+    margin:0 auto 25px;
+
+    animation:float 3s ease-in-out infinite;
 
 }
 
@@ -260,9 +265,14 @@ footer{
 
 .footer-logo{
 
-    width:50px;
+    width:36px;
+    height:36px;
 
-    margin-bottom:10px;
+    object-fit:contain;
+
+    display:block;
+
+    margin:0 auto 12px;
 
 }
 

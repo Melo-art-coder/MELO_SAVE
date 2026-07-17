@@ -1,115 +1,111 @@
 /* =====================================
-   MELOSAV DASHBOARD STYLE
+   MELOSAV HOME
 ===================================== */
 
-
 *{
-    box-sizing:border-box;
     margin:0;
     padding:0;
-    font-family:Arial, sans-serif;
+    box-sizing:border-box;
+    font-family:"Poppins",sans-serif;
 }
-
 
 body{
 
-    min-height:100vh;
-    padding:20px;
-    padding-bottom:90px;
-
     background:var(--background);
+
     color:var(--text);
+
+    padding:20px;
+
+    padding-bottom:110px;
 
 }
 
 
-
-/* =========================
-   HEADER
-========================= */
-
+/* HEADER */
 
 .top-header{
 
     display:flex;
+
     justify-content:space-between;
+
     align-items:center;
 
     margin-bottom:25px;
 
 }
 
-
-.user-area{
+.user-info{
 
     display:flex;
+
     align-items:center;
-    gap:12px;
+
+    gap:15px;
 
 }
 
-
-.profile-img{
+.profile-pic{
 
     width:55px;
+
     height:55px;
 
     border-radius:50%;
 
-    object-fit:contain;
+    object-fit:cover;
 
     background:var(--card);
 
 }
 
-
-
 #greeting{
 
-    font-size:14px;
     color:var(--muted);
 
-}
+    font-size:14px;
 
+}
 
 #username{
 
     font-size:22px;
 
+    font-weight:700;
+
 }
 
+.header-actions{
 
+    display:flex;
 
-/* =========================
-   THEME BUTTON
-========================= */
+    gap:10px;
 
+}
 
-.theme-btn{
+.header-actions button{
+
+    width:45px;
+
+    height:45px;
 
     border:none;
+
+    border-radius:15px;
 
     background:var(--card);
 
     color:var(--text);
 
-    width:45px;
-    height:45px;
-
-    border-radius:50%;
+    cursor:pointer;
 
     font-size:20px;
-
-    cursor:pointer;
 
 }
 
 
-
-/* =========================
-   BALANCE CARD
-========================= */
-
+/* BALANCE CARD */
 
 .balance-card{
 
@@ -119,43 +115,64 @@ body{
         var(--secondary)
     );
 
-
     color:white;
+
+    border-radius:28px;
 
     padding:25px;
 
-    border-radius:25px;
-
-    margin-bottom:25px;
+    box-shadow:0 20px 40px rgba(0,0,0,.15);
 
 }
-
-
-.balance-card p{
-
-    opacity:.8;
-
-}
-
 
 .balance-card h1{
 
     font-size:38px;
 
-    margin-top:10px;
+    margin:12px 0 25px;
+
+}
+
+.balance-details{
+
+    display:grid;
+
+    grid-template-columns:repeat(3,1fr);
+
+    gap:15px;
+
+}
+
+.balance-details div{
+
+    background:rgba(255,255,255,.15);
+
+    padding:15px;
+
+    border-radius:16px;
+
+    text-align:center;
+
+}
+
+.balance-details span{
+
+    font-size:12px;
+
+}
+
+.balance-details h3{
+
+    margin-top:8px;
 
 }
 
 
-
-
-
-/* =========================
-   QUICK ACTIONS
-========================= */
-
+/* QUICK ACTIONS */
 
 .quick-actions{
+
+    margin-top:30px;
 
     display:grid;
 
@@ -163,11 +180,7 @@ body{
 
     gap:12px;
 
-    margin-bottom:30px;
-
 }
-
-
 
 .quick-actions button{
 
@@ -177,9 +190,11 @@ body{
 
     color:var(--text);
 
-    padding:15px 5px;
-
     border-radius:18px;
+
+    padding:18px 10px;
+
+    cursor:pointer;
 
     display:flex;
 
@@ -187,15 +202,11 @@ body{
 
     align-items:center;
 
-    gap:8px;
+    gap:10px;
 
-    cursor:pointer;
-
-    font-size:20px;
+    font-size:22px;
 
 }
-
-
 
 .quick-actions span{
 
@@ -204,32 +215,25 @@ body{
 }
 
 
+/* CARD */
 
+.dashboard-card{
 
-/* =========================
-   TRANSACTIONS
-========================= */
-
-
-.dashboard-section{
+    margin-top:30px;
 
     background:var(--card);
 
-    padding:20px;
+    border-radius:24px;
 
-    border-radius:25px;
+    padding:20px;
 
 }
 
-
-
-.dashboard-section h2{
+.dashboard-card h2{
 
     margin-bottom:15px;
 
 }
-
-
 
 #transactionList{
 
@@ -238,49 +242,69 @@ body{
 }
 
 
+/* FAB */
+
+.fab{
+
+    position:fixed;
+
+    right:25px;
+
+    bottom:95px;
+
+    width:60px;
+
+    height:60px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:var(--primary);
+
+    color:white;
+
+    font-size:34px;
+
+    cursor:pointer;
+
+    box-shadow:0 15px 30px rgba(123,44,255,.35);
+
+}
 
 
-/* =========================
-   BOTTOM NAV
-========================= */
-
+/* BOTTOM NAV */
 
 .bottom-nav{
 
     position:fixed;
 
-    bottom:15px;
-
     left:20px;
 
     right:20px;
 
+    bottom:20px;
 
     background:var(--card);
 
     border-radius:25px;
 
-
     display:flex;
 
     justify-content:space-around;
 
-    padding:15px;
+    padding:16px;
 
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
 
 }
-
 
 .bottom-nav a{
 
     text-decoration:none;
 
-    font-size:25px;
+    color:var(--text);
 
-}
-.profile-img{
-    width:45px;
-    height:45px;
-    object-fit:contain;
-    border-radius:12px;
+    font-size:26px;
+
 }

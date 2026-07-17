@@ -55,22 +55,15 @@ function loginUser() {
 
     if (!email || !pin) {
 
-        if (typeof showMessage === "function") {
+    meloToast(
+        "📝 Almost There",
+        "Please enter your email address and PIN to continue.",
+        "warning"
+    );
 
-            showMessage(
-                "Please enter your email and PIN.",
-                "error"
-            );
+    return;
 
-        } else {
-
-            alert("Please enter your email and PIN.");
-
-        }
-
-        return;
-
-    }
+}
 
     const users = JSON.parse(
         localStorage.getItem("meloUsers")
@@ -83,22 +76,15 @@ function loginUser() {
 
     if (!user) {
 
-        if (typeof showMessage === "function") {
+    meloToast(
+        "🔐 Login Failed",
+        "We couldn't match that email and PIN. Please check your details and try again.",
+        "error"
+    );
 
-            showMessage(
-                "Incorrect email or PIN.",
-                "error"
-            );
+    return;
 
-        } else {
-
-            alert("Incorrect email or PIN.");
-
-        }
-
-        return;
-
-    }
+}
 
     // Save Current User
     localStorage.setItem(
@@ -107,18 +93,11 @@ function loginUser() {
     );
 
     // Welcome Message
-    if (typeof showMessage === "function") {
-
-        showMessage(
-            `Welcome back, ${user.name}! 💜`,
-            "success"
-        );
-
-    } else {
-
-        alert(`Welcome back, ${user.name}!`);
-
-    }
+    meloToast(
+    `👋 Welcome Back, ${user.name.split(" ")[0]}!`,
+    "We're so happy to see you again. Your financial journey continues today. 💜",
+    "success"
+);
 
     // Melo AI Voice
     if ("speechSynthesis" in window) {

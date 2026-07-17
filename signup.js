@@ -174,6 +174,35 @@ function createAccount() {
         loadTheme();
 
     }
+// Melo AI Voice
+
+if ("speechSynthesis" in window) {
+
+    const speech = new SpeechSynthesisUtterance(
+
+        `Welcome to MeloSave ${name}.
+        I'm Melo AI.
+        I'll help you save smarter and manage better.`
+
+    );
+
+    speech.rate = 1;
+    speech.pitch = 1;
+    speech.volume = 1;
+
+    speechSynthesis.speak(speech);
+
+}
+
+// Redirect
+
+setTimeout(() => {
+
+    window.location.href = "home.html";
+
+}, 4000);
+
+}
 
     // Welcome
 

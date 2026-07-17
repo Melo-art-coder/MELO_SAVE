@@ -4,182 +4,158 @@
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>MELOSAV Dashboard</title>
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
+<title>Home | MELOSAV</title>
 
 <link rel="stylesheet" href="theme.css">
 <link rel="stylesheet" href="home.css">
 
-
 </head>
-
 
 <body>
 
-
 <header class="top-header">
 
+<div class="user-info">
 
-<div class="user-area">
-
-<img src="logo.png" 
-alt="MELOSAV Logo" 
-class="profile-img">
-
+<img
+src="logo.png"
+class="profile-pic"
+alt="MELOSAV">
 
 <div>
 
 <p id="greeting">
-Good Morning
+Good Morning 👋
 </p>
 
-
 <h2 id="username">
-User
+Loading...
 </h2>
 
+</div>
 
 </div>
 
+<div class="header-actions">
 
-</div>
+<button id="notificationBtn">
+🔔
+</button>
 
-
-
-<button class="theme-btn" id="themeBtn">
+<button id="themeBtn">
 🎨
 </button>
 
+</div>
 
 </header>
 
 
-
-
-
 <section class="balance-card">
 
-
-<p>
-Total Balance
-</p>
-
+<p>Total Balance</p>
 
 <h1 id="balance">
-₦0
+₦0.00
 </h1>
 
+<div class="balance-details">
+
+<div>
+
+<span>Income</span>
+
+<h3 id="income">
+₦0
+</h3>
+
+</div>
+
+<div>
+
+<span>Expenses</span>
+
+<h3 id="expenses">
+₦0
+</h3>
+
+</div>
+
+<div>
+
+<span>Savings</span>
+
+<h3 id="savings">
+₦0
+</h3>
+
+</div>
+
+</div>
 
 </section>
-
-
-
-
 
 
 <section class="quick-actions">
 
-
-<button>
+<button id="incomeBtn">
 💰
-<span>
-Income
-</span>
+<span>Income</span>
 </button>
 
-
-
-<button>
+<button id="expenseBtn">
 💸
-<span>
-Expense
-</span>
+<span>Expense</span>
 </button>
 
+<button id="saveBtn">
+🏦
+<span>Save</span>
+</button>
 
-
-<button>
+<button id="goalBtn">
 🎯
-<span>
-Goals
-</span>
+<span>Goals</span>
 </button>
-
-
-
-<button>
-➕
-<span>
-Save
-</span>
-</button>
-
 
 </section>
 
 
+<section class="dashboard-card">
 
-
-
-
-
-<section class="dashboard-section">
-
-
-<h2>
-Recent Transactions
-</h2>
-
+<h2>Recent Transactions</h2>
 
 <div id="transactionList">
 
-
-<p>
-No transactions yet
-</p>
-
+<p>No transactions yet.</p>
 
 </div>
-
 
 </section>
 
 
-
-
-
+<button class="fab" id="fab">
++
+</button>
 
 
 <nav class="bottom-nav">
 
+<a href="home.html">🏠</a>
 
-<a href="home.html">
-🏠
-</a>
+<a href="goals.html">🎯</a>
 
-
-<a href="goals.html">
-🎯
-</a>
-
-
-<a href="profile.html">
-👤
-</a>
-
+<a href="profile.html">👤</a>
 
 </nav>
 
-
-
-
-
-
+<script src="storage.js"></script>
 <script src="theme.js"></script>
 <script src="home.js"></script>
-
 
 </body>
 

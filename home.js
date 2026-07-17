@@ -1,6 +1,41 @@
 /* =====================================
    MELOSAV HOME
 ===================================== */
+document.addEventListener("DOMContentLoaded", () => {
+
+    const currentUser = JSON.parse(
+        localStorage.getItem("meloCurrentUser")
+    );
+
+    if (!currentUser) return;
+
+    // Wait for dashboard to load first
+    setTimeout(() => {
+
+        if ("speechSynthesis" in window) {
+
+            speechSynthesis.cancel();
+
+            const speech = new SpeechSynthesisUtterance(
+
+                `Welcome back ${currentUser.name}.
+                I'm Melo AI.
+                It's wonderful to see you again.
+                Let's save smarter and manage better today.`
+
+            );
+
+            speech.rate = 0.9;
+            speech.pitch = 1;
+            speech.volume = 1;
+
+            speechSynthesis.speak(speech);
+
+        }
+
+    }, 1000);
+
+});
 
 document.addEventListener("DOMContentLoaded", () => {
 

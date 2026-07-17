@@ -2,13 +2,13 @@
 // MELOSAV SPLASH SCREEN
 // =====================================
 
-// Wait for the splash animation
 window.addEventListener("load", () => {
 
-    // Automatically open Welcome Screen
+    // Go to Landing Page
+
     setTimeout(() => {
 
-        window.location.href = "welcome.html";
+        window.location.href = "index.html";
 
     }, 3000);
 

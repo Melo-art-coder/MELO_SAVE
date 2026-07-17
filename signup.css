@@ -1,0 +1,427 @@
+/* ======================================
+   MELOSAV SIGN UP PAGE
+====================================== */
+
+*{
+
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+
+    font-family:"Poppins",sans-serif;
+
+}
+
+:root{
+
+    --primary:#7B2CFF;
+    --secondary:#B56CFF;
+
+    --background:#F7F3FF;
+
+    --card:#FFFFFF;
+
+    --text:#222;
+
+    --text-light:#666;
+
+    --shadow:0 20px 40px rgba(123,44,255,.15);
+
+}
+
+body{
+
+    min-height:100vh;
+
+    background:linear-gradient(
+        180deg,
+        #FCFAFF,
+        #EFE6FF
+    );
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    padding:30px 20px;
+
+}
+
+/* Container */
+
+.signup-container{
+
+    width:100%;
+
+    max-width:430px;
+
+    text-align:center;
+
+}
+
+/* Logo */
+
+.logo{
+
+    width:90px;
+
+    margin-bottom:18px;
+
+    animation:float 3s ease-in-out infinite;
+
+}
+
+.signup-container h1{
+
+    color:var(--primary);
+
+    font-size:38px;
+
+    font-weight:800;
+
+}
+
+.subtitle{
+
+    margin-top:8px;
+
+    color:var(--text-light);
+
+    margin-bottom:30px;
+
+}
+
+/* Card */
+
+.signup-card{
+
+    background:rgba(255,255,255,.75);
+
+    backdrop-filter:blur(18px);
+
+    border-radius:30px;
+
+    padding:30px;
+
+    box-shadow:var(--shadow);
+
+    text-align:left;
+
+}
+
+.signup-card h2{
+
+    color:var(--primary);
+
+    margin-bottom:6px;
+
+}
+
+.card-text{
+
+    color:var(--text-light);
+
+    margin-bottom:25px;
+
+}
+
+/* Inputs */
+
+.input-group{
+
+    margin-bottom:18px;
+
+}
+
+.input-group label{
+
+    display:block;
+
+    margin-bottom:8px;
+
+    font-weight:600;
+
+}
+
+.input-group input{
+
+    width:100%;
+
+    padding:16px;
+
+    border:2px solid #E7DFFF;
+
+    border-radius:18px;
+
+    font-size:15px;
+
+    outline:none;
+
+    transition:.3s;
+
+    background:white;
+
+}
+
+.input-group input:focus{
+
+    border-color:var(--primary);
+
+    box-shadow:0 0 0 4px rgba(123,44,255,.12);
+
+}
+
+/* Theme */
+
+.theme-title{
+
+    margin-top:12px;
+
+    margin-bottom:12px;
+
+    color:var(--primary);
+
+}
+
+.theme-select{
+
+    display:flex;
+
+    gap:15px;
+
+    margin-bottom:22px;
+
+}
+
+.theme-box{
+
+    flex:1;
+
+    background:#F5F2FF;
+
+    border:2px solid transparent;
+
+    border-radius:20px;
+
+    padding:18px;
+
+    text-align:center;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.theme-box:hover{
+
+    border-color:var(--primary);
+
+}
+
+.theme-box input{
+
+    display:none;
+
+}
+
+.theme-box span{
+
+    display:block;
+
+    margin-top:10px;
+
+    font-weight:600;
+
+}
+
+/* Terms */
+
+.terms{
+
+    display:flex;
+
+    align-items:flex-start;
+
+    gap:10px;
+
+    margin-bottom:25px;
+
+    font-size:14px;
+
+    color:var(--text-light);
+
+}
+
+.terms input{
+
+    margin-top:3px;
+
+    accent-color:var(--primary);
+
+}
+
+.terms a{
+
+    color:var(--primary);
+
+    text-decoration:none;
+
+    font-weight:600;
+
+}
+
+/* Button */
+
+#signupBtn{
+
+    width:100%;
+
+    padding:17px;
+
+    border:none;
+
+    border-radius:20px;
+
+    background:linear-gradient(
+        135deg,
+        var(--primary),
+        var(--secondary)
+    );
+
+    color:white;
+
+    font-size:17px;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+    transition:.35s;
+
+    box-shadow:0 15px 30px rgba(123,44,255,.25);
+
+}
+
+#signupBtn:hover{
+
+    transform:translateY(-3px);
+
+}
+
+/* Login */
+
+.login-link{
+
+    text-align:center;
+
+    margin-top:25px;
+
+    color:var(--text-light);
+
+}
+
+.login-link a{
+
+    color:var(--primary);
+
+    text-decoration:none;
+
+    font-weight:700;
+
+}
+
+/* Animation */
+
+@keyframes float{
+
+    0%,100%{
+
+        transform:translateY(0);
+
+    }
+
+    50%{
+
+        transform:translateY(-8px);
+
+    }
+
+}
+
+/* Responsive */
+
+@media(max-width:480px){
+
+    .signup-card{
+
+        padding:25px;
+
+    }
+
+}
+
+/* Dark Mode */
+
+body.dark{
+
+    background:linear-gradient(
+        180deg,
+        #10091D,
+        #1B1235
+    );
+
+}
+
+body.dark .signup-card{
+
+    background:rgba(30,22,50,.92);
+
+}
+
+body.dark .signup-container h1{
+
+    color:#A78BFA;
+
+}
+
+body.dark .subtitle,
+body.dark .card-text,
+body.dark .terms,
+body.dark .login-link{
+
+    color:#DDDDDD;
+
+}
+
+body.dark .input-group label{
+
+    color:white;
+
+}
+
+body.dark .input-group input{
+
+    background:#241A3D;
+
+    color:white;
+
+    border-color:#3B2E62;
+
+}
+
+body.dark .theme-box{
+
+    background:#241A3D;
+
+    color:white;
+
+}
+
+body.dark .theme-box:hover{
+
+    border-color:#A78BFA;
+
+}

@@ -34,41 +34,51 @@ function createAccount() {
 
     if (!name || !email || !pin || !confirmPin) {
 
-        meloToast(
-    "📝 A Few Details Missing",
-    "Please fill in all the required fields before continuing.",
-    "warning"
-);
+    meloToast(
+        "📝 A Few Details Missing",
+        "Please fill in all the required fields before continuing.",
+        "warning"
+    );
 
-    }
+    return;
+
+}
 
     if (pin.length < 4 || pin.length > 6) {
 
-        alert("PIN must be 4–6 digits.");
+    meloToast(
+        "🔐 Invalid PIN",
+        "Your PIN should be between 4 and 6 digits.",
+        "error"
+    );
 
-        return;
+    return;
 
-    }
+}
 
-    if (pin !== confirmPin) {
+   if (pin !== confirmPin) {
 
-        meloToast(
-    "🔒 PINs Don't Match",
-    "Double-check both PINs and try again.",
-    "error"
-);
+    meloToast(
+        "🔒 PINs Don't Match",
+        "Double-check both PINs and try again.",
+        "error"
+    );
 
-    }
+    return;
+
+}
 
     if (!agreed) {
 
-        meloToast(
-    "📜 One Last Step",
-    "Please accept the Terms & Conditions to continue.",
-    "warning"
-);
+    meloToast(
+        "📜 One Last Step",
+        "Please accept the Terms & Conditions to continue.",
+        "warning"
+    );
 
-    }
+    return;
+
+}
 
     // Existing users
 
@@ -145,19 +155,19 @@ function createAccount() {
 
     if (mode === "dark") {
 
-        localStorage.setItem(
-            "meloTheme",
-            "midnight"
-        );
+    localStorage.setItem(
+        "meloTheme",
+        "theme-purple-dark"
+    );
 
-    } else {
+} else {
 
-        localStorage.setItem(
-            "meloTheme",
-            "purple"
-        );
+    localStorage.setItem(
+        "meloTheme",
+        "theme-purple-light"
+    );
 
-    }
+}
 
     if (typeof loadTheme === "function") {
 
@@ -167,13 +177,13 @@ function createAccount() {
 
     // Welcome
 
-    meloToast(
-    "🎉 Welcome to MELOSAV!",
-    "Your account has been created successfully. Let's start your savings journey!",
+meloToast(
+    "🎉 Welcome, " + name.split(" ")[0] + "!",
+    "Your MELOSAV account is ready. Let's turn your goals into achievements, one save at a time. 💜",
     "success"
 );
 
-    // Melo AI Voice
+// Melo AI Voice
 
     if ("speechSynthesis" in window) {
 

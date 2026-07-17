@@ -1,0 +1,215 @@
+/* =====================================
+   MELOSAV THEME ENGINE
+===================================== */
+
+
+/* =========================
+   PURPLE LIGHT
+========================= */
+
+body.theme-purple-light{
+
+    --primary:#7B2CFF;
+    --secondary:#B794FF;
+    --background:#F8F5FF;
+    --card:#FFFFFF;
+    --text:#222222;
+    --muted:#777777;
+    --border:#E7D9FF;
+
+}
+
+
+/* =========================
+   PURPLE DARK
+========================= */
+
+body.theme-purple-dark{
+
+    --primary:#A855F7;
+    --secondary:#7B2CFF;
+    --background:#120A1F;
+    --card:#211336;
+    --text:#FFFFFF;
+    --muted:#B8A8CC;
+    --border:#392052;
+
+}
+
+
+
+/* =========================
+   EMERALD LIGHT
+========================= */
+
+body.theme-emerald-light{
+
+    --primary:#10B981;
+    --secondary:#6EE7B7;
+    --background:#F2FFFA;
+    --card:#FFFFFF;
+    --text:#10251D;
+    --muted:#6B8178;
+    --border:#C7F5E3;
+
+}
+
+
+/* =========================
+   EMERALD DARK
+========================= */
+
+body.theme-emerald-dark{
+
+    --primary:#34D399;
+    --secondary:#059669;
+    --background:#061A13;
+    --card:#102B22;
+    --text:#FFFFFF;
+    --muted:#A7CFC0;
+    --border:#21483B;
+
+}
+
+
+
+/* =========================
+   OCEAN LIGHT
+========================= */
+
+body.theme-ocean-light{
+
+    --primary:#2563EB;
+    --secondary:#93C5FD;
+    --background:#F3F8FF;
+    --card:#FFFFFF;
+    --text:#172033;
+    --muted:#718096;
+    --border:#D5E5FF;
+
+}
+
+
+/* =========================
+   OCEAN DARK
+========================= */
+
+body.theme-ocean-dark{
+
+    --primary:#60A5FA;
+    --secondary:#2563EB;
+    --background:#061426;
+    --card:#10243D;
+    --text:#FFFFFF;
+    --muted:#A9C4E8;
+    --border:#203B61;
+
+}
+
+
+
+/* =========================
+   ROSE LIGHT
+========================= */
+
+body.theme-rose-light{
+
+    --primary:#EC4899;
+    --secondary:#F9A8D4;
+    --background:#FFF5FA;
+    --card:#FFFFFF;
+    --text:#241521;
+    --muted:#806575;
+    --border:#F8D3E5;
+
+}
+
+
+/* =========================
+   ROSE DARK
+========================= */
+
+body.theme-rose-dark{
+
+    --primary:#F472B6;
+    --secondary:#DB2777;
+    --background:#220A18;
+    --card:#351126;
+    --text:#FFFFFF;
+    --muted:#D7A8C0;
+    --border:#54213F;
+
+}
+
+
+
+/* =========================
+   GOLD LIGHT
+========================= */
+
+body.theme-gold-light{
+
+    --primary:#D97706;
+    --secondary:#FCD34D;
+    --background:#FFFBEB;
+    --card:#FFFFFF;
+    --text:#241A05;
+    --muted:#7C6A3A;
+    --border:#FDE68A;
+
+}
+
+
+/* =========================
+   GOLD DARK
+========================= */
+
+body.theme-gold-dark{
+
+    --primary:#FBBF24;
+    --secondary:#D97706;
+    --background:#1C1404;
+    --card:#30240A;
+    --text:#FFFFFF;
+    --muted:#D8C58A;
+    --border:#5A4715;
+
+}
+
+
+
+/* =========================
+   GLOBAL VARIABLES USAGE
+========================= */
+
+
+body{
+
+    background:var(--background);
+    color:var(--text);
+
+    transition:
+    background .3s ease,
+    color .3s ease;
+
+}
+
+
+.card,
+.money-card,
+.goal-card,
+.modal{
+
+    background:var(--card);
+    border-color:var(--border);
+
+}
+
+
+button,
+.primary-btn{
+
+    background:var(--primary);
+    color:white;
+
+}

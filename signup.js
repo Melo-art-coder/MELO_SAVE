@@ -12,96 +12,90 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function createAccount() {
 
-    const name =
-        document.getElementById("name").value.trim();
+    const name = document.getElementById("name").value.trim();
 
-    const email =
-        document.getElementById("email").value.trim().toLowerCase();
+    const email = document.getElementById("email").value
+        .trim()
+        .toLowerCase();
 
-    const pin =
-        document.getElementById("pin").value.trim();
+    const pin = document.getElementById("pin").value.trim();
 
-    const confirmPin =
-        document.getElementById("confirmPin").value.trim();
+    const confirmPin = document.getElementById("confirmPin").value.trim();
 
-    const agreed =
-        document.getElementById("terms").checked;
+    const agreed = document.getElementById("terms").checked;
 
-    const mode =
-        document.querySelector('input[name="mode"]:checked').value;
+    const mode = document.querySelector('input[name="mode"]:checked').value;
 
+    // ==========================
     // Validation
+    // ==========================
 
     if (!name || !email || !pin || !confirmPin) {
 
-    meloToast(
-        "📝 A Few Details Missing",
-        "Please fill in all the required fields before continuing.",
-        "warning"
-    );
+        meloToast(
+            "📝 A Few Details Missing",
+            "Please fill in all the required fields before continuing.",
+            "warning"
+        );
 
-    return;
-
-}
+        return;
+    }
 
     if (pin.length < 4 || pin.length > 6) {
 
-    meloToast(
-        "🔐 Invalid PIN",
-        "Your PIN should be between 4 and 6 digits.",
-        "error"
-    );
+        meloToast(
+            "🔐 Invalid PIN",
+            "Your PIN must be between 4 and 6 digits.",
+            "error"
+        );
 
-    return;
+        return;
+    }
 
-}
+    if (pin !== confirmPin) {
 
-   if (pin !== confirmPin) {
+        meloToast(
+            "🔒 PINs Don't Match",
+            "Double-check both PINs and try again.",
+            "error"
+        );
 
-    meloToast(
-        "🔒 PINs Don't Match",
-        "Double-check both PINs and try again.",
-        "error"
-    );
-
-    return;
-
-}
+        return;
+    }
 
     if (!agreed) {
 
-    meloToast(
-        "📜 One Last Step",
-        "Please accept the Terms & Conditions to continue.",
-        "warning"
-    );
+        meloToast(
+            "📜 One Last Step",
+            "Please accept the Terms & Conditions to continue.",
+            "warning"
+        );
 
-    return;
+        return;
+    }
 
-}
+    // ==========================
+    // Check Existing Users
+    // ==========================
 
-    // Existing users
+    let users = JSON.parse(localStorage.getItem("meloUsers")) || [];
 
-    let users =
-        JSON.parse(localStorage.getItem("meloUsers")) || [];
-
-    const exists = users.find(user =>
-        user.email === email
-    );
+    const exists = users.find(user => user.email === email);
 
     if (exists) {
 
         meloToast(
-    "💜 Welcome Back!",
-    "This email is already registered. Try logging in or use another email.",
-    "warning"
-);
+            "💜 Welcome Back!",
+            "This email is already registered. Try logging in or use another email.",
+            "warning"
+        );
 
         return;
-
     }
 
-    // Create user
+    // ==========================
+    // Create User
+    // ==========================
 
     const newUser = {
 
@@ -151,76 +145,70 @@ function createAccount() {
         JSON.stringify(newUser)
     );
 
-    // Theme
+    // ==========================
+    // Save Theme
+    // ==========================
 
     if (mode === "dark") {
 
-    localStorage.setItem(
-        "meloTheme",
-        "theme-purple-dark"
-    );
+        localStorage.setItem(
+            "meloTheme",
+            "theme-purple-dark"
+        );
 
-} else {
+    } else {
 
-    localStorage.setItem(
-        "meloTheme",
-        "theme-purple-light"
-    );
+        localStorage.setItem(
+            "meloTheme",
+            "theme-purple-light"
+        );
 
-}
+    }
 
     if (typeof loadTheme === "function") {
 
         loadTheme();
 
     }
-// Melo AI Voice
 
-if ("speechSynthesis" in window) {
+    // ==========================
+    // Welcome Toast
+    // ==========================
 
-    const speech = new SpeechSynthesisUtterance(
-
-        `Welcome to MeloSave ${name}.
-        I'm Melo AI.
-        I'll help you save smarter and manage better.`
-
+    meloToast(
+        "🎉 Welcome, " + name.split(" ")[0] + "!",
+        "Your MELOSAV account is ready. Let's turn your goals into achievements, one save at a time. 💜",
+        "success"
     );
 
-    speech.rate = 1;
-    speech.pitch = 1;
-    speech.volume = 1;
+    // ==========================
+    // Melo AI Voice
+    // ==========================
 
-    speechSynthesis.speak(speech);
+    if ("speechSynthesis" in window) {
 
-}
+        speechSynthesis.cancel();
 
-// Redirect
+        const speech = new SpeechSynthesisUtterance(
+            `Welcome to MELOSAV, ${name}. I'm Melo AI. I'll help you save smarter and manage better.`
+        );
 
-setTimeout(() => {
+        speech.rate = 1;
+        speech.pitch = 1;
+        speech.volume = 1;
 
-    window.location.href = "home.html";
+        speechSynthesis.speak(speech);
 
-}, 4000);
+    }
 
-}
+    // ==========================
+    // Redirect
+    // ==========================
 
-    // Welcome
+    setTimeout(() => {
 
-meloToast(
-    "🎉 Welcome, " + name.split(" ")[0] + "!",
-    "Your MELOSAV account is ready. Let's turn your goals into achievements, one save at a time. 💜",
-    "success"
-);
+        window.location.href = "home.html";
 
-// Redirect (Temporary Test)
-
-setTimeout(() => {
-
-    window.location.href = "home.html";
-
-}, 3500);
+    }, 4500);
 
 }
-
-}
-   

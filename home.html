@@ -59,11 +59,95 @@ Loading...
 
 <section class="balance-card">
 
-<p>Total Balance</p>
+<div class="wallet-slider" id="walletSlider">
 
-<h1 id="balance">
-₦0.00
-</h1>
+    <!-- Naira -->
+
+    <div class="wallet-card naira">
+
+        <div class="wallet-top">
+
+            <span>Total Balance</span>
+
+            <div class="wallet-actions">
+
+                <button id="toggleBalance">👁️</button>
+
+            </div>
+
+        </div>
+
+        <h1 id="balance">
+            ₦0.00
+        </h1>
+
+        <div class="wallet-stats">
+
+            <div>
+                <small>Income</small>
+                <h3 id="income">₦0</h3>
+            </div>
+
+            <div>
+                <small>Expense</small>
+                <h3 id="expenses">₦0</h3>
+            </div>
+
+            <div>
+                <small>Savings</small>
+                <h3 id="savings">₦0</h3>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Dollar -->
+
+    <div class="wallet-card dollar">
+
+        <div class="wallet-top">
+            <span>US Wallet 🇺🇸</span>
+        </div>
+
+        <h1 id="usdBalance">$0.00</h1>
+
+    </div>
+
+    <!-- Euro -->
+
+    <div class="wallet-card euro">
+
+        <div class="wallet-top">
+            <span>Euro Wallet 🇪🇺</span>
+        </div>
+
+        <h1 id="eurBalance">€0.00</h1>
+
+    </div>
+
+    <!-- Pound -->
+
+    <div class="wallet-card pound">
+
+        <div class="wallet-top">
+            <span>UK Wallet 🇬🇧</span>
+        </div>
+
+        <h1 id="gbpBalance">£0.00</h1>
+
+    </div>
+
+</div>
+
+<div class="wallet-dots">
+
+    <span class="active"></span>
+    <span></span>
+    <span></span>
+    <span></span>
+
+</div>
 
 <div class="balance-details">
 

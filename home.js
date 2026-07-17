@@ -83,10 +83,29 @@ function loadUser() {
     const expenses = user.data?.expenses?.length || 0;
     const savings = user.data?.savings?.length || 0;
 
-    document.getElementById("balance").textContent = "₦0";
-    document.getElementById("income").textContent = income;
-    document.getElementById("expenses").textContent = expenses;
-    document.getElementById("savings").textContent = savings;
+    // Dashboard Values
+
+const balance = user.balance || 0;
+
+document.getElementById("balance").textContent =
+    `₦${balance.toLocaleString()}`;
+
+document.getElementById("usdBalance").textContent =
+    "$0.00";
+
+document.getElementById("eurBalance").textContent =
+    "€0.00";
+
+document.getElementById("gbpBalance").textContent =
+    "£0.00";
+
+const income = user.data?.income?.length || 0;
+const expenses = user.data?.expenses?.length || 0;
+const savings = user.data?.savings?.length || 0;
+
+document.getElementById("income").textContent = income;
+document.getElementById("expenses").textContent = expenses;
+document.getElementById("savings").textContent = savings;
 
     // Melo AI Welcome
 
@@ -153,3 +172,121 @@ function speakGreeting(name) {
     speechSynthesis.speak(speech);
 
 }
+/* =====================================
+   HIDE / SHOW BALANCE
+===================================== */
+
+let hidden = false;
+
+document.getElementById("toggleBalance").onclick = () => {
+
+    hidden = !hidden;
+
+    document.getElementById("balance").textContent =
+        hidden ? "••••••••" : "₦0.00";
+
+    document.getElementById("toggleBalance").textContent =
+        hidden ? "🙈" : "👁️";
+
+};
+
+
+/* =====================================
+   WALLET DOTS
+===================================== */
+
+const slider = document.getElementById("walletSlider");
+const dots = document.querySelectorAll(".wallet-dots span");
+
+slider.addEventListener("scroll", () => {
+
+    const index = Math.round(
+        slider.scrollLeft / slider.clientWidth
+    );
+
+    dots.forEach(dot => dot.classList.remove("active"));
+
+    if (dots[index]) {
+
+        dots[index].classList.add("active");
+
+    }
+
+});
+// =====================================
+// SWIPEABLE WALLET + HIDE BALANCE
+// =====================================
+
+let balanceVisible = true;
+
+const toggleBtn = document.getElementById("toggleBalance");
+
+toggleBtn.addEventListener("click", () => {
+
+    balanceVisible = !balanceVisible;
+
+    const values = [
+        "balance",
+        "income",
+        "expenses",
+        "savings",
+        "usdBalance",
+        "eurBalance",
+        "gbpBalance"
+    ];
+
+    values.forEach(id => {
+
+        const el = document.getElementById(id);
+
+        if (!el) return;
+
+        if (balanceVisible) {
+
+            el.dataset.hidden
+                ? el.textContent = el.dataset.hidden
+                : null;
+
+        } else {
+
+            el.dataset.hidden = el.textContent;
+
+            el.textContent = "••••••";
+
+        }
+
+    });
+
+    toggleBtn.textContent =
+        balanceVisible ? "👁️" : "🙈";
+
+});
+
+
+// Wallet Dots
+
+const slider =
+document.getElementById("walletSlider");
+
+const dots =
+document.querySelectorAll(".wallet-dots span");
+
+slider.addEventListener("scroll", () => {
+
+    const index =
+    Math.round(
+        slider.scrollLeft /
+        slider.clientWidth
+    );
+
+    dots.forEach(dot =>
+        dot.classList.remove("active")
+    );
+
+    if(dots[index]){
+
+        dots[index].classList.add("active");
+
+    }
+
+});

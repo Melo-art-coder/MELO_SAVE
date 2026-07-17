@@ -278,3 +278,9 @@ body{
     font-size:25px;
 
 }
+.profile-img{
+    width:45px;
+    height:45px;
+    object-fit:contain;
+    border-radius:12px;
+}

@@ -1,96 +1,114 @@
 /* =====================================
    MELOSAV HOME
 ===================================== */
-document.addEventListener("DOMContentLoaded", () => {
-
-    const currentUser = JSON.parse(
-        localStorage.getItem("meloCurrentUser")
-    );
-
-    if (!currentUser) return;
-
-    // Wait for dashboard to load first
-    setTimeout(() => {
-
-        if ("speechSynthesis" in window) {
-
-            speechSynthesis.cancel();
-
-            const speech = new SpeechSynthesisUtterance(
-
-                `Welcome back ${currentUser.name}.
-                I'm Melo AI.
-                It's wonderful to see you again.
-                Let's save smarter and manage better today.`
-
-            );
-
-            speech.rate = 0.9;
-            speech.pitch = 1;
-            speech.volume = 1;
-
-            speechSynthesis.speak(speech);
-
-        }
-
-    }, 1000);
-
-});
 
 document.addEventListener("DOMContentLoaded", () => {
 
     loadTheme();
-
     loadUser();
+
+    // Theme Button
+    document.getElementById("themeBtn").onclick = () => {
+        location.href = "theme-setup.html";
+    };
+
+    // Notifications
+    document.getElementById("notificationBtn").onclick = () => {
+        meloToast(
+            "🔔 Notifications",
+            "This feature is coming soon.",
+            "info"
+        );
+    };
+
+    // Quick Actions
+    document.getElementById("incomeBtn").onclick = () => {
+        meloToast(
+            "💰 Income",
+            "Income feature coming soon.",
+            "info"
+        );
+    };
+
+    document.getElementById("expenseBtn").onclick = () => {
+        meloToast(
+            "💸 Expenses",
+            "Expense feature coming soon.",
+            "info"
+        );
+    };
+
+    document.getElementById("saveBtn").onclick = () => {
+        meloToast(
+            "🏦 Savings",
+            "Savings feature coming soon.",
+            "info"
+        );
+    };
+
+    document.getElementById("goalBtn").onclick = () => {
+        location.href = "goals.html";
+    };
+
+    document.getElementById("fab").onclick = () => {
+        meloToast(
+            "➕ Quick Add",
+            "Quick Add feature coming soon.",
+            "info"
+        );
+    };
 
 });
 
+function loadUser() {
 
-function loadUser(){
+    const user = JSON.parse(
+        localStorage.getItem("meloCurrentUser")
+    );
 
-    const user =
-    JSON.parse(localStorage.getItem("meloCurrentUser"));
+    if (!user) {
 
-    if(!user){
-
-        location.href="login.html";
-
+        location.href = "login.html";
         return;
 
     }
 
-    document.getElementById("username").textContent =
-    user.name;
+    document.getElementById("username").textContent = user.name;
 
-    document.getElementById("greeting").textContent =
-    getGreeting();
+    document.getElementById("greeting").textContent = getGreeting();
 
-    document.getElementById("balance").textContent =
-    "₦" + (user.balance || 0).toLocaleString();
+    // Dashboard Values
 
-    document.getElementById("income").textContent =
-    "₦" + (user.income || 0).toLocaleString();
+    const income = user.data?.income?.length || 0;
+    const expenses = user.data?.expenses?.length || 0;
+    const savings = user.data?.savings?.length || 0;
 
-    document.getElementById("expenses").textContent =
-    "₦" + (user.expenses || 0).toLocaleString();
+    document.getElementById("balance").textContent = "₦0";
+    document.getElementById("income").textContent = income;
+    document.getElementById("expenses").textContent = expenses;
+    document.getElementById("savings").textContent = savings;
 
-    document.getElementById("savings").textContent =
-    "₦" + (user.savings || 0).toLocaleString();
+    // Melo AI Welcome
+
+    setTimeout(() => {
+
+        speakGreeting(user.name);
+
+    }, 1000);
 
 }
 
-
-function getGreeting(){
+function getGreeting() {
 
     const hour = new Date().getHours();
 
-    if(hour < 12){
+    if (hour < 12) {
 
         return "Good Morning ☀️";
 
     }
 
-    if(hour < 18){
+    if (hour < 18) {
 
         return "Good Afternoon 🌤️";
 
@@ -100,60 +118,38 @@ function getGreeting(){
 
 }
 
+function speakGreeting(name) {
 
-/* Theme Button */
+    if (!("speechSynthesis" in window)) return;
 
-document
-.getElementById("themeBtn")
-.addEventListener("click", () => {
+    speechSynthesis.cancel();
 
-    location.href="theme-setup.html";
+    const firstName = name.split(" ")[0];
 
-});
+    const hour = new Date().getHours();
 
+    let message = "";
 
-/* Notifications */
+    if (hour < 12) {
 
-document
-.getElementById("notificationBtn")
-.addEventListener("click", () => {
+        message = `Good morning ${firstName}. I'm Melo AI. Welcome back to MELOSAV. Let's save smarter today.`;
 
-    alert("Notifications coming soon 🔔");
+    } else if (hour < 18) {
 
-});
+        message = `Good afternoon ${firstName}. I'm Melo AI. Welcome back to MELOSAV. Let's continue building your savings.`;
 
+    } else {
 
-/* Quick Actions */
+        message = `Good evening ${firstName}. I'm Melo AI. Welcome back to MELOSAV. Let's manage your money wisely today.`;
 
-document.getElementById("incomeBtn").onclick=()=>{
+    }
 
-    alert("Income feature coming soon 💰");
+    const speech = new SpeechSynthesisUtterance(message);
 
-};
+    speech.rate = 0.9;
+    speech.pitch = 1;
+    speech.volume = 1;
 
-document.getElementById("expenseBtn").onclick=()=>{
+    speechSynthesis.speak(speech);
 
-    alert("Expense feature coming soon 💸");
-
-};
-
-document.getElementById("saveBtn").onclick=()=>{
-
-    alert("Savings feature coming soon 🏦");
-
-};
-
-document.getElementById("goalBtn").onclick=()=>{
-
-    location.href="goals.html";
-
-};
-
-
-/* Floating Button */
-
-document.getElementById("fab").onclick=()=>{
-
-    alert("Quick Add coming soon ➕");
-
-};
+}

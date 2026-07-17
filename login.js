@@ -116,9 +116,13 @@ if ("speechSynthesis" in window) {
 
     speech.onend = () => {
 
+    setTimeout(() => {
+
         window.location.href = "home.html";
 
-    };
+    }, 500);
+
+};
 
     speechSynthesis.speak(speech);
 
@@ -131,6 +135,7 @@ if ("speechSynthesis" in window) {
 
     }, 3500);
 
+}
 }
 
     

@@ -331,3 +331,14 @@ body.dark .input-group input{
     border-color:#3B2E62;
 
 }
+.auth-logo{
+
+    width:80px;
+    height:80px;
+
+    object-fit:contain;
+
+    margin:auto;
+    display:block;
+
+}

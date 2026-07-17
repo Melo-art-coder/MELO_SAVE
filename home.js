@@ -1,186 +1,124 @@
 /* =====================================
-   MELOSAV DASHBOARD LOGIC
+   MELOSAV HOME
 ===================================== */
 
+document.addEventListener("DOMContentLoaded", () => {
 
-document.addEventListener(
-"DOMContentLoaded",
-()=>{
+    loadTheme();
 
-
-loadUser();
-
-loadBalance();
-
+    loadUser();
 
 });
 
 
-
-
-/* =========================
-   LOAD USER
-========================= */
-
-
 function loadUser(){
 
-let user =
-JSON.parse(
-localStorage.getItem("meloCurrentUser")
-);
+    const user =
+    JSON.parse(localStorage.getItem("meloCurrentUser"));
 
+    if(!user){
 
+        location.href="login.html";
 
-if(user){
+        return;
 
+    }
 
-document.getElementById("username")
-.textContent =
-user.name;
+    document.getElementById("username").textContent =
+    user.name;
 
+    document.getElementById("greeting").textContent =
+    getGreeting();
 
+    document.getElementById("balance").textContent =
+    "₦" + (user.balance || 0).toLocaleString();
 
-document.getElementById("greeting")
-.textContent =
-getGreeting(user.name);
+    document.getElementById("income").textContent =
+    "₦" + (user.income || 0).toLocaleString();
 
+    document.getElementById("expenses").textContent =
+    "₦" + (user.expenses || 0).toLocaleString();
 
-}
-
-
-}
-
-
-
-
-
-/* =========================
-   GREETING
-========================= */
-
-
-function getGreeting(name){
-
-
-let hour =
-new Date().getHours();
-
-
-
-if(hour < 12){
-
-return "Good Morning ☀️";
+    document.getElementById("savings").textContent =
+    "₦" + (user.savings || 0).toLocaleString();
 
 }
 
 
-else if(hour < 18){
+function getGreeting(){
 
-return "Good Afternoon 🌤️";
+    const hour = new Date().getHours();
 
-}
+    if(hour < 12){
 
+        return "Good Morning ☀️";
 
-else{
+    }
 
-return "Good Evening 🌙";
+    if(hour < 18){
 
-}
+        return "Good Afternoon 🌤️";
 
+    }
 
-}
-
-
-
-
-
-/* =========================
-   BALANCE
-========================= */
-
-
-function loadBalance(){
-
-
-let user =
-JSON.parse(
-localStorage.getItem("meloCurrentUser")
-);
-
-
-
-if(!user) return;
-
-
-
-let balance =
-user.balance || 0;
-
-
-
-document.getElementById("balance")
-.textContent =
-"₦" + balance.toLocaleString();
-
-
+    return "Good Evening 🌙";
 
 }
 
 
-
-
-/* =========================
-   THEME BUTTON
-========================= */
-
+/* Theme Button */
 
 document
 .getElementById("themeBtn")
-.onclick = ()=>{
+.addEventListener("click", () => {
+
+    location.href="theme-setup.html";
+
+});
 
 
-let themes = [
+/* Notifications */
 
-"purple-light",
-"purple-dark",
+document
+.getElementById("notificationBtn")
+.addEventListener("click", () => {
 
-"emerald-light",
-"emerald-dark",
+    alert("Notifications coming soon 🔔");
 
-"ocean-light",
-"ocean-dark",
-
-"rose-light",
-"rose-dark",
-
-"gold-light",
-"gold-dark"
-
-];
+});
 
 
+/* Quick Actions */
 
-let current =
-localStorage.getItem("meloTheme")
-||
-"purple-light";
+document.getElementById("incomeBtn").onclick=()=>{
+
+    alert("Income feature coming soon 💰");
+
+};
+
+document.getElementById("expenseBtn").onclick=()=>{
+
+    alert("Expense feature coming soon 💸");
+
+};
+
+document.getElementById("saveBtn").onclick=()=>{
+
+    alert("Savings feature coming soon 🏦");
+
+};
+
+document.getElementById("goalBtn").onclick=()=>{
+
+    location.href="goals.html";
+
+};
 
 
+/* Floating Button */
 
-let index =
-themes.indexOf(current);
+document.getElementById("fab").onclick=()=>{
 
-
-
-let next =
-themes[
-(index + 1) % themes.length
-];
-
-
-
-changeTheme(next);
-
+    alert("Quick Add coming soon ➕");
 
 };

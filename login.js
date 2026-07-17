@@ -100,31 +100,37 @@ function loginUser() {
 );
 
     // Melo AI Voice
-    if ("speechSynthesis" in window) {
+if ("speechSynthesis" in window) {
 
-        speechSynthesis.cancel();
+    speechSynthesis.cancel();
 
-        const speech = new SpeechSynthesisUtterance(
+    const speech = new SpeechSynthesisUtterance(
+        `Welcome back ${user.name}.
+        It's good to see you again.
+        Let's save smarter and manage better.`
+    );
 
-            `Welcome back ${user.name}.
-            It's good to see you again.
-            Let's save smarter and manage better.`
+    speech.rate = 1;
+    speech.pitch = 1;
+    speech.volume = 1;
 
-        );
+    speech.onend = () => {
 
-        speech.rate = 1;
-        speech.pitch = 1;
-        speech.volume = 1;
+        window.location.href = "home.html";
 
-        speechSynthesis.speak(speech);
+    };
 
-    }
+    speechSynthesis.speak(speech);
 
-    // Redirect
+} else {
+
+    // If speech isn't supported
     setTimeout(() => {
 
         window.location.href = "home.html";
 
-    }, 2200);
+    }, 3500);
 
 }
+
+    

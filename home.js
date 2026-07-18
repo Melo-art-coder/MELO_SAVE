@@ -283,6 +283,37 @@ function setupButtons() {
 
     const fab = document.getElementById("fab");
 
+const quickSheet =
+document.getElementById("quickSheet");
+
+const closeSheet =
+document.getElementById("closeSheet");
+
+fab.onclick = () => {
+
+quickSheet.classList.add("show");
+
+};
+
+closeSheet.onclick = () => {
+
+quickSheet.classList.remove("show");
+
+};
+document.getElementById("quickTransfer").onclick = () => {
+
+meloToast(
+
+"💳 Transfer",
+
+"Transfer feature coming soon.",
+
+"info"
+
+);
+
+};
+
 const fabMenu = document.getElementById("fabMenu");
 
 let fabOpen = false;

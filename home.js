@@ -239,13 +239,9 @@ function setupButtons(){
 
     document.getElementById("expenseBtn").addEventListener("click",()=>{
 
-        meloToast(
-            "💸 Expense",
-            "Expense feature coming soon.",
-            "info"
-        );
+    location.href = "expense.html";
 
-    });
+});
 
     document.getElementById("saveBtn").addEventListener("click",()=>{
 
@@ -332,16 +328,11 @@ function setupQuickSheet(){
 
     document.getElementById("quickExpense").addEventListener("click",()=>{
 
-        meloToast(
-            "💸 Expense",
-            "Expense feature coming soon.",
-            "info"
-        );
+    sheet.classList.remove("show");
 
-        sheet.classList.remove("show");
+    location.href = "expense.html";
 
-    });
-
+});
     document.getElementById("quickSave").addEventListener("click",()=>{
 
         meloToast(

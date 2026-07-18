@@ -181,6 +181,34 @@ Save Goal
 +
 
 </button>
+<!-- ADD MONEY MODAL -->
+
+<div class="modal" id="moneyModal">
+
+    <div class="modal-content">
+
+        <h2>Add Money</h2>
+
+        <input
+            type="number"
+            id="moneyAmount"
+            placeholder="Enter amount">
+
+        <button onclick="confirmAddMoney()">
+            Add Money
+        </button>
+
+        <button
+            class="cancel-btn"
+            onclick="closeMoneyModal()">
+
+            Cancel
+
+        </button>
+
+    </div>
+
+</div>
 
 <script src="storage.js"></script>
 <script src="theme.js"></script>

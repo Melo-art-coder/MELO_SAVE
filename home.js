@@ -324,15 +324,11 @@ function setupQuickSheet(){
 
     document.getElementById("quickIncome").addEventListener("click",()=>{
 
-        meloToast(
-            "💰 Income",
-            "Income feature coming soon.",
-            "info"
-        );
+    sheet.classList.remove("show");
 
-        sheet.classList.remove("show");
+    location.href = "income.html";
 
-    });
+});
 
     document.getElementById("quickExpense").addEventListener("click",()=>{
 

@@ -477,3 +477,16 @@ width:95%;
 }
 
 }
+.goal-ai{
+
+    margin-top:12px;
+
+    text-align:center;
+
+    color:var(--primary);
+
+    font-weight:600;
+
+    font-size:14px;
+
+}

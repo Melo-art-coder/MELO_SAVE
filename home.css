@@ -419,3 +419,70 @@ color:var(--primary);
 font-size:18px;
 
 }
+/* ==========================
+   FAB MENU
+========================== */
+
+.fab-menu{
+
+position:fixed;
+
+right:25px;
+
+bottom:170px;
+
+display:flex;
+
+flex-direction:column;
+
+gap:14px;
+
+opacity:0;
+
+pointer-events:none;
+
+transform:translateY(20px);
+
+transition:.35s ease;
+
+z-index:99;
+
+}
+
+.fab-menu.show{
+opacity:1;
+pointer-events:auto;
+transform:translateY(0);
+
+}
+
+.fab-menu button{
+border:none;
+background:white;
+color:#7B2CFF;
+padding:14px 18px;
+border-radius:18px;
+font-weight:600;
+display:flex;
+align-items:center;
+gap:10px;
+cursor:pointer;
+box-shadow:0 10px 25px rgba(0,0,0,.15);
+transition:.3s;
+
+}
+
+body.dark .fab-menu button{
+background:#2b2b2b;
+color:white;
+
+}
+
+.fab-menu button:hover{
+transform:translateX(-6px);
+
+}
+
+.fab-menu span{
+font-size:14px;
+}

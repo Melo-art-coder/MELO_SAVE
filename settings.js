@@ -64,15 +64,7 @@ function setupButtons(){
     // Edit Profile
 
     document.getElementById("editProfileBtn")
-    .addEventListener("click",()=>{
-
-        meloToast(
-            "Coming Soon ✨",
-            "Edit Profile will be available soon.",
-            "info"
-        );
-
-    });
+.addEventListener("click",editProfile);
 
 
     // Change PIN
@@ -242,5 +234,89 @@ function logoutUser(){
         location.href="login.html";
 
     },800);
+
+}
+/* =====================================
+   EDIT PROFILE
+===================================== */
+
+function editProfile(){
+
+    const newName = prompt(
+        "Enter your new full name:",
+        currentUser.name
+    );
+
+    if(!newName || newName.trim()===""){
+        return;
+    }
+
+    const newEmail = prompt(
+        "Enter your new email:",
+        currentUser.email
+    );
+
+    if(!newEmail || newEmail.trim()===""){
+        return;
+    }
+
+    const users = JSON.parse(
+        localStorage.getItem("meloUsers")
+    ) || [];
+
+    const emailExists = users.find(user=>
+
+        user.email===newEmail &&
+        user.email!==currentUser.email
+
+    );
+
+    if(emailExists){
+
+        meloToast(
+            "Email Exists",
+            "That email is already in use.",
+            "error"
+        );
+
+        return;
+
+    }
+
+    currentUser.name = newName.trim();
+
+    currentUser.email = newEmail.trim();
+
+    localStorage.setItem(
+        "meloCurrentUser",
+        JSON.stringify(currentUser)
+    );
+
+    const index = users.findIndex(
+        user=>user.email===currentUser.email
+    );
+
+    if(index !== -1){
+
+        users[index] = currentUser;
+
+    }
+
+    localStorage.setItem(
+        "meloUsers",
+        JSON.stringify(users)
+    );
+
+    meloToast(
+        "Profile Updated 💜",
+        "Your profile was updated successfully.",
+        "success"
+    );
+
+    setTimeout(()=>{
+
+        location.reload();
+
+    },700);
 
 }

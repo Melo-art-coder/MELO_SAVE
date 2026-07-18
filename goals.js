@@ -396,16 +396,15 @@ function updateSummary(total,completed,saved){
 
 function addMoney(id){
 
-
     selectedGoal = id;
 
-document.getElementById("moneyModal").classList.add("show");
+    document.getElementById("moneyModal").classList.add("show");
 
-document.getElementById("moneyInput").value = "";
+    document.getElementById("moneyInput").value = "";
 
-document.getElementById("moneyInput").focus();
+    document.getElementById("moneyInput").focus();
 
-return;
+}
 
 
 

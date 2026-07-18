@@ -458,6 +458,10 @@ function confirmAddMoney(){
 
     loadGoals();
 
+celebrateGoal(goal);
+
+refreshHomeData();
+
     closeMoneyModal();
 
     meloToast(

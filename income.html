@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Add Income | MELOSAV</title>
+
+<link rel="stylesheet" href="theme.css">
+<link rel="stylesheet" href="income.css">
+<link rel="stylesheet" href="melo-toast.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link rel="preconnect"
+href="https://fonts.gstatic.com"
+crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+rel="stylesheet">
+
+</head>
+
+<body>
+
+<header class="top-header">
+
+<a href="home.html"
+class="back-btn">
+
+←
+
+</a>
+
+<h2>
+
+💰 Add Income
+
+</h2>
+
+<div></div>
+
+</header>
+
+
+<section class="income-card">
+
+<div class="icon">
+
+💰
+
+</div>
+
+<h1>
+
+Record Income
+
+</h1>
+
+<p>
+
+Add money you've received and keep your finances up to date.
+
+</p>
+
+<form id="incomeForm">
+
+<div class="input-group">
+
+<label>
+
+Amount (₦)
+
+</label>
+
+<input
+type="number"
+id="amount"
+placeholder="Enter amount"
+required>
+
+</div>
+
+<div class="input-group">
+
+<label>
+
+Category
+
+</label>
+
+<select id="category">
+
+<option>Salary</option>
+
+<option>Business</option>
+
+<option>Freelance</option>
+
+<option>Gift</option>
+
+<option>Investment</option>
+
+<option>Bonus</option>
+
+<option>Other</option>
+
+</select>
+
+</div>
+
+<div class="input-group">
+
+<label>
+
+Description
+
+</label>
+
+<textarea
+id="description"
+rows="4"
+placeholder="Example: June Salary"></textarea>
+
+</div>
+
+<button
+type="submit"
+class="save-btn">
+
+Save Income
+
+</button>
+
+</form>
+
+</section>
+
+
+<script src="theme.js"></script>
+<script src="melo-toast.js"></script>
+<script src="income.js"></script>
+
+</body>
+
+</html>

@@ -237,19 +237,7 @@ function saveSettings(){
 
 function logoutUser(){
 
-    localStorage.removeItem("meloCurrentUser");
-
-    meloToast(
-        "Logged Out",
-        "See you again soon! 💜",
-        "success"
-    );
-
-    setTimeout(()=>{
-
-        location.href="login.html";
-
-    },800);
+    console.log("SETTINGS LOGOUT CLICKED");
 
 }
 

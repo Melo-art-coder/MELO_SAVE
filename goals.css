@@ -490,3 +490,94 @@ width:95%;
     font-size:14px;
 
 }
+/* ===========================
+   MONEY MODAL
+=========================== */
+
+.modal{
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(0,0,0,.45);
+
+    display:none;
+
+    justify-content:center;
+
+    align-items:center;
+
+    z-index:999;
+
+}
+
+.modal.show{
+
+    display:flex;
+
+}
+
+.modal-content{
+
+    width:90%;
+
+    max-width:350px;
+
+    background:var(--card);
+
+    padding:25px;
+
+    border-radius:20px;
+
+    text-align:center;
+
+}
+
+.modal-content h2{
+
+    margin-bottom:20px;
+
+}
+
+.modal-content input{
+
+    width:100%;
+
+    padding:15px;
+
+    border:none;
+
+    border-radius:12px;
+
+    margin-bottom:15px;
+
+    background:var(--background);
+
+    color:var(--text);
+
+}
+
+.modal-content button{
+
+    width:100%;
+
+    padding:15px;
+
+    border:none;
+
+    border-radius:12px;
+
+    margin-top:10px;
+
+    cursor:pointer;
+
+}
+
+.cancel-btn{
+
+    background:#ff4d4d;
+
+    color:#fff;
+
+}

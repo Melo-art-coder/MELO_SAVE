@@ -214,11 +214,11 @@ function speakGreeting(name){
 
 function setupButtons(){
 
-    document.getElementById("themeBtn").addEventListener("click",()=>{
+    document.getElementById("settingsBtn").addEventListener("click",()=>{
 
-        location.href="theme-setup.html";
+    location.href="settings.html";
 
-    });
+});
 
     document.getElementById("notificationBtn").addEventListener("click",()=>{
 

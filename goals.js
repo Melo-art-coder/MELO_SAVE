@@ -2,36 +2,72 @@
    MELOSAV GOALS V5
 ===================================== */
 
-let currentUser = JSON.parse(localStorage.getItem("meloCurrentUser"));
+let currentUser = JSON.parse(
+    localStorage.getItem("meloCurrentUser")
+);
 
-const goalsContainer = document.getElementById("goalsContainer");
+const goalsContainer = document.getElementById("goalList");
+
 const goalModal = document.getElementById("goalModal");
-const goalName = document.getElementById("goalName");
-const goalTarget = document.getElementById("goalTarget");
-const moneyModal=document.getElementById("moneyModal");
 
-let selectedGoal=null;
+const goalName = document.getElementById("goalName");
+
+const goalTarget = document.getElementById("goalAmount");
+
+const goalDate = document.getElementById("goalDate");
+
+let selectedGoal = null;
+
 
 /* =====================================
    START
 ===================================== */
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded",()=>{
+
 
     if(typeof loadTheme==="function"){
         loadTheme();
     }
 
+
     if(!currentUser){
+
         location.href="login.html";
         return;
+
     }
+
 
     if(!currentUser.goals){
+
         currentUser.goals=[];
+
     }
 
+
     loadGoals();
+
+
+    document
+    .getElementById("createGoalBtn")
+    .onclick=openGoalModal;
+
+
+    document
+    .getElementById("fab")
+    .onclick=openGoalModal;
+
+
+    document
+    .getElementById("cancelGoal")
+    .onclick=closeGoalModal;
+
+
+    document
+    .getElementById("saveGoal")
+    .onclick=createGoal;
+
 
 });
 
@@ -47,11 +83,16 @@ function saveUser(){
         JSON.stringify(currentUser)
     );
 
-    let users=JSON.parse(localStorage.getItem("meloUsers")) || [];
 
-    const index=users.findIndex(
+    let users =
+    JSON.parse(localStorage.getItem("meloUsers")) || [];
+
+
+    let index =
+    users.findIndex(
         user=>user.email===currentUser.email
     );
+
 
     if(index!==-1){
 
@@ -67,9 +108,11 @@ function saveUser(){
 }
 
 
+
 /* =====================================
-   OPEN MODAL
+   MODAL
 ===================================== */
+
 
 function openGoalModal(){
 
@@ -78,40 +121,48 @@ function openGoalModal(){
 }
 
 
-/* =====================================
-   CLOSE MODAL
-===================================== */
-
 function closeGoalModal(){
 
     goalModal.classList.remove("show");
 
     goalName.value="";
     goalTarget.value="";
+    goalDate.value="";
 
 }
+
 
 
 /* =====================================
    CREATE GOAL
 ===================================== */
 
+
 function createGoal(){
 
-    const name=goalName.value.trim();
-    const target=Number(goalTarget.value);
 
-    if(name==="" || target<=0){
+    let name =
+    goalName.value.trim();
+
+
+    let target =
+    Number(goalTarget.value);
+
+
+    if(!name || target<=0){
+
 
         meloToast(
             "Invalid Goal",
-            "Enter a goal name and target.",
+            "Enter goal name and amount",
             "error"
         );
 
         return;
 
     }
+
+
 
     currentUser.goals.push({
 
@@ -123,121 +174,257 @@ function createGoal(){
 
         saved:0,
 
-        created:new Date().toLocaleDateString()
+        date:goalDate.value || "No deadline"
 
     });
 
+
+
     saveUser();
+
 
     closeGoalModal();
 
+
     loadGoals();
 
+
+
     meloToast(
-        "Goal Created 🎉",
-        `${name} added successfully.`,
+        "Goal Created 🎯",
+        name+" added successfully",
         "success"
     );
 
+
 }
+
 
 
 /* =====================================
    LOAD GOALS
 ===================================== */
 
+
 function loadGoals(){
+
 
     goalsContainer.innerHTML="";
 
+
+    let completed=0;
+    let savedTotal=0;
+
+
+
     if(currentUser.goals.length===0){
 
+
         goalsContainer.innerHTML=`
-        <div class="empty-card">
-            <h3>No Goals Yet</h3>
-            <p>Create your first savings goal.</p>
+
+        <div class="empty-state">
+
+        <h2>🎯</h2>
+
+        <h3>No Goals Yet</h3>
+
+        <p>
+        Create your first savings goal.
+        </p>
+
         </div>
+
         `;
+
+
+        updateSummary(
+            0,
+            0,
+            0
+        );
 
         return;
 
     }
 
+
+
+
     currentUser.goals.forEach(goal=>{
 
-        const percent=Math.min(
+
+        let percent =
+        Math.min(
             (goal.saved/goal.target)*100,
             100
         );
 
-        const card=document.createElement("div");
+
+
+        savedTotal += goal.saved;
+
+
+
+        if(percent>=100){
+
+            completed++;
+
+        }
+
+
+
+
+        let card =
+        document.createElement("div");
+
 
         card.className="goal-card";
 
+
+
         card.innerHTML=`
 
-        <h3>${goal.name}</h3>
+        <h3>
+        ${goal.name}
+        </h3>
 
-        <p>${formatMoney(goal.saved)}
-        / ${formatMoney(goal.target)}</p>
+
+        <p>
+        ${formatMoney(goal.saved)}
+        /
+        ${formatMoney(goal.target)}
+        </p>
+
+
 
         <div class="progress">
 
             <div class="progress-fill"
             style="width:${percent}%">
+
             </div>
 
         </div>
 
-        <span>${percent.toFixed(0)}%</span>
-<p class="goal-ai">
-    ${getGoalMessage(percent)}
-</p>
+
+
+        <span>
+        ${percent.toFixed(0)}%
+        </span>
+
+
+
+        <p class="goal-ai">
+
+        ${getGoalMessage(percent)}
+
+        </p>
+
+
+
 
         <div class="goal-actions">
 
-            <button onclick="addMoney(${goal.id})">
-            ➕ Add
-            </button>
 
-            <button onclick="deleteGoal(${goal.id})">
-            🗑 Delete
-            </button>
+        <button onclick="addMoney(${goal.id})">
+
+        ➕ Add
+
+        </button>
+
+
+
+        <button onclick="deleteGoal(${goal.id})">
+
+        🗑 Delete
+
+        </button>
+
+
 
         </div>
 
+
         `;
+
 
         goalsContainer.appendChild(card);
 
+
+
     });
 
+
+
+    updateSummary(
+        currentUser.goals.length,
+        completed,
+        savedTotal
+    );
+
+
 }
+
+
+
+/* =====================================
+   SUMMARY
+===================================== */
+
+
+function updateSummary(total,completed,saved){
+
+
+    document.getElementById("totalGoals").innerText=total;
+
+
+    document.getElementById("completedGoals").innerText=completed;
+
+
+    document.getElementById("savedGoals").innerText=
+    formatMoney(saved);
+
+
+}
+
 
 
 /* =====================================
    ADD MONEY
 ===================================== */
 
+
 function addMoney(id){
 
-    const amount=Number(
-        prompt("Enter amount")
-    );
 
-    if(!amount || amount<=0) return;
+    let amount =
+    Number(prompt("Enter amount"));
 
-    const goal=currentUser.goals.find(
+
+
+    if(!amount || amount<=0)
+    return;
+
+
+
+    let goal =
+    currentUser.goals.find(
         g=>g.id===id
     );
 
-    if(!goal) return;
 
-    if(currentUser.balance<amount){
+
+    if(!goal)
+    return;
+
+
+
+    if(currentUser.balance < amount){
+
 
         meloToast(
             "Insufficient Balance",
-            "You don't have enough money.",
+            "Not enough money",
             "error"
         );
 
@@ -245,125 +432,123 @@ function addMoney(id){
 
     }
 
-    goal.saved+=amount;
 
-    currentUser.balance-=amount;
 
-    currentUser.savings=
-        Number(currentUser.savings||0)+amount;
+    goal.saved += amount;
 
-    currentUser.transactions=
-        currentUser.transactions||[];
 
-    currentUser.transactions.push({
+    if(goal.saved > goal.target){
 
-        title:`Saved to ${goal.name}`,
+        goal.saved = goal.target;
 
-        amount:amount,
+    }
 
-        date:new Date().toLocaleDateString()
 
-    });
+
+    currentUser.balance -= amount;
+
+
+
+    currentUser.savings =
+    Number(currentUser.savings||0)+amount;
+
+
 
     saveUser();
+
 
     loadGoals();
 
-    if(goal.saved >= goal.target){
 
-    goal.saved = goal.target;
-
-    saveUser();
-
-    if(typeof celebrateGoal === "function"){
-        celebrateGoal();
-    }
 
     meloToast(
-        "🏆 Goal Achieved!",
-        `${goal.name} completed successfully!`,
+        "Saved 💜",
+        formatMoney(amount)+" added",
         "success"
     );
 
-}else{
 
-        meloToast(
-            "Money Added",
-            formatMoney(amount)+" saved.",
-            "success"
-        );
 
-    }
+}
+
 
 
 /* =====================================
-   DELETE GOAL
+   DELETE
 ===================================== */
+
 
 function deleteGoal(id){
 
-    currentUser.goals=
-        currentUser.goals.filter(
-            goal=>goal.id!==id
-        );
+
+    currentUser.goals =
+    currentUser.goals.filter(
+        g=>g.id!==id
+    );
+
 
     saveUser();
 
+
     loadGoals();
+
+
 
     meloToast(
         "Deleted",
-        "Goal removed.",
+        "Goal removed",
         "info"
     );
 
+
 }
 
 
+
 /* =====================================
-   FORMAT MONEY
+   MONEY FORMAT
 ===================================== */
+
 
 function formatMoney(amount){
 
-    return "₦"+Number(amount).toLocaleString(
-        "en-NG",
-        {
-            minimumFractionDigits:2,
-            maximumFractionDigits:2
-        }
-    );
+return "₦"+
+Number(amount)
+.toLocaleString(
+"en-NG",
+{
+minimumFractionDigits:2
+}
+);
 
 }
+
+
+
 /* =====================================
-   MELO AI ENCOURAGEMENT
+   MELO AI
 ===================================== */
+
 
 function getGoalMessage(percent){
 
-    if(percent >= 100){
 
-        return "🎉 Congratulations! You achieved your goal!";
+if(percent>=100)
+return "🎉 Goal completed! Amazing work!";
 
-    }
 
-    if(percent >= 75){
+if(percent>=75)
+return "🔥 Almost there! Keep pushing!";
 
-        return "🔥 You're almost there! Keep going!";
 
-    }
+if(percent>=50)
+return "💜 Halfway done! Great progress!";
 
-    if(percent >= 50){
 
-        return "💜 Amazing! You're halfway there.";
+if(percent>=25)
+return "🚀 Nice start! Keep saving!";
 
-    }
 
-    if(percent >= 25){
+return "🌱 Every little step counts.";
 
-        return "🚀 Nice progress! Keep saving.";
-
-    }
-
-    return "🌱 Every little saving counts.";
 }

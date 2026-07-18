@@ -47,6 +47,7 @@ function loadUser() {
         getGreeting();
 
     updateWallet();
+updateForeignWallets();
     updateBudget();
     updateAIMessage();
     loadTransactions();

@@ -1,133 +1,152 @@
 /* =====================================
-   MELOSAV HOME
+   MELOSAV HOME V4 - PART 1
 ===================================== */
+
+let currentUser = null;
+let balanceVisible = true;
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    loadTheme();
+    if (typeof loadTheme === "function") {
+        loadTheme();
+    }
+
     loadUser();
-
-    // Theme Button
-    document.getElementById("themeBtn").onclick = () => {
-        location.href = "theme-setup.html";
-    };
-
-    // Notifications
-    document.getElementById("notificationBtn").onclick = () => {
-        meloToast(
-            "🔔 Notifications",
-            "This feature is coming soon.",
-            "info"
-        );
-    };
-
-    // Quick Actions
-    document.getElementById("incomeBtn").onclick = () => {
-        meloToast(
-            "💰 Income",
-            "Income feature coming soon.",
-            "info"
-        );
-    };
-
-    document.getElementById("expenseBtn").onclick = () => {
-        meloToast(
-            "💸 Expenses",
-            "Expense feature coming soon.",
-            "info"
-        );
-    };
-
-    document.getElementById("saveBtn").onclick = () => {
-        meloToast(
-            "🏦 Savings",
-            "Savings feature coming soon.",
-            "info"
-        );
-    };
-
-    document.getElementById("goalBtn").onclick = () => {
-        location.href = "goals.html";
-    };
-
-    document.getElementById("fab").onclick = () => {
-        meloToast(
-            "➕ Quick Add",
-            "Quick Add feature coming soon.",
-            "info"
-        );
-    };
+    setupButtons();
 
 });
 
+
+/* =====================================
+   LOAD USER
+===================================== */
+
 function loadUser() {
 
-    const user = JSON.parse(
+    currentUser = JSON.parse(
         localStorage.getItem("meloCurrentUser")
     );
 
-    if (!user) {
+    if (!currentUser) {
 
         location.href = "login.html";
         return;
 
     }
 
-    document.getElementById("username").textContent = user.name;
+    document.getElementById("username").textContent =
+        currentUser.name || "User";
 
-    document.getElementById("greeting").textContent = getGreeting();
+    document.getElementById("greeting").textContent =
+        getGreeting();
 
-    // Dashboard Values
+    updateWallet();
 
-    const income = user.data?.income?.length || 0;
-    const expenses = user.data?.expenses?.length || 0;
-    const savings = user.data?.savings?.length || 0;
+    updateBudget();
 
-    // Dashboard Values
-
-const balance = user.balance || 0;
-
-document.getElementById("balance").textContent =
-    `₦${balance.toLocaleString()}`;
-
-document.getElementById("usdBalance").textContent =
-    "$0.00";
-
-document.getElementById("eurBalance").textContent =
-    "€0.00";
-
-document.getElementById("gbpBalance").textContent =
-    "£0.00";
-
-const income = user.data?.income?.length || 0;
-const expenses = user.data?.expenses?.length || 0;
-const savings = user.data?.savings?.length || 0;
-
-document.getElementById("income").textContent = income;
-document.getElementById("expenses").textContent = expenses;
-document.getElementById("savings").textContent = savings;
-
-    // Melo AI Welcome
+    updateAIMessage();
 
     setTimeout(() => {
 
-        speakGreeting(user.name);
+        speakGreeting(currentUser.name);
 
-    }, 1000);
+    }, 800);
 
 }
+
+
+/* =====================================
+   UPDATE WALLET
+===================================== */
+
+function updateWallet() {
+
+    const balance =
+        Number(currentUser.balance || 0);
+
+    document.getElementById("balance").textContent =
+        formatMoney(balance);
+
+    const income =
+        Number(currentUser.income || 0);
+
+    const expenses =
+        Number(currentUser.expenses || 0);
+
+    const savings =
+        Number(currentUser.savings || 0);
+
+    document.getElementById("income").textContent =
+        formatMoney(income);
+
+    document.getElementById("expenses").textContent =
+        formatMoney(expenses);
+
+    document.getElementById("savings").textContent =
+        formatMoney(savings);
+
+    document.getElementById("usdBalance").textContent =
+        "$0.00";
+
+    document.getElementById("eurBalance").textContent =
+        "€0.00";
+
+    document.getElementById("gbpBalance").textContent =
+        "£0.00";
+
+}
+
+
+/* =====================================
+   DAILY BUDGET
+===================================== */
+
+function updateBudget() {
+
+    const percent =
+        Number(currentUser.dailyBudget || 0);
+
+    document.getElementById("budgetPercent").textContent =
+        percent + "%";
+
+    document.getElementById("budgetFill").style.width =
+        percent + "%";
+
+}
+
+
+/* =====================================
+   FORMAT MONEY
+===================================== */
+
+function formatMoney(amount) {
+
+    return "₦" + Number(amount).toLocaleString(
+        "en-NG",
+        {
+            minimumFractionDigits:2,
+            maximumFractionDigits:2
+        }
+    );
+
+}
+
+
+/* =====================================
+   GREETING
+===================================== */
 
 function getGreeting() {
 
     const hour = new Date().getHours();
 
-    if (hour < 12) {
+    if(hour < 12){
 
         return "Good Morning ☀️";
 
     }
 
-    if (hour < 18) {
+    if(hour < 18){
 
         return "Good Afternoon 🌤️";
 
@@ -137,33 +156,56 @@ function getGreeting() {
 
 }
 
-function speakGreeting(name) {
 
-    if (!("speechSynthesis" in window)) return;
+/* =====================================
+   MELO AI MESSAGE
+===================================== */
+
+function updateAIMessage(){
+
+    const tips = [
+
+        "Save a little today for a better tomorrow. 💜",
+
+        "Every naira saved gets you closer to your dream. 🎯",
+
+        "Track your spending to stay ahead. 📊",
+
+        "Small savings become big achievements. 🏆",
+
+        "Welcome back! Let's grow your money today. 🚀"
+
+    ];
+
+    const random =
+        Math.floor(Math.random()*tips.length);
+
+    document.getElementById("aiMessage").textContent =
+        tips[random];
+
+}
+
+
+/* =====================================
+   VOICE GREETING
+===================================== */
+
+function speakGreeting(name){
+
+    if(!("speechSynthesis" in window))
+        return;
 
     speechSynthesis.cancel();
 
-    const firstName = name.split(" ")[0];
+    const firstName =
+        name.split(" ")[0];
 
-    const hour = new Date().getHours();
+    const speech =
+        new SpeechSynthesisUtterance(
 
-    let message = "";
+            `${getGreeting()} ${firstName}. Welcome back to MELOSAV. Let's save smarter today.`
 
-    if (hour < 12) {
-
-        message = `Good morning ${firstName}. I'm Melo AI. Welcome back to MELOSAV. Let's save smarter today.`;
-
-    } else if (hour < 18) {
-
-        message = `Good afternoon ${firstName}. I'm Melo AI. Welcome back to MELOSAV. Let's continue building your savings.`;
-
-    } else {
-
-        message = `Good evening ${firstName}. I'm Melo AI. Welcome back to MELOSAV. Let's manage your money wisely today.`;
-
-    }
-
-    const speech = new SpeechSynthesisUtterance(message);
+        );
 
     speech.rate = 0.9;
     speech.pitch = 1;
@@ -173,120 +215,245 @@ function speakGreeting(name) {
 
 }
 /* =====================================
-   HIDE / SHOW BALANCE
+   BUTTON EVENTS
 ===================================== */
 
-let hidden = false;
+function setupButtons() {
 
-document.getElementById("toggleBalance").onclick = () => {
+    document.getElementById("themeBtn").addEventListener("click", () => {
+        location.href = "theme-setup.html";
+    });
 
-    hidden = !hidden;
+    document.getElementById("notificationBtn").addEventListener("click", () => {
+        meloToast(
+            "🔔 Notifications",
+            "No new notifications.",
+            "info"
+        );
+    });
 
-    document.getElementById("balance").textContent =
-        hidden ? "••••••••" : "₦0.00";
+    document.getElementById("incomeBtn").addEventListener("click", () => {
+        meloToast(
+            "💰 Income",
+            "Income feature coming soon.",
+            "info"
+        );
+    });
 
-    document.getElementById("toggleBalance").textContent =
-        hidden ? "🙈" : "👁️";
+    document.getElementById("expenseBtn").addEventListener("click", () => {
+        meloToast(
+            "💸 Expense",
+            "Expense feature coming soon.",
+            "info"
+        );
+    });
 
-};
+    document.getElementById("saveBtn").addEventListener("click", () => {
+        meloToast(
+            "🏦 Savings",
+            "Savings feature coming soon.",
+            "info"
+        );
+    });
+
+    document.getElementById("goalBtn").addEventListener("click", () => {
+        location.href = "goals.html";
+    });
+
+    const transferBtn = document.getElementById("transferBtn");
+
+    if (transferBtn) {
+        transferBtn.addEventListener("click", () => {
+            meloToast(
+                "💳 Transfer",
+                "Transfer feature coming soon.",
+                "info"
+            );
+        });
+    }
+
+    const budgetBtn = document.getElementById("budgetBtn");
+
+    if (budgetBtn) {
+        budgetBtn.addEventListener("click", () => {
+            meloToast(
+                "📊 Budget",
+                "Budget feature coming soon.",
+                "info"
+            );
+        });
+    }
+
+    document.getElementById("fab").addEventListener("click", () => {
+        meloToast(
+            "➕ Quick Add",
+            "Quick Add menu coming soon.",
+            "success"
+        );
+    });
+
+    setupBalanceToggle();
+
+    setupWalletSlider();
+
+    loadTransactions();
+
+}
 
 
 /* =====================================
-   WALLET DOTS
+   SHOW / HIDE BALANCE
 ===================================== */
 
-const slider = document.getElementById("walletSlider");
-const dots = document.querySelectorAll(".wallet-dots span");
+function setupBalanceToggle() {
 
-slider.addEventListener("scroll", () => {
+    const button =
+        document.getElementById("toggleBalance");
 
-    const index = Math.round(
-        slider.scrollLeft / slider.clientWidth
-    );
+    button.addEventListener("click", () => {
 
-    dots.forEach(dot => dot.classList.remove("active"));
+        balanceVisible = !balanceVisible;
 
-    if (dots[index]) {
+        const ids = [
+            "balance",
+            "income",
+            "expenses",
+            "savings",
+            "usdBalance",
+            "eurBalance",
+            "gbpBalance"
+        ];
 
-        dots[index].classList.add("active");
+        ids.forEach(id => {
 
-    }
+            const el =
+                document.getElementById(id);
 
-});
-// =====================================
-// SWIPEABLE WALLET + HIDE BALANCE
-// =====================================
+            if (!el) return;
 
-let balanceVisible = true;
+            if (balanceVisible) {
 
-const toggleBtn = document.getElementById("toggleBalance");
+                if (el.dataset.value) {
 
-toggleBtn.addEventListener("click", () => {
+                    el.textContent =
+                        el.dataset.value;
 
-    balanceVisible = !balanceVisible;
+                }
 
-    const values = [
-        "balance",
-        "income",
-        "expenses",
-        "savings",
-        "usdBalance",
-        "eurBalance",
-        "gbpBalance"
-    ];
+            } else {
 
-    values.forEach(id => {
+                el.dataset.value =
+                    el.textContent;
 
-        const el = document.getElementById(id);
+                el.textContent =
+                    "••••••";
 
-        if (!el) return;
+            }
 
-        if (balanceVisible) {
+        });
 
-            el.dataset.hidden
-                ? el.textContent = el.dataset.hidden
-                : null;
+        button.textContent =
+            balanceVisible ? "👁️" : "🙈";
 
-        } else {
+    });
 
-            el.dataset.hidden = el.textContent;
+}
 
-            el.textContent = "••••••";
+
+/* =====================================
+   WALLET SLIDER
+===================================== */
+
+function setupWalletSlider() {
+
+    const slider =
+        document.getElementById("walletSlider");
+
+    const dots =
+        document.querySelectorAll(".wallet-dots span");
+
+    slider.addEventListener("scroll", () => {
+
+        const index =
+            Math.round(
+                slider.scrollLeft /
+                slider.clientWidth
+            );
+
+        dots.forEach(dot =>
+            dot.classList.remove("active")
+        );
+
+        if (dots[index]) {
+
+            dots[index].classList.add("active");
 
         }
 
     });
 
-    toggleBtn.textContent =
-        balanceVisible ? "👁️" : "🙈";
-
-});
+}
 
 
-// Wallet Dots
+/* =====================================
+   RECENT TRANSACTIONS
+===================================== */
 
-const slider =
-document.getElementById("walletSlider");
+function loadTransactions() {
 
-const dots =
-document.querySelectorAll(".wallet-dots span");
+    const container =
+        document.getElementById("transactionList");
 
-slider.addEventListener("scroll", () => {
+    const transactions =
+        currentUser.transactions || [];
 
-    const index =
-    Math.round(
-        slider.scrollLeft /
-        slider.clientWidth
-    );
+    if (transactions.length === 0) {
 
-    dots.forEach(dot =>
-        dot.classList.remove("active")
-    );
+        container.innerHTML = `
+        <p class="empty">
+        No transactions yet.
+        </p>
+        `;
 
-    if(dots[index]){
-
-        dots[index].classList.add("active");
+        return;
 
     }
 
-});
+    container.innerHTML = "";
+
+    transactions
+        .slice(-5)
+        .reverse()
+        .forEach(item => {
+
+            const card =
+                document.createElement("div");
+
+            card.className =
+                "transaction-item";
+
+            card.innerHTML = `
+
+            <div>
+
+                <strong>${item.title || "Transaction"}</strong>
+
+                <br>
+
+                <small>${item.date || ""}</small>
+
+            </div>
+
+            <h3>
+
+            ${formatMoney(item.amount || 0)}
+
+            </h3>
+
+            `;
+
+            container.appendChild(card);
+
+        });
+
+}

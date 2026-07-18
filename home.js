@@ -245,13 +245,9 @@ function setupButtons(){
 
     document.getElementById("saveBtn").addEventListener("click",()=>{
 
-        meloToast(
-            "🏦 Savings",
-            "Savings feature coming soon.",
-            "info"
-        );
+    location.href = "savings.html";
 
-    });
+});
 
     document.getElementById("goalBtn").addEventListener("click",()=>{
 
@@ -335,15 +331,11 @@ function setupQuickSheet(){
 });
     document.getElementById("quickSave").addEventListener("click",()=>{
 
-        meloToast(
-            "🏦 Savings",
-            "Savings feature coming soon.",
-            "info"
-        );
+    sheet.classList.remove("show");
 
-        sheet.classList.remove("show");
+    location.href = "savings.html";
 
-    });
+});
 
     document.getElementById("quickGoal").addEventListener("click",()=>{
 

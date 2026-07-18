@@ -255,21 +255,17 @@ function setupButtons(){
 
 });
 
-    const transferBtn=document.getElementById("transferBtn");
+    const transferBtn = document.getElementById("transferBtn");
 
-    if(transferBtn){
+if (transferBtn) {
 
-        transferBtn.addEventListener("click",()=>{
+    transferBtn.addEventListener("click", () => {
 
-            meloToast(
-                "💳 Transfer",
-                "Transfer feature coming soon.",
-                "info"
-            );
+        location.href = "transfer.html";
 
-        });
+    });
 
-    }
+}
 
     const budgetBtn=document.getElementById("budgetBtn");
 
@@ -347,11 +343,11 @@ function setupQuickSheet(){
 
     document.getElementById("quickTransfer").addEventListener("click",()=>{
 
-        location.href="transfer.html";
+    sheet.classList.remove("show");
 
-        sheet.classList.remove("show");
+    location.href = "transfer.html";
 
-    });
+});
 
 }
 /* =====================================

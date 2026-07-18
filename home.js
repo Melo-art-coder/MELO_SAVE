@@ -499,3 +499,36 @@ document.getElementById("quickGoal").onclick = () => {
     location.href = "goals.html";
 
 };
+/* =====================================
+   ANIMATE MONEY
+===================================== */
+
+function animateMoney(id, amount) {
+
+    const element = document.getElementById(id);
+
+    if (!element) return;
+
+    let start = 0;
+
+    const duration = 1200;
+
+    const increment = amount / (duration / 16);
+
+    const timer = setInterval(() => {
+
+        start += increment;
+
+        if (start >= amount) {
+
+            start = amount;
+
+            clearInterval(timer);
+
+        }
+
+        element.textContent = formatMoney(start);
+
+    },16);
+
+}

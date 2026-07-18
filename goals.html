@@ -4,45 +4,73 @@
 <head>
 
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 
 <title>Goals | MELOSAV</title>
 
+
 <link rel="stylesheet" href="theme.css">
+
 <link rel="stylesheet" href="goals.css">
+
 <link rel="stylesheet" href="melo-toast.css">
+
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
+
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
 
 </head>
 
+
 <body>
+
+
 
 <!-- HEADER -->
 
 <header class="page-header">
 
+
 <a href="home.html" class="back-btn">
+
 ←
+
 </a>
+
+
 
 <div>
 
-<h1>🎯 Savings Goals</h1>
+<h1>
+🎯 Savings Goals
+</h1>
 
-<p>Create goals and achieve them one step at a time.</p>
+
+<p>
+Create goals and achieve them one step at a time.
+</p>
+
 
 </div>
 
+
 </header>
+
+
+
+
 
 <!-- SUMMARY -->
 
 <section class="summary-card">
+
 
 <div class="summary-item">
 
@@ -50,9 +78,14 @@
 0
 </h2>
 
-<span>Total Goals</span>
+<span>
+Total Goals
+</span>
 
 </div>
+
+
+
 
 <div class="summary-item">
 
@@ -60,9 +93,15 @@
 0
 </h2>
 
-<span>Completed</span>
+<span>
+Completed
+</span>
 
 </div>
+
+
+
+
 
 <div class="summary-item">
 
@@ -70,23 +109,41 @@
 ₦0
 </h2>
 
-<span>Saved</span>
+<span>
+Saved
+</span>
 
 </div>
+
 
 </section>
 
-<!-- AI -->
+
+
+
+
+
+
+<!-- MELO AI -->
 
 <section class="melo-ai">
 
+
 <div class="ai-icon">
+
 🤖
+
 </div>
+
+
 
 <div>
 
-<h3>Melo AI</h3>
+
+<h3>
+Melo AI
+</h3>
+
 
 <p id="goalTip">
 
@@ -94,67 +151,143 @@ Every goal starts with one small deposit. Keep going! 💜
 
 </p>
 
+
+
 </div>
+
 
 </section>
 
-<!-- GOALS -->
+
+
+
+
+
+
+<!-- GOALS SECTION -->
 
 <section class="goal-section">
 
+
 <div class="section-title">
 
-<h2>Your Goals</h2>
+
+<h2>
+Your Goals
+</h2>
+
+
 
 <button id="createGoalBtn">
+
 + New Goal
+
 </button>
 
+
+
 </div>
+
+
+
+
 
 <div id="goalList">
 
+
 <div class="empty-state">
 
-<h2>🎯</h2>
 
-<h3>No Goals Yet</h3>
+<h2>
+🎯
+</h2>
+
+
+<h3>
+No Goals Yet
+</h3>
+
 
 <p>
-
 Create your first savings goal and begin your financial journey.
-
 </p>
 
-</div>
 
 </div>
+
+
+</div>
+
+
 
 </section>
+
+
+
+
+
+
+
 
 <!-- CREATE GOAL MODAL -->
 
 <div class="goal-modal" id="goalModal">
 
+
 <div class="goal-box">
 
-<h2>Create Goal</h2>
+
+
+<h2>
+Create Goal
+</h2>
+
+
+
 
 <input
+
 type="text"
+
 id="goalName"
-placeholder="Goal Name">
+
+placeholder="Goal Name"
+
+>
+
+
+
+
 
 <input
+
 type="number"
+
 id="goalAmount"
-placeholder="Target Amount">
+
+placeholder="Target Amount"
+
+>
+
+
+
+
 
 <input
+
 type="date"
-id="goalDate">
+
+id="goalDate"
+
+>
+
+
+
+
 
 <div class="modal-buttons">
+
+
 
 <button id="cancelGoal">
 
@@ -162,17 +295,33 @@ Cancel
 
 </button>
 
+
+
+
 <button id="saveGoal">
 
 Save Goal
 
 </button>
 
-</div>
+
 
 </div>
 
+
+
 </div>
+
+
+</div>
+
+
+
+
+
+
+
+
 
 <!-- FLOATING BUTTON -->
 
@@ -181,40 +330,30 @@ Save Goal
 +
 
 </button>
-<!-- ADD MONEY MODAL -->
 
-<div class="modal" id="moneyModal">
 
-    <div class="modal-content">
 
-        <h2>Add Money</h2>
 
-        <input
-            type="number"
-            id="moneyAmount"
-            placeholder="Enter amount">
 
-        <button onclick="confirmAddMoney()">
-            Add Money
-        </button>
 
-        <button
-            class="cancel-btn"
-            onclick="closeMoneyModal()">
 
-            Cancel
 
-        </button>
+<!-- SCRIPTS -->
 
-    </div>
-
-</div>
 
 <script src="storage.js"></script>
+
 <script src="theme.js"></script>
+
 <script src="melo-toast.js"></script>
+
+<script src="celebration.js"></script>
+
 <script src="goals.js"></script>
 
+
+
 </body>
+
 
 </html>

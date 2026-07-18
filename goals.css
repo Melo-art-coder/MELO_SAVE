@@ -1,0 +1,479 @@
+/* =====================================
+   MELOSAV GOALS V5
+===================================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Poppins",sans-serif;
+}
+
+body{
+
+    background:var(--background);
+    color:var(--text);
+
+    padding:20px;
+    padding-bottom:120px;
+
+}
+
+/* ================= HEADER ================= */
+
+.page-header{
+
+    display:flex;
+    align-items:center;
+    gap:15px;
+    margin-bottom:25px;
+
+}
+
+.back-btn{
+
+    width:45px;
+    height:45px;
+
+    border-radius:50%;
+
+    background:var(--card);
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    text-decoration:none;
+
+    color:var(--text);
+
+    font-size:22px;
+
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+
+}
+
+.page-header h1{
+
+    font-size:24px;
+    font-weight:700;
+
+}
+
+.page-header p{
+
+    margin-top:4px;
+    opacity:.7;
+    font-size:14px;
+
+}
+
+/* ================= SUMMARY ================= */
+
+.summary-card{
+
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+
+    gap:15px;
+
+    margin-bottom:25px;
+
+}
+
+.summary-item{
+
+    background:var(--card);
+
+    border-radius:20px;
+
+    padding:20px;
+
+    text-align:center;
+
+    box-shadow:0 12px 25px rgba(0,0,0,.08);
+
+}
+
+.summary-item h2{
+
+    color:var(--primary);
+    font-size:26px;
+
+    margin-bottom:8px;
+
+}
+
+.summary-item span{
+
+    font-size:13px;
+    opacity:.7;
+
+}
+
+/* ================= AI ================= */
+
+.melo-ai{
+
+    display:flex;
+    align-items:center;
+    gap:15px;
+
+    background:linear-gradient(135deg,#7b2cff,#a855f7);
+
+    color:#fff;
+
+    padding:18px;
+
+    border-radius:22px;
+
+    margin-bottom:25px;
+
+    box-shadow:0 12px 30px rgba(123,44,255,.25);
+
+}
+
+.ai-icon{
+
+    width:55px;
+    height:55px;
+
+    border-radius:50%;
+
+    background:rgba(255,255,255,.2);
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    font-size:28px;
+
+}
+
+/* ================= GOALS ================= */
+
+.goal-section{
+
+    background:var(--card);
+
+    border-radius:22px;
+
+    padding:20px;
+
+    box-shadow:0 12px 25px rgba(0,0,0,.08);
+
+}
+
+.section-title{
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    margin-bottom:20px;
+
+}
+
+.section-title h2{
+
+    font-size:20px;
+
+}
+
+#createGoalBtn{
+
+    background:var(--primary);
+
+    color:#fff;
+
+    border:none;
+
+    padding:10px 18px;
+
+    border-radius:12px;
+
+    cursor:pointer;
+
+    font-weight:600;
+
+    transition:.3s;
+
+}
+
+#createGoalBtn:hover{
+
+    transform:scale(1.05);
+
+}
+
+/* ================= EMPTY ================= */
+
+.empty-state{
+
+    text-align:center;
+
+    padding:50px 20px;
+
+}
+
+.empty-state h2{
+
+    font-size:60px;
+
+}
+
+.empty-state h3{
+
+    margin-top:15px;
+
+}
+
+.empty-state p{
+
+    margin-top:10px;
+
+    opacity:.7;
+
+    line-height:1.6;
+
+}
+
+/* ================= GOAL CARD ================= */
+
+.goal-card{
+
+    background:var(--background);
+
+    border-radius:18px;
+
+    padding:18px;
+
+    margin-bottom:18px;
+
+}
+
+.goal-card h3{
+
+    margin-bottom:10px;
+
+}
+
+.goal-card small{
+
+    opacity:.7;
+
+}
+
+.progress{
+
+    width:100%;
+    height:10px;
+
+    background:#ddd;
+
+    border-radius:50px;
+
+    margin:15px 0;
+
+    overflow:hidden;
+
+}
+
+.progress div{
+
+    height:100%;
+
+    width:0%;
+
+    background:linear-gradient(90deg,#7b2cff,#b56cff);
+
+    border-radius:50px;
+
+    transition:.5s;
+
+}
+
+/* ================= MODAL ================= */
+
+.goal-modal{
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(0,0,0,.45);
+
+    display:none;
+
+    justify-content:center;
+    align-items:center;
+
+    z-index:1000;
+
+}
+
+.goal-modal.show{
+
+    display:flex;
+
+}
+
+.goal-box{
+
+    width:90%;
+    max-width:400px;
+
+    background:var(--card);
+
+    border-radius:25px;
+
+    padding:25px;
+
+    animation:popup .3s ease;
+
+}
+
+.goal-box h2{
+
+    text-align:center;
+    margin-bottom:20px;
+
+}
+
+.goal-box input{
+
+    width:100%;
+
+    padding:14px;
+
+    border:none;
+
+    outline:none;
+
+    background:var(--background);
+
+    border-radius:14px;
+
+    margin-bottom:15px;
+
+    color:var(--text);
+
+}
+
+.modal-buttons{
+
+    display:flex;
+
+    gap:10px;
+
+}
+
+.modal-buttons button{
+
+    flex:1;
+
+    padding:14px;
+
+    border:none;
+
+    border-radius:14px;
+
+    cursor:pointer;
+
+    font-weight:600;
+
+}
+
+#cancelGoal{
+
+    background:#ddd;
+
+}
+
+#saveGoal{
+
+    background:var(--primary);
+
+    color:#fff;
+
+}
+
+/* ================= FAB ================= */
+
+.fab{
+
+    position:fixed;
+
+    right:25px;
+    bottom:25px;
+
+    width:65px;
+    height:65px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:linear-gradient(135deg,#7b2cff,#a855f7);
+
+    color:#fff;
+
+    font-size:34px;
+
+    cursor:pointer;
+
+    box-shadow:0 15px 35px rgba(123,44,255,.35);
+
+    transition:.3s;
+
+}
+
+.fab:hover{
+
+    transform:scale(1.08);
+
+}
+
+/* ================= ANIMATION ================= */
+
+@keyframes popup{
+
+    from{
+
+        transform:scale(.8);
+        opacity:0;
+
+    }
+
+    to{
+
+        transform:scale(1);
+        opacity:1;
+
+    }
+
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:600px){
+
+.summary-card{
+
+grid-template-columns:1fr;
+
+}
+
+.page-header h1{
+
+font-size:20px;
+
+}
+
+.goal-box{
+
+width:95%;
+
+}
+
+}

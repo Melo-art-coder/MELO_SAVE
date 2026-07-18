@@ -1,7 +1,7 @@
 /* =====================================
    MELOSAV HOME V5
 ===================================== */
-
+console.log("HOME V5 LOADED");
 let currentUser = null;
 let balanceVisible = true;
 

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Transfer | MELOSAV</title>
+
+<link rel="stylesheet" href="theme.css">
+<link rel="stylesheet" href="transfer.css">
+<link rel="stylesheet" href="melo-toast.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+<header class="page-header">
+
+<a href="home.html" class="back-btn">
+←
+</a>
+
+<h2>Transfer Money</h2>
+
+</header>
+
+
+<section class="transfer-card">
+
+<div class="transfer-icon">
+💳
+</div>
+
+<h1>Send Money</h1>
+
+<p>
+Transfer money securely between your wallets or to another MELOSAV user.
+</p>
+
+</section>
+
+
+<form id="transferForm" class="transfer-form">
+
+<label>Recipient</label>
+
+<input
+type="text"
+id="recipient"
+placeholder="Enter recipient name">
+
+<label>Amount (₦)</label>
+
+<input
+type="number"
+id="amount"
+placeholder="0.00">
+
+<label>Description</label>
+
+<textarea
+id="note"
+placeholder="What's this transfer for?"></textarea>
+
+<button type="submit">
+
+Transfer Now
+
+</button>
+
+</form>
+
+
+<section class="tips-card">
+
+<h3>💜 Melo Tip</h3>
+
+<p id="transferTip">
+
+Always double-check the recipient before sending money.
+
+</p>
+
+</section>
+
+<script src="storage.js"></script>
+<script src="theme.js"></script>
+<script src="melo-toast.js"></script>
+<script src="transfer.js"></script>
+
+</body>
+
+</html>

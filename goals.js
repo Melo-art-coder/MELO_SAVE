@@ -187,6 +187,9 @@ function loadGoals(){
         </div>
 
         <span>${percent.toFixed(0)}%</span>
+<p class="goal-ai">
+    ${getGoalMessage(percent)}
+</p>
 
         <div class="goal-actions">
 
@@ -263,15 +266,23 @@ function addMoney(id){
 
     loadGoals();
 
-    if(goal.saved>=goal.target){
+    if(goal.saved >= goal.target){
 
-        meloToast(
-            "Goal Achieved 🏆",
-            `${goal.name} completed!`,
-            "success"
-        );
+    goal.saved = goal.target;
 
-    }else{
+    saveUser();
+
+    if(typeof celebrateGoal === "function"){
+        celebrateGoal();
+    }
+
+    meloToast(
+        "🏆 Goal Achieved!",
+        `${goal.name} completed successfully!`,
+        "success"
+    );
+
+}else{
 
         meloToast(
             "Money Added",
@@ -280,8 +291,6 @@ function addMoney(id){
         );
 
     }
-
-}
 
 
 /* =====================================
@@ -322,4 +331,36 @@ function formatMoney(amount){
         }
     );
 
+}
+/* =====================================
+   MELO AI ENCOURAGEMENT
+===================================== */
+
+function getGoalMessage(percent){
+
+    if(percent >= 100){
+
+        return "🎉 Congratulations! You achieved your goal!";
+
+    }
+
+    if(percent >= 75){
+
+        return "🔥 You're almost there! Keep going!";
+
+    }
+
+    if(percent >= 50){
+
+        return "💜 Amazing! You're halfway there.";
+
+    }
+
+    if(percent >= 25){
+
+        return "🚀 Nice progress! Keep saving.";
+
+    }
+
+    return "🌱 Every little saving counts.";
 }

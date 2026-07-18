@@ -147,12 +147,6 @@ function shareApp(){
 
 function logout(){
 
-    if(!confirm("Log out of MELOSAV?")){
-
-        return;
-
-    }
-
     localStorage.removeItem("meloCurrentUser");
 
     meloToast(

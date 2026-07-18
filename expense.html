@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Add Expense | MELOSAV</title>
+
+<link rel="stylesheet" href="theme.css">
+<link rel="stylesheet" href="expense.css">
+<link rel="stylesheet" href="melo-toast.css">
+
+<link rel="preconnect"
+href="https://fonts.googleapis.com">
+
+<link rel="preconnect"
+href="https://fonts.gstatic.com"
+crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+rel="stylesheet">
+
+</head>
+
+<body>
+
+<header class="top-header">
+
+<a href="home.html"
+class="back-btn">
+
+←
+
+</a>
+
+<h2>
+
+💸 Add Expense
+
+</h2>
+
+<div></div>
+
+</header>
+
+
+<section class="expense-card">
+
+<div class="icon">
+
+💸
+
+</div>
+
+<h1>
+
+Track Your Spending
+
+</h1>
+
+<p>
+
+Every expense you record helps you understand your spending habits and make smarter financial decisions.
+
+</p>
+
+<form id="expenseForm">
+
+<div class="input-group">
+
+<label>
+
+Amount (₦)
+
+</label>
+
+<input
+type="number"
+id="amount"
+placeholder="Enter amount"
+required>
+
+</div>
+
+<div class="input-group">
+
+<label>
+
+Category
+
+</label>
+
+<select id="category">
+
+<option>🍔 Food</option>
+
+<option>🚕 Transport</option>
+
+<option>🛍 Shopping</option>
+
+<option>💡 Bills</option>
+
+<option>🎮 Entertainment</option>
+
+<option>🏥 Health</option>
+
+<option>📚 Education</option>
+
+<option>📱 Airtime & Data</option>
+
+<option>📦 Other</option>
+
+</select>
+
+</div>
+
+<div class="input-group">
+
+<label>
+
+Description
+
+</label>
+
+<textarea
+id="description"
+rows="4"
+placeholder="Example: Lunch at Chicken Republic"></textarea>
+
+</div>
+
+<div class="melo-tip">
+
+<h3>
+
+🤖 Melo AI Tip
+
+</h3>
+
+<p>
+
+Tracking every expense—big or small—is one of the fastest ways to build healthy money habits.
+
+</p>
+
+</div>
+
+<button
+type="submit"
+class="save-btn">
+
+Save Expense
+
+</button>
+
+</form>
+
+</section>
+
+<script src="theme.js"></script>
+<script src="melo-toast.js"></script>
+<script src="expense.js"></script>
+
+</body>
+
+</html>

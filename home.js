@@ -230,15 +230,12 @@ function setupButtons(){
 
     });
 
-    document.getElementById("incomeBtn").addEventListener("click",()=>{
+    document.getElementById("incomeBtn").addEventListener("click", () => {
 
-        meloToast(
-            "💰 Income",
-            "Income feature coming soon.",
-            "info"
-        );
+    location.href = "income.html";
 
-    });
+});
+
 
     document.getElementById("expenseBtn").addEventListener("click",()=>{
 

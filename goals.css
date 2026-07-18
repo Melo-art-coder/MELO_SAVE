@@ -258,6 +258,36 @@ body{
 
 }
 
+.goal-actions{
+    display:flex;
+    gap:12px;
+    margin-top:18px;
+}
+
+.goal-actions button{
+    flex:1;
+    border:none;
+    border-radius:14px;
+    padding:12px;
+    font-size:15px;
+    font-weight:600;
+    cursor:pointer;
+    transition:.25s;
+}
+
+.goal-actions button:first-child{
+    background:linear-gradient(135deg,#7B2CFF,#A855F7);
+    color:#fff;
+}
+
+.goal-actions button:last-child{
+    background:#FFE5E5;
+    color:#E53935;
+}
+
+.goal-actions button:hover{
+    transform:translateY(-2px);
+}
 .goal-card small{
 
     opacity:.7;

@@ -237,10 +237,6 @@ function saveSettings(){
 
 function logoutUser(){
 
-    if(!confirm("Are you sure you want to log out?")){
-        return;
-    }
-
     localStorage.removeItem("meloCurrentUser");
 
     meloToast(
@@ -256,6 +252,8 @@ function logoutUser(){
     },800);
 
 }
+
+   
 /* =====================================
    EDIT PROFILE
 ===================================== */

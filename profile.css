@@ -1,0 +1,242 @@
+/* =====================================
+   MELOSAV PROFILE V5
+===================================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Poppins",sans-serif;
+}
+
+body{
+    background:var(--background);
+    color:var(--text);
+    padding:20px;
+    padding-bottom:120px;
+}
+
+/* ================= HEADER ================= */
+
+.page-header{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    margin-bottom:25px;
+}
+
+.back-btn{
+    width:45px;
+    height:45px;
+    border-radius:50%;
+    background:var(--card);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-decoration:none;
+    color:var(--text);
+    font-size:22px;
+    box-shadow:0 10px 20px rgba(0,0,0,.08);
+}
+
+.page-header h1{
+    font-size:24px;
+    font-weight:700;
+}
+
+/* ================= PROFILE CARD ================= */
+
+.profile-card{
+    background:var(--card);
+    border-radius:28px;
+    padding:35px 25px;
+    text-align:center;
+    box-shadow:0 15px 30px rgba(0,0,0,.08);
+    margin-bottom:25px;
+}
+
+.avatar{
+    width:110px;
+    height:110px;
+    margin:auto;
+    border-radius:50%;
+    background:linear-gradient(135deg,#7B2CFF,#A855F7);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:#fff;
+    font-size:42px;
+    font-weight:700;
+    margin-bottom:18px;
+    box-shadow:0 15px 30px rgba(123,44,255,.35);
+}
+
+.profile-card h2{
+    font-size:26px;
+    margin-bottom:8px;
+}
+
+.profile-card p{
+    color:var(--muted);
+    font-size:15px;
+}
+
+/* ================= BALANCE ================= */
+
+.balance-card{
+    background:linear-gradient(135deg,#7B2CFF,#A855F7);
+    color:#fff;
+    border-radius:25px;
+    padding:25px;
+    text-align:center;
+    margin-bottom:25px;
+    box-shadow:0 15px 30px rgba(123,44,255,.30);
+}
+
+.balance-card h3{
+    opacity:.9;
+    font-weight:500;
+}
+
+.balance-card h1{
+    font-size:36px;
+    margin-top:12px;
+}
+
+/* ================= STATS ================= */
+
+.stats-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
+    margin-bottom:25px;
+}
+
+.stat-card{
+    background:var(--card);
+    border-radius:22px;
+    padding:20px;
+    text-align:center;
+    box-shadow:0 10px 20px rgba(0,0,0,.08);
+}
+
+.stat-card h2{
+    color:var(--primary);
+    margin-bottom:8px;
+    font-size:22px;
+}
+
+.stat-card span{
+    color:var(--muted);
+    font-size:14px;
+}
+
+/* ================= SECTION ================= */
+
+.profile-section{
+    background:var(--card);
+    border-radius:25px;
+    padding:22px;
+    margin-bottom:25px;
+    box-shadow:0 10px 20px rgba(0,0,0,.08);
+}
+
+.profile-section h2{
+    margin-bottom:20px;
+    font-size:20px;
+}
+
+/* ================= ACHIEVEMENTS ================= */
+
+.achievement-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
+}
+
+.achievement{
+    background:var(--background);
+    border-radius:20px;
+    padding:18px;
+    text-align:center;
+    font-size:30px;
+    transition:.3s;
+}
+
+.achievement:hover{
+    transform:translateY(-5px);
+}
+
+.achievement span{
+    display:block;
+    margin-top:10px;
+    font-size:13px;
+    color:var(--muted);
+}
+
+/* ================= BUTTONS ================= */
+
+.profile-section button{
+    width:100%;
+    border:none;
+    background:var(--background);
+    color:var(--text);
+    padding:18px;
+    border-radius:18px;
+    font-size:16px;
+    font-weight:600;
+    margin-bottom:14px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.profile-section button:hover{
+    transform:translateY(-3px);
+}
+
+#editBtn{
+    background:#EDE3FF;
+    color:#7B2CFF;
+}
+
+#themeBtn{
+    background:#E3F2FF;
+    color:#2563EB;
+}
+
+#pinBtn{
+    background:#E8FFF3;
+    color:#10B981;
+}
+
+#shareBtn{
+    background:#FFF4DD;
+    color:#F59E0B;
+}
+
+.logout{
+    background:#FFE5E5 !important;
+    color:#E53935 !important;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:600px){
+
+.stats-grid{
+    grid-template-columns:1fr;
+}
+
+.achievement-grid{
+    grid-template-columns:1fr;
+}
+
+.profile-card{
+    padding:30px 20px;
+}
+
+.balance-card h1{
+    font-size:30px;
+}
+
+}

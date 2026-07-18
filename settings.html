@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Settings | MELOSAV</title>
+
+<link rel="stylesheet" href="theme.css">
+<link rel="stylesheet" href="settings.css">
+<link rel="stylesheet" href="melo-toast.css">
+
+<link rel="preconnect"
+href="https://fonts.googleapis.com">
+
+<link rel="preconnect"
+href="https://fonts.gstatic.com"
+crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+rel="stylesheet">
+
+</head>
+
+<body>
+
+<header class="page-header">
+
+<a href="home.html"
+class="back-btn">
+
+←
+
+</a>
+
+<div>
+
+<h1>
+⚙️ Settings
+</h1>
+
+<p>
+
+Manage your MELOSAV experience
+
+</p>
+
+</div>
+
+</header>
+
+
+<!-- PROFILE -->
+
+<section class="settings-card">
+
+<h3>
+
+👤 Account
+
+</h3>
+
+<button id="profileBtn">
+
+<span>Profile</span>
+
+<span>›</span>
+
+</button>
+
+<button id="editProfileBtn">
+
+<span>Edit Profile</span>
+
+<span>›</span>
+
+</button>
+
+<button id="changePinBtn">
+
+<span>Change PIN</span>
+
+<span>›</span>
+
+</button>
+
+</section>
+
+
+<!-- APPEARANCE -->
+
+<section class="settings-card">
+
+<h3>
+
+🎨 Appearance
+
+</h3>
+
+<button id="themeBtn">
+
+<span>Theme</span>
+
+<span>›</span>
+
+</button>
+
+<button id="currencyBtn">
+
+<span>Currency</span>
+
+<span>₦</span>
+
+</button>
+
+</section>
+
+
+<!-- NOTIFICATIONS -->
+
+<section class="settings-card">
+
+<h3>
+
+🔔 Notifications
+
+</h3>
+
+<div class="setting-row">
+
+<span>Enable Notifications</span>
+
+<label class="switch">
+
+<input
+type="checkbox"
+id="notificationToggle"
+checked>
+
+<span class="slider"></span>
+
+</label>
+
+</div>
+
+</section>
+
+
+<!-- SECURITY -->
+
+<section class="settings-card">
+
+<h3>
+
+🔒 Security
+
+</h3>
+
+<button id="backupBtn">
+
+<span>Backup Data</span>
+
+<span>Coming Soon</span>
+
+</button>
+
+<button id="restoreBtn">
+
+<span>Restore Data</span>
+
+<span>Coming Soon</span>
+
+</button>
+
+</section>
+
+
+<!-- ABOUT -->
+
+<section class="settings-card">
+
+<h3>
+
+ℹ️ About
+
+</h3>
+
+<button>
+
+<span>Version</span>
+
+<span>V5</span>
+
+</button>
+
+<button id="privacyBtn">
+
+<span>Privacy Policy</span>
+
+<span>›</span>
+
+</button>
+
+<button id="termsBtn">
+
+<span>Terms & Conditions</span>
+
+<span>›</span>
+
+</button>
+
+</section>
+
+
+<!-- LOGOUT -->
+
+<section class="logout-section">
+
+<button id="logoutBtn">
+
+🚪 Log Out
+
+</button>
+
+</section>
+
+<script src="storage.js"></script>
+<script src="theme.js"></script>
+<script src="melo-toast.js"></script>
+<script src="settings.js"></script>
+
+</body>
+
+</html>

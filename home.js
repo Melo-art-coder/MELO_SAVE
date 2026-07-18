@@ -528,3 +528,27 @@ function animateMoney(id,amount){
     },16);
 
 }
+/* =====================================
+   REGISTER SERVICE WORKER
+===================================== */
+
+if ("serviceWorker" in navigator) {
+
+    window.addEventListener("load", () => {
+
+        navigator.serviceWorker
+        .register("./sw.js")
+        .then(() => {
+
+            console.log("MELOSAV Service Worker Registered ✅");
+
+        })
+        .catch(error => {
+
+            console.error(error);
+
+        });
+
+    });
+
+}

@@ -519,3 +519,22 @@ background-position:0% 50%;
 }
 
 }
+.wallet-card::after{
+
+content:"";
+
+position:absolute;
+
+width:160px;
+
+height:160px;
+
+background:rgba(255,255,255,.08);
+
+border-radius:50%;
+
+bottom:-70px;
+
+left:-40px;
+
+}

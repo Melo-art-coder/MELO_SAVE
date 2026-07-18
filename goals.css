@@ -319,18 +319,20 @@ body{
 }
 
 .goal-box{
-
     width:90%;
     max-width:400px;
 
-    background:var(--card);
+    background:#ffffff;
+
+    color:#222;
 
     border-radius:25px;
 
     padding:25px;
 
-    animation:popup .3s ease;
+    box-shadow:0 20px 50px rgba(0,0,0,.3);
 
+    animation:popup .3s ease;
 }
 
 .goal-box h2{

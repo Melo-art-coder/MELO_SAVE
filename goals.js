@@ -1,7 +1,7 @@
 /* =====================================
    MELOSAV GOALS V5
 ===================================== */
-
+console.log("GOALS JS LOADED");
 let currentUser = JSON.parse(
     localStorage.getItem("meloCurrentUser")
 );

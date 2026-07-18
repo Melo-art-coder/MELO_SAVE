@@ -8,6 +8,9 @@ const goalsContainer = document.getElementById("goalsContainer");
 const goalModal = document.getElementById("goalModal");
 const goalName = document.getElementById("goalName");
 const goalTarget = document.getElementById("goalTarget");
+const moneyModal=document.getElementById("moneyModal");
+
+let selectedGoal=null;
 
 /* =====================================
    START

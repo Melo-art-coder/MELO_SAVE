@@ -64,9 +64,7 @@ function updateWallet() {
     const balance =
         Number(currentUser.balance || 0);
 
-    document.getElementById("balance").textContent =
-        formatMoney(balance);
-
+    animateMoney("balance", balance);
     const income =
         Number(currentUser.income || 0);
 
@@ -76,14 +74,13 @@ function updateWallet() {
     const savings =
         Number(currentUser.savings || 0);
 
-    document.getElementById("income").textContent =
-        formatMoney(income);
+    
 
-    document.getElementById("expenses").textContent =
-        formatMoney(expenses);
+animateMoney("income", income);
 
-    document.getElementById("savings").textContent =
-        formatMoney(savings);
+animateMoney("expenses", expenses);
+
+animateMoney("savings", savings);
 
     document.getElementById("usdBalance").textContent =
         "$0.00";

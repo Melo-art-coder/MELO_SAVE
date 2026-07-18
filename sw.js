@@ -2,7 +2,7 @@
    MELOSAV SERVICE WORKER V1
 ===================================== */
 
-const CACHE_NAME = "melosav-v5.0.0";
+const CACHE_NAME = "melosav-v5.0.1";
 
 const FILES_TO_CACHE = [
 

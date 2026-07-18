@@ -1,7 +1,7 @@
 /* =====================================
    MELOSAV SETTINGS V1
 ===================================== */
-
+console.log("NEW SETTINGS JS RUNNING");
 console.log("SETTINGS V1 LOADED");
 
 let currentUser = null;

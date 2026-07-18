@@ -1,0 +1,267 @@
+/* =====================================
+   MELOSAV - ADD INCOME
+===================================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Poppins",sans-serif;
+}
+
+body{
+
+    background:var(--background);
+
+    color:var(--text);
+
+    padding:20px;
+
+    min-height:100vh;
+
+}
+
+
+/* ===========================
+   HEADER
+=========================== */
+
+.top-header{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    margin-bottom:30px;
+
+}
+
+.back-btn{
+
+    width:45px;
+
+    height:45px;
+
+    border-radius:50%;
+
+    background:var(--card);
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    text-decoration:none;
+
+    color:var(--text);
+
+    font-size:22px;
+
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+
+}
+
+.top-header h2{
+
+    font-size:22px;
+
+    font-weight:700;
+
+}
+
+
+/* ===========================
+   CARD
+=========================== */
+
+.income-card{
+
+    background:var(--card);
+
+    border-radius:30px;
+
+    padding:30px 25px;
+
+    box-shadow:0 15px 35px rgba(0,0,0,.08);
+
+}
+
+.icon{
+
+    width:85px;
+
+    height:85px;
+
+    border-radius:50%;
+
+    margin:auto;
+
+    background:linear-gradient(
+        135deg,
+        #7B2CFF,
+        #A855F7
+    );
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    color:white;
+
+    font-size:40px;
+
+    margin-bottom:20px;
+
+}
+
+.income-card h1{
+
+    text-align:center;
+
+    margin-bottom:10px;
+
+    font-size:28px;
+
+}
+
+.income-card p{
+
+    text-align:center;
+
+    color:var(--muted);
+
+    margin-bottom:30px;
+
+    line-height:1.6;
+
+}
+
+
+/* ===========================
+   FORM
+=========================== */
+
+.input-group{
+
+    margin-bottom:22px;
+
+}
+
+.input-group label{
+
+    display:block;
+
+    margin-bottom:8px;
+
+    font-weight:600;
+
+}
+
+.input-group input,
+
+.input-group select,
+
+.input-group textarea{
+
+    width:100%;
+
+    border:none;
+
+    outline:none;
+
+    background:var(--background);
+
+    color:var(--text);
+
+    padding:16px;
+
+    border-radius:16px;
+
+    font-size:15px;
+
+    transition:.3s;
+
+}
+
+.input-group input:focus,
+
+.input-group select:focus,
+
+.input-group textarea:focus{
+
+    border:2px solid var(--primary);
+
+}
+
+
+/* ===========================
+   BUTTON
+=========================== */
+
+.save-btn{
+
+    width:100%;
+
+    border:none;
+
+    padding:18px;
+
+    border-radius:18px;
+
+    background:linear-gradient(
+        135deg,
+        #7B2CFF,
+        #A855F7
+    );
+
+    color:white;
+
+    font-size:17px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.save-btn:hover{
+
+    transform:translateY(-2px);
+
+    box-shadow:0 15px 30px rgba(123,44,255,.35);
+
+}
+
+.save-btn:active{
+
+    transform:scale(.98);
+
+}
+
+
+/* ===========================
+   MOBILE
+=========================== */
+
+@media(max-width:480px){
+
+    .income-card{
+
+        padding:22px;
+
+    }
+
+    .income-card h1{
+
+        font-size:24px;
+
+    }
+
+}

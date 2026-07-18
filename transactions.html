@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Transactions | MELOSAV</title>
+
+<link rel="stylesheet" href="theme.css">
+<link rel="stylesheet" href="transactions.css">
+<link rel="stylesheet" href="melo-toast.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+<header class="top-header">
+
+<a href="home.html" class="back-btn">
+←
+</a>
+
+<div>
+
+<h1>Transactions</h1>
+
+<p>Your complete money history</p>
+
+</div>
+
+</header>
+
+
+<section class="summary">
+
+<div class="summary-card income">
+
+<h3>Income</h3>
+
+<h2 id="incomeTotal">
+₦0.00
+</h2>
+
+</div>
+
+<div class="summary-card expense">
+
+<h3>Expenses</h3>
+
+<h2 id="expenseTotal">
+₦0.00
+</h2>
+
+</div>
+
+<div class="summary-card savings">
+
+<h3>Savings</h3>
+
+<h2 id="savingsTotal">
+₦0.00
+</h2>
+
+</div>
+
+</section>
+
+
+<section class="search-box">
+
+<input
+type="text"
+id="searchTransaction"
+placeholder="Search transactions...">
+
+</section>
+
+
+<section class="filter-row">
+
+<button class="active" data-filter="all">
+All
+</button>
+
+<button data-filter="income">
+Income
+</button>
+
+<button data-filter="expense">
+Expense
+</button>
+
+<button data-filter="savings">
+Savings
+</button>
+
+</section>
+
+
+<section class="transaction-section">
+
+<div id="transactionList">
+
+<div class="empty-state">
+
+<div class="emoji">
+📄
+</div>
+
+<h2>
+No Transactions Yet
+</h2>
+
+<p>
+
+Your income, expenses and savings
+will appear here.
+
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+
+<div class="fab">
+
+<button id="addTransaction">
+
+＋
+
+</button>
+
+</div>
+
+
+<nav class="bottom-nav">
+
+<a href="home.html">
+🏠
+</a>
+
+<a href="goals.html">
+🎯
+</a>
+
+<a href="transactions.html" class="active">
+📄
+</a>
+
+<a href="profile.html">
+👤
+</a>
+
+</nav>
+
+
+<script src="theme.js"></script>
+<script src="melo-toast.js"></script>
+<script src="transactions.js"></script>
+
+</body>
+
+</html>

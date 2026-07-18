@@ -251,11 +251,9 @@ function setupButtons(){
 
     document.getElementById("goalBtn").addEventListener("click",()=>{
 
-        sheet.classList.remove("show");
+    location.href = "goals.html";
 
-location.href="goals.html";
-
-    });
+});
 
     const transferBtn=document.getElementById("transferBtn");
 
@@ -341,9 +339,11 @@ function setupQuickSheet(){
 
     document.getElementById("quickGoal").addEventListener("click",()=>{
 
-        location.href="goals.html";
+    sheet.classList.remove("show");
 
-    });
+    location.href = "goals.html";
+
+});
 
     document.getElementById("quickTransfer").addEventListener("click",()=>{
 

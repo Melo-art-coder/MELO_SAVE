@@ -464,3 +464,38 @@ function loadTransactions() {
         });
 
 }
+document.getElementById("quickIncome").onclick = () => {
+
+    meloToast(
+        "💰 Income",
+        "Income feature coming soon.",
+        "info"
+    );
+
+};
+
+document.getElementById("quickExpense").onclick = () => {
+
+    meloToast(
+        "💸 Expense",
+        "Expense feature coming soon.",
+        "info"
+    );
+
+};
+
+document.getElementById("quickSave").onclick = () => {
+
+    meloToast(
+        "🏦 Savings",
+        "Savings feature coming soon.",
+        "info"
+    );
+
+};
+
+document.getElementById("quickGoal").onclick = () => {
+
+    location.href = "goals.html";
+
+};

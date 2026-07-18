@@ -222,13 +222,9 @@ function setupButtons(){
 
     document.getElementById("notificationBtn").addEventListener("click",()=>{
 
-        meloToast(
-            "🔔 Notifications",
-            "No new notifications.",
-            "info"
-        );
+    location.href="notifications.html";
 
-    });
+});
 
     document.getElementById("incomeBtn").addEventListener("click", () => {
 

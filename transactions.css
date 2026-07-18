@@ -1,0 +1,461 @@
+/* =====================================
+   MELOSAV TRANSACTIONS
+===================================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Poppins",sans-serif;
+}
+
+body{
+
+    background:var(--background);
+    color:var(--text);
+
+    padding:20px;
+    padding-bottom:110px;
+
+}
+
+
+/* =====================================
+   HEADER
+===================================== */
+
+.top-header{
+
+    display:flex;
+    align-items:center;
+    gap:18px;
+
+    margin-bottom:30px;
+
+}
+
+.back-btn{
+
+    width:48px;
+    height:48px;
+
+    border-radius:16px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    text-decoration:none;
+
+    background:var(--card);
+    color:var(--text);
+
+    font-size:22px;
+
+    box-shadow:0 8px 18px rgba(0,0,0,.08);
+
+}
+
+.top-header h1{
+
+    font-size:28px;
+    font-weight:700;
+
+}
+
+.top-header p{
+
+    color:var(--muted);
+    margin-top:4px;
+
+}
+
+
+/* =====================================
+   SUMMARY
+===================================== */
+
+.summary{
+
+    display:grid;
+
+    grid-template-columns:repeat(3,1fr);
+
+    gap:14px;
+
+    margin-bottom:25px;
+
+}
+
+.summary-card{
+
+    padding:18px;
+
+    border-radius:22px;
+
+    color:white;
+
+    box-shadow:0 15px 35px rgba(0,0,0,.12);
+
+}
+
+.summary-card h3{
+
+    font-size:13px;
+    font-weight:500;
+
+    opacity:.9;
+
+}
+
+.summary-card h2{
+
+    margin-top:10px;
+
+    font-size:20px;
+
+}
+
+.income{
+
+    background:linear-gradient(135deg,#22C55E,#16A34A);
+
+}
+
+.expense{
+
+    background:linear-gradient(135deg,#EF4444,#DC2626);
+
+}
+
+.savings{
+
+    background:linear-gradient(135deg,#7B2CFF,#A855F7);
+
+}
+
+
+/* =====================================
+   SEARCH
+===================================== */
+
+.search-box{
+
+    margin-bottom:18px;
+
+}
+
+.search-box input{
+
+    width:100%;
+
+    border:none;
+
+    outline:none;
+
+    background:var(--card);
+
+    color:var(--text);
+
+    padding:16px 20px;
+
+    border-radius:18px;
+
+    font-size:15px;
+
+}
+
+
+/* =====================================
+   FILTER BUTTONS
+===================================== */
+
+.filter-row{
+
+    display:flex;
+
+    gap:12px;
+
+    overflow:auto;
+
+    margin-bottom:25px;
+
+    scrollbar-width:none;
+
+}
+
+.filter-row::-webkit-scrollbar{
+
+    display:none;
+
+}
+
+.filter-row button{
+
+    border:none;
+
+    padding:12px 22px;
+
+    border-radius:40px;
+
+    cursor:pointer;
+
+    background:var(--card);
+
+    color:var(--text);
+
+    transition:.3s;
+
+    white-space:nowrap;
+
+}
+
+.filter-row button.active{
+
+    background:var(--primary);
+
+    color:white;
+
+}
+
+
+/* =====================================
+   TRANSACTIONS
+===================================== */
+
+.transaction-section{
+
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+
+}
+
+.transaction-card{
+
+    background:var(--card);
+
+    border-radius:22px;
+
+    padding:18px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.06);
+
+    transition:.3s;
+
+}
+
+.transaction-card:hover{
+
+    transform:translateY(-3px);
+
+}
+
+.transaction-left{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:14px;
+
+}
+
+.transaction-icon{
+
+    width:55px;
+    height:55px;
+
+    border-radius:18px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:26px;
+
+    color:white;
+
+}
+
+.icon-income{
+
+    background:#22C55E;
+
+}
+
+.icon-expense{
+
+    background:#EF4444;
+
+}
+
+.icon-savings{
+
+    background:#7B2CFF;
+
+}
+
+.transaction-info h3{
+
+    font-size:16px;
+
+}
+
+.transaction-info p{
+
+    color:var(--muted);
+
+    margin-top:4px;
+
+    font-size:13px;
+
+}
+
+.transaction-amount{
+
+    text-align:right;
+
+}
+
+.transaction-amount h2{
+
+    font-size:18px;
+
+}
+
+.transaction-amount small{
+
+    color:var(--muted);
+
+}
+
+
+/* =====================================
+   EMPTY STATE
+===================================== */
+
+.empty-state{
+
+    text-align:center;
+
+    margin-top:70px;
+
+}
+
+.empty-state .emoji{
+
+    font-size:70px;
+
+}
+
+.empty-state h2{
+
+    margin:18px 0 10px;
+
+}
+
+.empty-state p{
+
+    color:var(--muted);
+
+    line-height:1.6;
+
+}
+
+
+/* =====================================
+   FLOATING BUTTON
+===================================== */
+
+.fab{
+
+    position:fixed;
+
+    right:25px;
+
+    bottom:95px;
+
+}
+
+.fab button{
+
+    width:65px;
+    height:65px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:var(--primary);
+
+    color:white;
+
+    font-size:36px;
+
+    cursor:pointer;
+
+    box-shadow:0 15px 30px rgba(123,44,255,.35);
+
+    transition:.3s;
+
+}
+
+.fab button:hover{
+
+    transform:scale(1.08);
+
+}
+
+
+/* =====================================
+   BOTTOM NAV
+===================================== */
+
+.bottom-nav{
+
+    position:fixed;
+
+    left:20px;
+    right:20px;
+    bottom:20px;
+
+    background:var(--card);
+
+    border-radius:25px;
+
+    display:flex;
+
+    justify-content:space-around;
+
+    padding:16px;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+
+}
+
+.bottom-nav a{
+
+    text-decoration:none;
+
+    color:var(--text);
+
+    font-size:26px;
+
+    transition:.3s;
+
+}
+
+.bottom-nav a.active{
+
+    color:var(--primary);
+
+    transform:scale(1.15);
+
+}

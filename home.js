@@ -1,9 +1,13 @@
 /* =====================================
-   MELOSAV HOME V4 - PART 1
+   MELOSAV HOME V5
 ===================================== */
 
 let currentUser = null;
 let balanceVisible = true;
+
+/* =====================================
+   APP START
+===================================== */
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -13,6 +17,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     loadUser();
     setupButtons();
+    setupWalletSlider();
+    setupBalanceToggle();
 
 });
 
@@ -41,16 +47,15 @@ function loadUser() {
         getGreeting();
 
     updateWallet();
-
     updateBudget();
-
     updateAIMessage();
+    loadTransactions();
 
     setTimeout(() => {
 
         speakGreeting(currentUser.name);
 
-    }, 800);
+    },800);
 
 }
 
@@ -59,12 +64,11 @@ function loadUser() {
    UPDATE WALLET
 ===================================== */
 
-function updateWallet() {
+function updateWallet(){
 
     const balance =
         Number(currentUser.balance || 0);
 
-    animateMoney("balance", balance);
     const income =
         Number(currentUser.income || 0);
 
@@ -74,22 +78,14 @@ function updateWallet() {
     const savings =
         Number(currentUser.savings || 0);
 
-    
+    animateMoney("balance",balance);
+    animateMoney("income",income);
+    animateMoney("expenses",expenses);
+    animateMoney("savings",savings);
 
-animateMoney("income", income);
-
-animateMoney("expenses", expenses);
-
-animateMoney("savings", savings);
-
-    document.getElementById("usdBalance").textContent =
-        "$0.00";
-
-    document.getElementById("eurBalance").textContent =
-        "€0.00";
-
-    document.getElementById("gbpBalance").textContent =
-        "£0.00";
+    document.getElementById("usdBalance").textContent="$0.00";
+    document.getElementById("eurBalance").textContent="€0.00";
+    document.getElementById("gbpBalance").textContent="£0.00";
 
 }
 
@@ -98,7 +94,7 @@ animateMoney("savings", savings);
    DAILY BUDGET
 ===================================== */
 
-function updateBudget() {
+function updateBudget(){
 
     const percent =
         Number(currentUser.dailyBudget || 0);
@@ -116,7 +112,7 @@ function updateBudget() {
    FORMAT MONEY
 ===================================== */
 
-function formatMoney(amount) {
+function formatMoney(amount){
 
     return "₦" + Number(amount).toLocaleString(
         "en-NG",
@@ -133,9 +129,10 @@ function formatMoney(amount) {
    GREETING
 ===================================== */
 
-function getGreeting() {
+function getGreeting(){
 
-    const hour = new Date().getHours();
+    const hour =
+        new Date().getHours();
 
     if(hour < 12){
 
@@ -155,12 +152,12 @@ function getGreeting() {
 
 
 /* =====================================
-   MELO AI MESSAGE
+   MELO AI
 ===================================== */
 
 function updateAIMessage(){
 
-    const tips = [
+    const tips=[
 
         "Save a little today for a better tomorrow. 💜",
 
@@ -170,7 +167,7 @@ function updateAIMessage(){
 
         "Small savings become big achievements. 🏆",
 
-        "Welcome back! Let's grow your money today. 🚀"
+        "Welcome back! Let's grow your savings today. 🚀"
 
     ];
 
@@ -200,13 +197,13 @@ function speakGreeting(name){
     const speech =
         new SpeechSynthesisUtterance(
 
-            `${getGreeting()} ${firstName}. Welcome back to MELOSAV. Let's save smarter today.`
+        `${getGreeting()} ${firstName}. Welcome back to MELOSAV.`
 
         );
 
-    speech.rate = 0.9;
-    speech.pitch = 1;
-    speech.volume = 1;
+    speech.rate=0.9;
+    speech.pitch=1;
+    speech.volume=1;
 
     speechSynthesis.speak(speech);
 
@@ -215,141 +212,187 @@ function speakGreeting(name){
    BUTTON EVENTS
 ===================================== */
 
-function setupButtons() {
+function setupButtons(){
 
-    document.getElementById("themeBtn").addEventListener("click", () => {
-        location.href = "theme-setup.html";
+    document.getElementById("themeBtn").addEventListener("click",()=>{
+
+        location.href="theme-setup.html";
+
     });
 
-    document.getElementById("notificationBtn").addEventListener("click", () => {
+    document.getElementById("notificationBtn").addEventListener("click",()=>{
+
         meloToast(
             "🔔 Notifications",
             "No new notifications.",
             "info"
         );
+
     });
 
-    document.getElementById("incomeBtn").addEventListener("click", () => {
+    document.getElementById("incomeBtn").addEventListener("click",()=>{
+
         meloToast(
             "💰 Income",
             "Income feature coming soon.",
             "info"
         );
+
     });
 
-    document.getElementById("expenseBtn").addEventListener("click", () => {
+    document.getElementById("expenseBtn").addEventListener("click",()=>{
+
         meloToast(
             "💸 Expense",
             "Expense feature coming soon.",
             "info"
         );
+
     });
 
-    document.getElementById("saveBtn").addEventListener("click", () => {
+    document.getElementById("saveBtn").addEventListener("click",()=>{
+
         meloToast(
             "🏦 Savings",
             "Savings feature coming soon.",
             "info"
         );
+
     });
 
-    document.getElementById("goalBtn").addEventListener("click", () => {
-        location.href = "goals.html";
+    document.getElementById("goalBtn").addEventListener("click",()=>{
+
+        location.href="goals.html";
+
     });
 
-    const transferBtn = document.getElementById("transferBtn");
+    const transferBtn=document.getElementById("transferBtn");
 
-    if (transferBtn) {
-        transferBtn.addEventListener("click", () => {
+    if(transferBtn){
+
+        transferBtn.addEventListener("click",()=>{
+
             meloToast(
                 "💳 Transfer",
                 "Transfer feature coming soon.",
                 "info"
             );
+
         });
+
     }
 
-    const budgetBtn = document.getElementById("budgetBtn");
+    const budgetBtn=document.getElementById("budgetBtn");
 
-    if (budgetBtn) {
-        budgetBtn.addEventListener("click", () => {
+    if(budgetBtn){
+
+        budgetBtn.addEventListener("click",()=>{
+
             meloToast(
                 "📊 Budget",
                 "Budget feature coming soon.",
                 "info"
             );
+
         });
+
     }
 
-    const fab = document.getElementById("fab");
-
-const quickSheet =
-document.getElementById("quickSheet");
-
-const closeSheet =
-document.getElementById("closeSheet");
-
-fab.onclick = () => {
-
-quickSheet.classList.add("show");
-
-};
-
-closeSheet.onclick = () => {
-
-quickSheet.classList.remove("show");
-
-};
-document.getElementById("quickTransfer").onclick = () => {
-
-meloToast(
-
-"💳 Transfer",
-
-"Transfer feature coming soon.",
-
-"info"
-
-);
-
-};
-
-const fabMenu = document.getElementById("fabMenu");
-
-let fabOpen = false;
-
-fab.addEventListener("click", () => {
-
-    fabOpen = !fabOpen;
-
-    fabMenu.classList.toggle("show");
-
-    fab.textContent = fabOpen ? "✕" : "+";
-
-});
-    setupBalanceToggle();
-
-    setupWalletSlider();
-
-    loadTransactions();
+    setupQuickSheet();
 
 }
 
 
 /* =====================================
+   QUICK SHEET
+===================================== */
+
+function setupQuickSheet(){
+
+    const fab=document.getElementById("fab");
+    const sheet=document.getElementById("quickSheet");
+    const close=document.getElementById("closeSheet");
+
+    fab.addEventListener("click",()=>{
+
+        sheet.classList.add("show");
+
+    });
+
+    close.addEventListener("click",()=>{
+
+        sheet.classList.remove("show");
+
+    });
+
+    document.getElementById("quickIncome").addEventListener("click",()=>{
+
+        meloToast(
+            "💰 Income",
+            "Income feature coming soon.",
+            "info"
+        );
+
+        sheet.classList.remove("show");
+
+    });
+
+    document.getElementById("quickExpense").addEventListener("click",()=>{
+
+        meloToast(
+            "💸 Expense",
+            "Expense feature coming soon.",
+            "info"
+        );
+
+        sheet.classList.remove("show");
+
+    });
+
+    document.getElementById("quickSave").addEventListener("click",()=>{
+
+        meloToast(
+            "🏦 Savings",
+            "Savings feature coming soon.",
+            "info"
+        );
+
+        sheet.classList.remove("show");
+
+    });
+
+    document.getElementById("quickGoal").addEventListener("click",()=>{
+
+        location.href="goals.html";
+
+    });
+
+    document.getElementById("quickTransfer").addEventListener("click",()=>{
+
+        meloToast(
+            "💳 Transfer",
+            "Transfer feature coming soon.",
+            "info"
+        );
+
+        sheet.classList.remove("show");
+
+    });
+
+}
+/* =====================================
    SHOW / HIDE BALANCE
 ===================================== */
 
-function setupBalanceToggle() {
+function setupBalanceToggle(){
 
-    const button =
-        document.getElementById("toggleBalance");
+    const button=document.getElementById("toggleBalance");
 
-    button.addEventListener("click", () => {
+    button.addEventListener("click",()=>{
 
-        balanceVisible = !balanceVisible;
+        balanceVisible=!balanceVisible;
 
-        const ids = [
+        const ids=[
             "balance",
             "income",
             "expenses",
@@ -359,35 +402,31 @@ function setupBalanceToggle() {
             "gbpBalance"
         ];
 
-        ids.forEach(id => {
+        ids.forEach(id=>{
 
-            const el =
-                document.getElementById(id);
+            const el=document.getElementById(id);
 
-            if (!el) return;
+            if(!el) return;
 
-            if (balanceVisible) {
+            if(balanceVisible){
 
-                if (el.dataset.value) {
+                if(el.dataset.value){
 
-                    el.textContent =
-                        el.dataset.value;
+                    el.textContent=el.dataset.value;
 
                 }
 
-            } else {
+            }else{
 
-                el.dataset.value =
-                    el.textContent;
+                el.dataset.value=el.textContent;
 
-                el.textContent =
-                    "••••••";
+                el.textContent="••••••";
 
             }
 
         });
 
-        button.textContent =
+        button.textContent=
             balanceVisible ? "👁️" : "🙈";
 
     });
@@ -399,27 +438,25 @@ function setupBalanceToggle() {
    WALLET SLIDER
 ===================================== */
 
-function setupWalletSlider() {
+function setupWalletSlider(){
 
-    const slider =
-        document.getElementById("walletSlider");
+    const slider=document.getElementById("walletSlider");
 
-    const dots =
-        document.querySelectorAll(".wallet-dots span");
+    const dots=document.querySelectorAll(".wallet-dots span");
 
-    slider.addEventListener("scroll", () => {
+    if(!slider) return;
 
-        const index =
-            Math.round(
-                slider.scrollLeft /
-                slider.clientWidth
-            );
+    slider.addEventListener("scroll",()=>{
 
-        dots.forEach(dot =>
+        const index=Math.round(
+            slider.scrollLeft/slider.clientWidth
+        );
+
+        dots.forEach(dot=>
             dot.classList.remove("active")
         );
 
-        if (dots[index]) {
+        if(dots[index]){
 
             dots[index].classList.add("active");
 
@@ -434,56 +471,50 @@ function setupWalletSlider() {
    RECENT TRANSACTIONS
 ===================================== */
 
-function loadTransactions() {
+function loadTransactions(){
 
-    const container =
-        document.getElementById("transactionList");
+    const container=document.getElementById("transactionList");
 
-    const transactions =
-        currentUser.transactions || [];
+    if(!container) return;
 
-    if (transactions.length === 0) {
+    const transactions=currentUser.transactions || [];
 
-        container.innerHTML = `
-        <p class="empty">
-        No transactions yet.
-        </p>
+    if(transactions.length===0){
+
+        container.innerHTML=`
+            <p class="empty">
+                No transactions yet.
+            </p>
         `;
 
         return;
 
     }
 
-    container.innerHTML = "";
+    container.innerHTML="";
 
     transactions
         .slice(-5)
         .reverse()
-        .forEach(item => {
+        .forEach(item=>{
 
-            const card =
-                document.createElement("div");
+            const card=document.createElement("div");
 
-            card.className =
-                "transaction-item";
+            card.className="transaction-item";
 
-            card.innerHTML = `
+            card.innerHTML=`
 
-            <div>
+                <div>
 
-                <strong>${item.title || "Transaction"}</strong>
+                    <strong>${item.title || "Transaction"}</strong>
 
-                <br>
+                    <br>
 
-                <small>${item.date || ""}</small>
+                    <small>${item.date || ""}</small>
 
-            </div>
+                </div>
 
-            <h3>
-
-            ${formatMoney(item.amount || 0)}
-
-            </h3>
+                <h3>${formatMoney(item.amount || 0)}</h3>
 
             `;
 
@@ -492,70 +523,37 @@ function loadTransactions() {
         });
 
 }
-document.getElementById("quickIncome").onclick = () => {
 
-    meloToast(
-        "💰 Income",
-        "Income feature coming soon.",
-        "info"
-    );
 
-};
-
-document.getElementById("quickExpense").onclick = () => {
-
-    meloToast(
-        "💸 Expense",
-        "Expense feature coming soon.",
-        "info"
-    );
-
-};
-
-document.getElementById("quickSave").onclick = () => {
-
-    meloToast(
-        "🏦 Savings",
-        "Savings feature coming soon.",
-        "info"
-    );
-
-};
-
-document.getElementById("quickGoal").onclick = () => {
-
-    location.href = "goals.html";
-
-};
 /* =====================================
    ANIMATE MONEY
 ===================================== */
 
-function animateMoney(id, amount) {
+function animateMoney(id,amount){
 
-    const element = document.getElementById(id);
+    const element=document.getElementById(id);
 
-    if (!element) return;
+    if(!element) return;
 
-    let start = 0;
+    let start=0;
 
-    const duration = 1200;
+    const duration=1000;
 
-    const increment = amount / (duration / 16);
+    const increment=amount/(duration/16);
 
-    const timer = setInterval(() => {
+    const timer=setInterval(()=>{
 
-        start += increment;
+        start+=increment;
 
-        if (start >= amount) {
+        if(start>=amount){
 
-            start = amount;
+            start=amount;
 
             clearInterval(timer);
 
         }
 
-        element.textContent = formatMoney(start);
+        element.textContent=formatMoney(start);
 
     },16);
 

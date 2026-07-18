@@ -1,8 +1,9 @@
 {
+  "id": "/MELO_SAVE/",
   "name": "MELOSAV",
   "short_name": "MELOSAV",
   "description": "Save Smarter. Manage Better. Your Money. Your Future.",
-  "start_url": "./index.html",
+  "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
@@ -28,7 +29,3 @@
     }
   ]
 }
-{
-  "id": "/MELO_SAVE/",
-  "start_url": "./",
-  "scope": "./",

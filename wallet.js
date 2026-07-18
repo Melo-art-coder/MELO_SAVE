@@ -1,8 +1,6 @@
 /* =====================================
-   MELOSAV WALLET V1
+   WALLET V2
 ===================================== */
-
-console.log("WALLET V1 LOADED");
 
 function updateForeignWallets(){
 
@@ -12,8 +10,7 @@ function updateForeignWallets(){
 
     if(!user) return;
 
-    const balance =
-        Number(user.balance || 0);
+    const balance = Number(user.balance || 0);
 
     document.getElementById("usdBalance").textContent =
         formatUSD(

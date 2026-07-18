@@ -63,8 +63,28 @@ function setupButtons(){
 
     // Edit Profile
 
-    document.getElementById("editProfileBtn")
-.addEventListener("click",editProfile);
+    const editModal=document.getElementById("editModal");
+
+document.getElementById("editProfileBtn")
+.addEventListener("click",()=>{
+
+    document.getElementById("editName").value=currentUser.name;
+
+    document.getElementById("editEmail").value=currentUser.email;
+
+    editModal.classList.add("show");
+
+});
+
+document.getElementById("cancelEdit")
+.addEventListener("click",()=>{
+
+    editModal.classList.remove("show");
+
+});
+
+document.getElementById("saveEdit")
+.addEventListener("click",saveProfile);
 
 
     // Change PIN
@@ -318,5 +338,80 @@ function editProfile(){
         location.reload();
 
     },700);
+
+}
+function saveProfile(){
+
+    const name=document.getElementById("editName").value.trim();
+
+    const email=document.getElementById("editEmail").value.trim();
+
+    if(name==="" || email===""){
+
+        meloToast(
+
+            "Invalid",
+
+            "Fill all fields.",
+
+            "error"
+
+        );
+
+        return;
+
+    }
+
+    const oldEmail=currentUser.email;
+
+    currentUser.name=name;
+
+    currentUser.email=email;
+
+    localStorage.setItem(
+
+        "meloCurrentUser",
+
+        JSON.stringify(currentUser)
+
+    );
+
+    let users=JSON.parse(
+
+        localStorage.getItem("meloUsers")
+
+    ) || [];
+
+    const index=users.findIndex(
+
+        user=>user.email===oldEmail
+
+    );
+
+    if(index!==-1){
+
+        users[index]=currentUser;
+
+    }
+
+    localStorage.setItem(
+
+        "meloUsers",
+
+        JSON.stringify(users)
+
+    );
+
+    editModal.classList.remove("show");
+
+    meloToast(
+
+        "Profile Updated 💜",
+
+        "Changes saved successfully.",
+
+        "success"
+
+    );
 
 }

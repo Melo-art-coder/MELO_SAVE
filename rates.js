@@ -1,44 +1,78 @@
 /* =====================================
-   MELOSAV EXCHANGE RATES V1
+   MELOSAV LIVE EXCHANGE RATES V2
 ===================================== */
 
-console.log("RATES V1 LOADED");
+console.log("LIVE RATES V2 LOADED");
 
-const ExchangeRates = {
+let ExchangeRates = {
 
-    NGN:1,
+    USD: 0,
 
-    USD:1530,
+    EUR: 0,
 
-    EUR:1760,
-
-    GBP:2040
+    GBP: 0
 
 };
 
+/* ==========================
+   GET LIVE RATES
+========================== */
+
+async function loadExchangeRates(){
+
+    try{
+
+        const response = await fetch(
+            "https://open.er-api.com/v6/latest/NGN"
+        );
+
+        const data = await response.json();
+
+        ExchangeRates.USD = data.rates.USD;
+        ExchangeRates.EUR = data.rates.EUR;
+        ExchangeRates.GBP = data.rates.GBP;
+
+        updateForeignWallets();
+
+        console.log("Exchange rates updated");
+
+    }catch(error){
+
+        console.error(error);
+
+        /* Offline fallback */
+
+        ExchangeRates.USD = 1/1530;
+        ExchangeRates.EUR = 1/1760;
+        ExchangeRates.GBP = 1/2040;
+
+        updateForeignWallets();
+
+    }
+
+}
 
 /* ==========================
-   NAIRA TO OTHERS
+   CONVERSIONS
 ========================== */
 
 function nairaToUSD(amount){
 
-    return amount / ExchangeRates.USD;
+    return amount * ExchangeRates.USD;
 
 }
 
 function nairaToEUR(amount){
 
-    return amount / ExchangeRates.EUR;
+    return amount * ExchangeRates.EUR;
 
 }
 
 function nairaToGBP(amount){
 
-    return amount / ExchangeRates.GBP;
+    return amount * ExchangeRates.GBP;
 
 }
-
 
 /* ==========================
    FORMATTERS
@@ -46,36 +80,18 @@ function nairaToGBP(amount){
 
 function formatUSD(amount){
 
-    return "$" + Number(amount).toLocaleString(
-        "en-US",
-        {
-            minimumFractionDigits:2,
-            maximumFractionDigits:2
-        }
-    );
+    return "$" + amount.toFixed(2);
 
 }
 
 function formatEUR(amount){
 
-    return "€" + Number(amount).toLocaleString(
-        "de-DE",
-        {
-            minimumFractionDigits:2,
-            maximumFractionDigits:2
-        }
-    );
+    return "€" + amount.toFixed(2);
 
 }
 
 function formatGBP(amount){
 
-    return "£" + Number(amount).toLocaleString(
-        "en-GB",
-        {
-            minimumFractionDigits:2,
-            maximumFractionDigits:2
-        }
-    );
+    return "£" + amount.toFixed(2);
 
 }

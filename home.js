@@ -251,7 +251,9 @@ function setupButtons(){
 
     document.getElementById("goalBtn").addEventListener("click",()=>{
 
-        location.href="goals.html";
+        sheet.classList.remove("show");
+
+location.href="goals.html";
 
     });
 
@@ -345,11 +347,7 @@ function setupQuickSheet(){
 
     document.getElementById("quickTransfer").addEventListener("click",()=>{
 
-        meloToast(
-            "💳 Transfer",
-            "Transfer feature coming soon.",
-            "info"
-        );
+        location.href="transfer.html";
 
         sheet.classList.remove("show");
 

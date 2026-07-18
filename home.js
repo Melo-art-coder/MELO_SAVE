@@ -284,14 +284,21 @@ function setupButtons() {
         });
     }
 
-    document.getElementById("fab").addEventListener("click", () => {
-        meloToast(
-            "➕ Quick Add",
-            "Quick Add menu coming soon.",
-            "success"
-        );
-    });
+    const fab = document.getElementById("fab");
 
+const fabMenu = document.getElementById("fabMenu");
+
+let fabOpen = false;
+
+fab.addEventListener("click", () => {
+
+    fabOpen = !fabOpen;
+
+    fabMenu.classList.toggle("show");
+
+    fab.textContent = fabOpen ? "✕" : "+";
+
+});
     setupBalanceToggle();
 
     setupWalletSlider();

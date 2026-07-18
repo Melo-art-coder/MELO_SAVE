@@ -1,174 +1,170 @@
 /* =====================================
-   MELOSAV NOTIFICATIONS V5
+   MELOSAV NOTIFICATIONS PAGE V1
 ===================================== */
 
-console.log("NOTIFICATIONS V5 LOADED");
+console.log("NOTIFICATIONS PAGE LOADED");
 
-const NOTIFICATION_KEY = "meloNotifications";
+document.addEventListener("DOMContentLoaded",()=>{
 
-/* ==========================
-   GET NOTIFICATIONS
-========================== */
+    if(typeof loadTheme==="function"){
 
-function getNotifications(){
+        loadTheme();
 
-    return JSON.parse(
-        localStorage.getItem(NOTIFICATION_KEY)
-    ) || [];
+    }
 
-}
+    loadNotifications();
 
+    document.getElementById("markAllBtn")
+    .addEventListener("click",markAll);
 
-/* ==========================
-   SAVE NOTIFICATIONS
-========================== */
+    document.getElementById("clearBtn")
+    .addEventListener("click",clearAll);
 
-function saveNotifications(list){
-
-    localStorage.setItem(
-        NOTIFICATION_KEY,
-        JSON.stringify(list)
-    );
-
-}
+});
 
 
-/* ==========================
-   ADD NOTIFICATION
-========================== */
+/* =====================================
+   LOAD NOTIFICATIONS
+===================================== */
 
-function addNotification(title,message,type="info"){
+function loadNotifications(){
 
-    const notifications =
-        getNotifications();
+    const container=
+    document.getElementById("notificationList");
 
-    notifications.unshift({
+    const notifications=
+    getNotifications();
 
-        id:Date.now(),
+    if(notifications.length===0){
 
-        title,
+        container.innerHTML=`
 
-        message,
+        <div class="empty">
 
-        type,
+            <h2>🔔</h2>
 
-        read:false,
+            <p>No notifications yet.</p>
 
-        time:new Date().toLocaleString()
+        </div>
 
-    });
+        `;
 
-    saveNotifications(notifications);
+        return;
 
-}
+    }
 
-
-/* ==========================
-   MARK AS READ
-========================== */
-
-function markNotificationRead(id){
-
-    const notifications =
-        getNotifications();
+    container.innerHTML="";
 
     notifications.forEach(notification=>{
 
-        if(notification.id===id){
+        const card=document.createElement("div");
 
-            notification.read=true;
+        card.className=
+        notification.read
+        ? "notification-card"
+        : "notification-card unread";
 
-        }
+        card.innerHTML=`
+
+            <h3>${notification.title}</h3>
+
+            <p>${notification.message}</p>
+
+            <small>${notification.time}</small>
+
+            <button onclick="deleteOne(${notification.id})">
+
+                Delete
+
+            </button>
+
+        `;
+
+        card.onclick=()=>{
+
+            markNotificationRead(notification.id);
+
+            loadNotifications();
+
+        };
+
+        container.appendChild(card);
 
     });
 
-    saveNotifications(notifications);
-
 }
 
 
-/* ==========================
-   MARK ALL AS READ
-========================== */
+/* =====================================
+   DELETE ONE
+===================================== */
 
-function markAllNotificationsRead(){
+function deleteOne(id){
 
-    const notifications =
-        getNotifications();
+    deleteNotification(id);
 
-    notifications.forEach(notification=>{
+    loadNotifications();
 
-        notification.read=true;
+    meloToast(
 
-    });
+        "Deleted",
 
-    saveNotifications(notifications);
+        "Notification removed.",
 
-}
-
-
-/* ==========================
-   DELETE NOTIFICATION
-========================== */
-
-function deleteNotification(id){
-
-    const notifications =
-        getNotifications().filter(
-
-            notification=>notification.id!==id
-
-        );
-
-    saveNotifications(notifications);
-
-}
-
-
-/* ==========================
-   CLEAR ALL
-========================== */
-
-function clearNotifications(){
-
-    localStorage.removeItem(
-        NOTIFICATION_KEY
-    );
-
-}
-
-
-/* ==========================
-   UNREAD COUNT
-========================== */
-
-function getUnreadCount(){
-
-    return getNotifications().filter(
-
-        notification=>!notification.read
-
-    ).length;
-
-}
-
-
-/* ==========================
-   SAMPLE NOTIFICATIONS
-========================== */
-
-if(getNotifications().length===0){
-
-    addNotification(
-        "👋 Welcome",
-        "Welcome to MELOSAV! Start your savings journey today.",
-        "success"
-    );
-
-    addNotification(
-        "💜 Melo AI",
-        "Remember: Every naira saved today helps your future.",
         "info"
+
+    );
+
+}
+
+
+/* =====================================
+   MARK ALL
+===================================== */
+
+function markAll(){
+
+    markAllNotificationsRead();
+
+    loadNotifications();
+
+    meloToast(
+
+        "Done",
+
+        "All notifications marked as read.",
+
+        "success"
+
+    );
+
+}
+
+
+/* =====================================
+   CLEAR ALL
+===================================== */
+
+function clearAll(){
+
+    if(!confirm(
+
+        "Delete all notifications?"
+
+    )) return;
+
+    clearNotifications();
+
+    loadNotifications();
+
+    meloToast(
+
+        "Cleared",
+
+        "All notifications removed.",
+
+        "success"
+
     );
 
 }

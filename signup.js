@@ -6,7 +6,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const signupBtn = document.getElementById("signupBtn");
 
-    signupBtn.addEventListener("click", createAccount);
+    if (signupBtn) {
+        signupBtn.addEventListener("click", createAccount);
+    }
 
 });
 
@@ -24,6 +26,7 @@ function createAccount() {
 
     const agreed = document.getElementById("terms").checked;
 
+
     // ==========================
     // Validation
     // ==========================
@@ -39,6 +42,7 @@ function createAccount() {
         return;
     }
 
+
     if (pin.length < 4 || pin.length > 6) {
 
         meloToast(
@@ -49,6 +53,7 @@ function createAccount() {
 
         return;
     }
+
 
     if (pin !== confirmPin) {
 
@@ -61,6 +66,7 @@ function createAccount() {
         return;
     }
 
+
     if (!agreed) {
 
         meloToast(
@@ -72,13 +78,19 @@ function createAccount() {
         return;
     }
 
+
     // ==========================
     // Check Existing Users
     // ==========================
 
-    let users = JSON.parse(localStorage.getItem("meloUsers")) || [];
+    let users = JSON.parse(
+        localStorage.getItem("meloUsers")
+    ) || [];
 
-    const exists = users.find(user => user.email === email);
+    const exists = users.find(
+        user => user.email === email
+    );
+
 
     if (exists) {
 
@@ -91,6 +103,7 @@ function createAccount() {
         return;
     }
 
+
     // ==========================
     // Create User
     // ==========================
@@ -99,11 +112,11 @@ function createAccount() {
 
         id: Date.now(),
 
-        name,
+        name: name,
 
-        email,
+        email: email,
 
-        pin,
+        pin: pin,
 
         data: {
 
@@ -131,6 +144,11 @@ function createAccount() {
 
     };
 
+
+    // ==========================
+    // Save User
+    // ==========================
+
     users.push(newUser);
 
     localStorage.setItem(
@@ -143,13 +161,27 @@ function createAccount() {
         JSON.stringify(newUser)
     );
 
-    //Default Theme
+
+    // ==========================
+    // Default Theme
+    // ==========================
+
     if (!localStorage.getItem("meloTheme")) {
-        localStorage.setItem("meloTheme", "purple-light");
+
+        localStorage.setItem(
+            "meloTheme",
+            "purple-light"
+        );
+
     }
+
     if (typeof loadTheme === "function") {
+
         loadTheme();
+
     }
+
+
     // ==========================
     // Welcome Toast
     // ==========================
@@ -160,6 +192,7 @@ function createAccount() {
         "success"
     );
 
+
     // ==========================
     // Melo AI Voice
     // ==========================
@@ -168,9 +201,10 @@ function createAccount() {
 
         speechSynthesis.cancel();
 
-        const speech = new SpeechSynthesisUtterance(
-            `Welcome to MELOSAV, ${name}. I'm Melo AI. I'll help you save smarter and manage better.`
-        );
+        const speech =
+            new SpeechSynthesisUtterance(
+                `Welcome to MELOSAV, ${name}. I'm Melo AI. I'll help you save smarter and manage better.`
+            );
 
         speech.rate = 1;
         speech.pitch = 1;
@@ -179,6 +213,7 @@ function createAccount() {
         speechSynthesis.speak(speech);
 
     }
+
 
     // ==========================
     // Redirect
@@ -191,25 +226,3 @@ function createAccount() {
     }, 4500);
 
 }
-// ==========================
-// Theme Switcher
-// ==========================
-
-document.querySelectorAll('input[name="mode"]').forEach((radio) => {
-    radio.addEventListener("change", () => {
-        if (radio.checked) {
-            const selectedTheme =
-                radio.value === "dark"
-                    ? "purple-dark"
-                    : "purple-light";
-
-            localStorage.setItem("meloTheme", selectedTheme);
-
-            if (typeof applyTheme === "function") {
-                applyTheme(selectedTheme);
-            } else {
-                document.body.className = `theme-${selectedTheme}`;
-            }
-        }
-    });
-});

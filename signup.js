@@ -24,8 +24,6 @@ function createAccount() {
 
     const agreed = document.getElementById("terms").checked;
 
-    const mode = document.querySelector('input[name="mode"]:checked').value;
-
     // ==========================
     // Validation
     // ==========================
@@ -145,32 +143,13 @@ function createAccount() {
         JSON.stringify(newUser)
     );
 
-    // ==========================
-    // Save Theme
-    // ==========================
-
-    if (mode === "dark") {
-
-        localStorage.setItem(
-            "meloTheme",
-            "theme-purple-dark"
-        );
-
-    } else {
-
-        localStorage.setItem(
-            "meloTheme",
-            "theme-purple-light"
-        );
-
+    //Default Theme
+    if (!localStorage.getItem("meloTheme")) {
+        localStorage.setItem("meloTheme", "purple-light");
     }
-
     if (typeof loadTheme === "function") {
-
         loadTheme();
-
     }
-
     // ==========================
     // Welcome Toast
     // ==========================
@@ -212,3 +191,25 @@ function createAccount() {
     }, 4500);
 
 }
+// ==========================
+// Theme Switcher
+// ==========================
+
+document.querySelectorAll('input[name="mode"]').forEach((radio) => {
+    radio.addEventListener("change", () => {
+        if (radio.checked) {
+            const selectedTheme =
+                radio.value === "dark"
+                    ? "purple-dark"
+                    : "purple-light";
+
+            localStorage.setItem("meloTheme", selectedTheme);
+
+            if (typeof applyTheme === "function") {
+                applyTheme(selectedTheme);
+            } else {
+                document.body.className = `theme-${selectedTheme}`;
+            }
+        }
+    });
+});

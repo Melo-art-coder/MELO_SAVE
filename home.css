@@ -155,25 +155,26 @@ transform:translateY(-3px);
 
 
 /* ===============================
-   NORMAL PHONES
+   IPHONE 12 PRO / SMALL PHONES
    =============================== */
 
-@media (min-width:381px) and (max-width:600px){
+@media (max-width:400px) {
 
-    .wallet-card{
-        padding:24px 18px;
+    .wallet-stats {
+        gap:7px;
     }
 
-    .wallet-stats{
-        gap:10px;
+    .wallet-stats div {
+        padding:12px 6px;
+        border-radius:15px;
     }
 
-    .wallet-stats div{
-        padding:13px 8px;
+    .wallet-stats small {
+        font-size:10px;
     }
 
-    .wallet-stats small{
-        font-size:11px;
+    .wallet-stats h3 {
+        font-size:13px;
     }
 }
 

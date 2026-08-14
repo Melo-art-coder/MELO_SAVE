@@ -12,24 +12,30 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
+
+// =====================================
+// CREATE ACCOUNT
+// =====================================
+
 function createAccount() {
 
-    const name = document.getElementById("name").value.trim();
-
-    const email = document.getElementById("email").value
-        .trim()
-        .toLowerCase();
-
-    const pin = document.getElementById("pin").value.trim();
-
-    const confirmPin = document.getElementById("confirmPin").value.trim();
-
-    const agreed = document.getElementById("terms").checked;
+    const nameInput = document.getElementById("name");
+    const emailInput = document.getElementById("email");
+    const pinInput = document.getElementById("pin");
+    const confirmPinInput = document.getElementById("confirmPin");
+    const termsInput = document.getElementById("terms");
 
 
-    // ==========================
-    // Validation
-    // ==========================
+    const name = nameInput.value.trim();
+    const email = emailInput.value.trim().toLowerCase();
+    const pin = pinInput.value.trim();
+    const confirmPin = confirmPinInput.value.trim();
+    const agreed = termsInput.checked;
+
+
+    // =====================================
+    // VALIDATION
+    // =====================================
 
     if (!name || !email || !pin || !confirmPin) {
 
@@ -48,6 +54,18 @@ function createAccount() {
         meloToast(
             "🔐 Invalid PIN",
             "Your PIN must be between 4 and 6 digits.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    if (!/^\d+$/.test(pin)) {
+
+        meloToast(
+            "🔐 Invalid PIN",
+            "Your PIN must contain numbers only.",
             "error"
         );
 
@@ -79,13 +97,28 @@ function createAccount() {
     }
 
 
-    // ==========================
-    // Check Existing Users
-    // ==========================
+    // =====================================
+    // GET EXISTING USERS
+    // =====================================
 
-    let users = JSON.parse(
-        localStorage.getItem("meloUsers")
-    ) || [];
+    let users = [];
+
+    try {
+
+        users = JSON.parse(
+            localStorage.getItem("meloUsers")
+        ) || [];
+
+    } catch (error) {
+
+        users = [];
+
+    }
+
+
+    // =====================================
+    // CHECK EXISTING EMAIL
+    // =====================================
 
     const exists = users.find(
         user => user.email === email
@@ -95,7 +128,7 @@ function createAccount() {
     if (exists) {
 
         meloToast(
-            "💜 Welcome Back!",
+            "💜 Account Already Exists",
             "This email is already registered. Try logging in or use another email.",
             "warning"
         );
@@ -104,9 +137,9 @@ function createAccount() {
     }
 
 
-    // ==========================
-    // Create User
-    // ==========================
+    // =====================================
+    // CREATE USER
+    // =====================================
 
     const newUser = {
 
@@ -145,9 +178,9 @@ function createAccount() {
     };
 
 
-    // ==========================
-    // Save User
-    // ==========================
+    // =====================================
+    // SAVE USER
+    // =====================================
 
     users.push(newUser);
 
@@ -162,9 +195,9 @@ function createAccount() {
     );
 
 
-    // ==========================
-    // Default Theme
-    // ==========================
+    // =====================================
+    // DEFAULT THEME
+    // =====================================
 
     if (!localStorage.getItem("meloTheme")) {
 
@@ -175,6 +208,7 @@ function createAccount() {
 
     }
 
+
     if (typeof loadTheme === "function") {
 
         loadTheme();
@@ -182,9 +216,9 @@ function createAccount() {
     }
 
 
-    // ==========================
-    // Welcome Toast
-    // ==========================
+    // =====================================
+    // WELCOME MESSAGE
+    // =====================================
 
     meloToast(
         "🎉 Welcome, " + name.split(" ")[0] + "!",
@@ -193,18 +227,17 @@ function createAccount() {
     );
 
 
-    // ==========================
-    // Melo AI Voice
-    // ==========================
+    // =====================================
+    // MELO AI VOICE
+    // =====================================
 
     if ("speechSynthesis" in window) {
 
         speechSynthesis.cancel();
 
-        const speech =
-            new SpeechSynthesisUtterance(
-                `Welcome to MELOSAV, ${name}. I'm Melo AI. I'll help you save smarter and manage better.`
-            );
+        const speech = new SpeechSynthesisUtterance(
+            `Welcome to MELOSAV, ${name}. I'm Melo AI. I'll help you save smarter and manage better.`
+        );
 
         speech.rate = 1;
         speech.pitch = 1;
@@ -215,9 +248,9 @@ function createAccount() {
     }
 
 
-    // ==========================
-    // Redirect
-    // ==========================
+    // =====================================
+    // GO TO HOME
+    // =====================================
 
     setTimeout(() => {
 

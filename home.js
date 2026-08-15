@@ -500,33 +500,57 @@ function loadTransactions(){
    ANIMATE MONEY
 ===================================== */
 
-function animateMoney(id,amount){
+function animateMoney(id, amount){
 
-    const element=document.getElementById(id);
+    const element = document.getElementById(id);
 
     if(!element) return;
 
-    let start=0;
+    const realValue = formatMoney(amount);
 
-    const duration=1000;
+    // Always remember the actual amount
+    element.dataset.realValue = realValue;
 
-    const increment=amount/(duration/16);
+    // If balance is hidden, don't display the amount
+    if(!balanceVisible){
 
-    const timer=setInterval(()=>{
+        element.textContent = "••••••";
 
-        start+=increment;
+        return;
 
-        if(start>=amount){
+    }
 
-            start=amount;
+    let start = 0;
+
+    const duration = 1000;
+    const increment = amount / (duration / 16);
+
+    const timer = setInterval(() => {
+
+        // Stop animation if user hides balance
+        if(!balanceVisible){
+
+            clearInterval(timer);
+
+            element.textContent = "••••••";
+
+            return;
+
+        }
+
+        start += increment;
+
+        if(start >= amount){
+
+            start = amount;
 
             clearInterval(timer);
 
         }
 
-        element.textContent=formatMoney(start);
+        element.textContent = formatMoney(start);
 
-    },16);
+    }, 16);
 
 }
 /* =====================================

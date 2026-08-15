@@ -347,21 +347,24 @@ function setupQuickSheet(){
 });
 
 }
+
+
 /* =====================================
    SHOW / HIDE BALANCE
 ===================================== */
 
 function setupBalanceToggle(){
 
-    const button=document.getElementById("toggleBalance");
+    const button = document.getElementById("toggleBalance");
 
-    button.addEventListener("click",()=>{
+    if(!button) return;
 
-        balanceVisible=!balanceVisible;
+    button.addEventListener("click", () => {
 
-        const ids=[
+        balanceVisible = !balanceVisible;
+
+        const ids = [
             "balance",
-            "income",
             "expenses",
             "savings",
             "usdBalance",
@@ -369,31 +372,32 @@ function setupBalanceToggle(){
             "gbpBalance"
         ];
 
-        ids.forEach(id=>{
+        ids.forEach(id => {
 
-            const el=document.getElementById(id);
+            const el = document.getElementById(id);
 
             if(!el) return;
 
+            // Save the real value once
+            if(!el.dataset.realValue){
+
+                el.dataset.realValue = el.textContent;
+
+            }
+
             if(balanceVisible){
 
-                if(el.dataset.value){
-
-                    el.textContent=el.dataset.value;
-
-                }
+                el.textContent = el.dataset.realValue;
 
             }else{
 
-                el.dataset.value=el.textContent;
-
-                el.textContent="••••••";
+                el.textContent = "••••••";
 
             }
 
         });
 
-        button.textContent=
+        button.textContent =
             balanceVisible ? "👁️" : "🙈";
 
     });

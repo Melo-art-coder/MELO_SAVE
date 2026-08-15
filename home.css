@@ -75,7 +75,7 @@ body {
 }
 
 /* ======================================
-   WALLET SECTION
+   WALLET SECTION + SWIPE
 ====================================== */
 
 .balance-card {
@@ -84,14 +84,35 @@ body {
 }
 
 .wallet-slider {
+    display: flex;
     width: 100%;
-    overflow: hidden;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+
+    -webkit-overflow-scrolling: touch;
+
+    scrollbar-width: none;
+
     border-radius: 28px;
 }
 
+.wallet-slider::-webkit-scrollbar {
+    display: none;
+}
+
+/* EACH WALLET = ONE FULL CARD */
+
 .wallet-card {
     position: relative;
+
+    flex: 0 0 100%;
     width: 100%;
+
+    min-width: 100%;
     min-height: 235px;
 
     padding: 24px;
@@ -102,17 +123,51 @@ body {
 
     color: white;
 
-    background: linear-gradient(
-        135deg,
-        #7B2CFF,
-        #A855F7
-    );
+    scroll-snap-align: start;
+
+    background:
+        linear-gradient(
+            135deg,
+            #7B2CFF,
+            #A855F7
+        );
 
     box-shadow:
-        0 15px 35px rgba(123, 44, 255, .30);
+        0 15px 35px
+        rgba(123, 44, 255, .30);
 
     background-size: 250% 250%;
+
     animation: walletFlow 8s ease infinite;
+}
+
+/* DIFFERENT WALLET COLOURS */
+
+.wallet-card.dollar {
+    background:
+        linear-gradient(
+            135deg,
+            #2563EB,
+            #38BDF8
+        );
+}
+
+.wallet-card.euro {
+    background:
+        linear-gradient(
+            135deg,
+            #7C3AED,
+            #4F46E5
+        );
+}
+
+.wallet-card.pound {
+    background:
+        linear-gradient(
+            135deg,
+            #059669,
+            #10B981
+        );
 }
 
 @keyframes walletFlow {
@@ -130,7 +185,7 @@ body {
     }
 }
 
-/* Decorative circles */
+/* DECORATIVE CIRCLES */
 
 .wallet-card::before {
     content: "";
@@ -145,7 +200,8 @@ body {
 
     border-radius: 50%;
 
-    background: rgba(255, 255, 255, .10);
+    background:
+        rgba(255,255,255,.10);
 }
 
 .wallet-card::after {
@@ -161,7 +217,282 @@ body {
 
     border-radius: 50%;
 
-    background: rgba(255, 255, 255, .07);
+    background:
+        rgba(255,255,255,.07);
+}
+
+/* ======================================
+   WALLET TOP
+====================================== */
+
+.wallet-top {
+    position: relative;
+
+    z-index: 2;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: flex-start;
+
+    margin-bottom: 22px;
+}
+
+.wallet-title {
+    font-size: 14px;
+
+    opacity: .85;
+
+    margin-bottom: 6px;
+}
+
+.wallet-card h1 {
+    position: relative;
+
+    z-index: 2;
+
+    font-size:
+        clamp(30px, 7vw, 42px);
+
+    font-weight: 700;
+
+    line-height: 1.1;
+}
+
+#toggleBalance {
+    position: relative;
+
+    z-index: 5;
+
+    width: 42px;
+    height: 42px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background:
+        rgba(255,255,255,.18);
+
+    color: white;
+
+    font-size: 18px;
+
+    cursor: pointer;
+
+    backdrop-filter: blur(10px);
+}
+
+/* ======================================
+   EXPENSE + SAVINGS
+====================================== */
+
+.wallet-stats {
+    position: relative;
+
+    z-index: 3;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0,1fr));
+
+    gap: 12px;
+
+    width: 100%;
+
+    margin-bottom: 20px;
+}
+
+.wallet-stats div {
+    min-width: 0;
+
+    padding: 13px 10px;
+
+    border-radius: 18px;
+
+    background:
+        rgba(255,255,255,.14);
+
+    backdrop-filter: blur(10px);
+
+    text-align: center;
+}
+
+.wallet-stats small {
+    display: block;
+
+    font-size: 12px;
+
+    margin-bottom: 5px;
+
+    opacity: .85;
+}
+
+.wallet-stats h3 {
+    font-size:
+        clamp(14px,4vw,18px);
+
+    line-height: 1.2;
+
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+}
+
+/* ======================================
+   BUDGET
+====================================== */
+
+.budget-box {
+    position: relative;
+
+    z-index: 3;
+
+    margin-top: 5px;
+}
+
+.budget-top {
+    display: flex;
+
+    justify-content: space-between;
+
+    margin-bottom: 8px;
+
+    font-size: 13px;
+}
+
+.budget-bar {
+    width: 100%;
+
+    height: 8px;
+
+    background:
+        rgba(255,255,255,.25);
+
+    border-radius: 50px;
+
+    overflow: hidden;
+}
+
+.budget-fill {
+    height: 100%;
+
+    width: 0%;
+
+    background: white;
+
+    border-radius: 50px;
+
+    transition: .6s;
+}
+
+/* ======================================
+   WALLET DOTS
+====================================== */
+
+.wallet-dots {
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    gap: 7px;
+
+    margin-top: 12px;
+}
+
+.wallet-dots span {
+    width: 8px;
+    height: 8px;
+
+    border-radius: 50%;
+
+    background: #D1D1D1;
+
+    transition: .3s;
+}
+
+.wallet-dots span.active {
+    width: 24px;
+
+    border-radius: 20px;
+
+    background: var(--primary);
+}
+
+/* ======================================
+   MOBILE WALLET
+====================================== */
+
+@media (max-width: 600px) {
+
+    .wallet-card {
+        min-height: 220px;
+
+        padding: 20px 16px;
+
+        border-radius: 24px;
+    }
+
+    .wallet-card h1 {
+        font-size: 29px;
+    }
+
+    .wallet-stats {
+        gap: 8px;
+    }
+
+    .wallet-stats div {
+        padding: 12px 7px;
+
+        border-radius: 16px;
+    }
+
+    .wallet-stats small {
+        font-size: 10px;
+    }
+
+    .wallet-stats h3 {
+        font-size: 13px;
+    }
+}
+
+/* ======================================
+   VERY SMALL PHONES
+====================================== */
+
+@media (max-width: 380px) {
+
+    .wallet-card {
+        min-height: 215px;
+
+        padding: 18px 14px;
+    }
+
+    .wallet-card h1 {
+        font-size: 27px;
+    }
+
+    .wallet-stats {
+        gap: 7px;
+    }
+
+    .wallet-stats div {
+        padding: 11px 5px;
+    }
+
+    .wallet-stats small {
+        font-size: 9px;
+    }
+
+    .wallet-stats h3 {
+        font-size: 12px;
+    }
 }
 
 /* ======================================
@@ -541,16 +872,4 @@ body {
 .achievement-list {
     display: flex;
 
-    justify-content: space-between;
-
-    gap: 15px;
-}
-
-.achievement {
-    flex: 1;
-
-    background: var(--background);
-
-    border-radius: 18px;
-
-    padding:
+    justify-conten

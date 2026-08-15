@@ -934,4 +934,429 @@ body {
         0 15px 35px
         rgba(123, 44, 255, .40);
 
-    t
+    transition: .3s;
+
+    z-index: 100;
+}
+
+.fab:hover {
+    transform:
+        rotate(90deg)
+        scale(1.05);
+}
+
+/* ======================================
+   FAB MENU
+====================================== */
+
+.fab-menu {
+    position: fixed;
+
+    right: 25px;
+
+    bottom: 170px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 14px;
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    transform: translateY(20px);
+
+    transition: .35s ease;
+
+    z-index: 99;
+}
+
+.fab-menu.show {
+    opacity: 1;
+
+    pointer-events: auto;
+
+    transform: translateY(0);
+}
+
+.fab-menu button {
+    border: none;
+
+    background: white;
+
+    color: #7B2CFF;
+
+    padding: 14px 18px;
+
+    border-radius: 18px;
+
+    font-weight: 600;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 10px 25px rgba(0, 0, 0, .15);
+
+    transition: .3s;
+}
+
+.fab-menu button:hover {
+    transform: translateX(-6px);
+}
+
+.fab-menu span {
+    font-size: 14px;
+}
+
+
+/* =====================================
+   HANDLE
+===================================== */
+
+.sheet-handle {
+    width: 50px;
+    height: 5px;
+
+    background: var(--muted);
+
+    opacity: .45;
+
+    border-radius: 50px;
+
+    margin: 0 auto 20px;
+}
+
+
+/* =====================================
+   TITLE
+===================================== */
+
+.sheet-content h2 {
+    text-align: center;
+
+    font-size: 22px;
+
+    margin-bottom: 20px;
+
+    color: var(--text);
+}
+
+
+/* =====================================
+   QUICK ADD BUTTONS
+===================================== */
+
+.sheet-content button {
+    width: 100%;
+
+    min-height: 58px;
+
+    border: none;
+
+    border-radius: 18px;
+
+    background: var(--background);
+
+    color: var(--text);
+
+    padding: 15px 18px;
+
+    margin-bottom: 11px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        transform .2s ease,
+        background .2s ease,
+        box-shadow .2s ease;
+
+    box-shadow:
+        0 5px 15px rgba(0,0,0,.06);
+}
+
+
+/* ICON */
+
+.sheet-content button:first-of-type {
+    margin-top: 4px;
+}
+
+
+/* HOVER */
+
+.sheet-content button:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 20px rgba(0,0,0,.10);
+}
+
+
+/* PRESS */
+
+.sheet-content button:active {
+    transform: scale(.98);
+}
+
+
+/* =====================================
+   CLOSE BUTTON
+===================================== */
+
+.sheet-content .close-sheet {
+    justify-content: center;
+
+    background: #EF4444 !important;
+
+    color: white !important;
+
+    margin-top: 8px;
+
+    margin-bottom: 0;
+}
+
+
+/* =====================================
+   SMALL PHONES
+===================================== */
+
+@media (max-width: 380px) {
+
+    .sheet-content {
+        padding:
+            20px 16px 24px;
+
+        border-radius:
+            24px 24px 0 0;
+    }
+
+    .sheet-content h2 {
+        font-size: 20px;
+
+        margin-bottom: 16px;
+    }
+
+    .sheet-content button {
+        min-height: 54px;
+
+        padding: 14px 16px;
+
+        font-size: 14px;
+
+        border-radius: 16px;
+    }
+}
+
+
+/* =====================================
+   TABLETS / DESKTOP
+===================================== */
+
+@media (min-width: 601px) {
+
+    .sheet-content {
+        width: 500px;
+    }
+}
+
+/* =====================================
+   PREMIUM BOTTOM NAVIGATION
+===================================== */
+
+.bottom-nav{
+    position:fixed;
+    left:16px;
+    right:16px;
+    bottom:16px;
+
+    height:70px;
+    padding:8px;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-around;
+
+    background:rgba(255,255,255,.82);
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+
+    border:1px solid rgba(255,255,255,.7);
+    border-radius:24px;
+
+    box-shadow:
+        0 12px 35px rgba(0,0,0,.12),
+        0 4px 12px rgba(123,44,255,.08);
+
+    z-index:1000;
+}
+
+/* Each navigation item */
+
+.bottom-nav a{
+    position:relative;
+
+    width:72px;
+    height:54px;
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+
+    gap:3px;
+
+    text-decoration:none;
+
+    font-size:23px;
+
+    color:var(--muted);
+
+    border-radius:18px;
+
+    opacity:1;
+
+    transition:
+        transform .25s ease,
+        background .25s ease,
+        color .25s ease,
+        box-shadow .25s ease;
+}
+
+/* Active navigation */
+
+.bottom-nav a.active{
+    color:#ffffff;
+
+    background:linear-gradient(
+        135deg,
+        #7B2CFF,
+        #A855F7
+    );
+
+    transform:translateY(-6px);
+
+    box-shadow:
+        0 8px 20px rgba(123,44,255,.35);
+
+    opacity:1;
+}
+
+/* Active little glow */
+
+.bottom-nav a.active::after{
+    content:"";
+
+    position:absolute;
+
+    width:5px;
+    height:5px;
+
+    bottom:5px;
+
+    border-radius:50%;
+
+    background:white;
+
+    box-shadow:0 0 8px rgba(255,255,255,.9);
+}
+
+/* Hover */
+
+.bottom-nav a:hover{
+    transform:translateY(-3px);
+
+    color:var(--primary);
+}
+
+/* Active hover */
+
+.bottom-nav a.active:hover{
+    transform:translateY(-7px);
+    color:white;
+}
+
+
+/* =====================================
+   DARK MODE
+===================================== */
+
+body[class*="-dark"] .bottom-nav{
+
+    background:rgba(20,20,30,.82);
+
+    border-color:rgba(255,255,255,.08);
+
+    box-shadow:
+        0 12px 35px rgba(0,0,0,.35),
+        0 4px 15px rgba(123,44,255,.15);
+}
+
+body[class*="-dark"] .bottom-nav a{
+    color:#aaa;
+}
+
+body[class*="-dark"] .bottom-nav a.active{
+    color:white;
+}
+
+
+/* =====================================
+   SMALL PHONES
+===================================== */
+
+@media(max-width:380px){
+
+    .bottom-nav{
+        left:12px;
+        right:12px;
+        bottom:12px;
+
+        height:64px;
+
+        border-radius:21px;
+    }
+
+    .bottom-nav a{
+        width:62px;
+        height:48px;
+
+        font-size:21px;
+
+        border-radius:16px;
+    }
+
+}
+.nav-icon{
+    font-size:23px;
+    line-height:1;
+}
+
+.nav-label{
+    font-size:9px;
+    font-weight:600;
+    line-height:1;
+}
+
+.bottom-nav a.active .nav-label{
+    color:white;
+}

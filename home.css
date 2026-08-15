@@ -1180,121 +1180,317 @@ body {
 }
 
 /* =====================================
-   PREMIUM BOTTOM NAVIGATION
+   MELOSAV PREMIUM BOTTOM NAV
 ===================================== */
 
-.bottom-nav{
-    position:fixed;
-    left:16px;
-    right:16px;
-    bottom:16px;
+.bottom-nav {
+    position: fixed;
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
 
-    height:70px;
-    padding:8px;
+    height: 72px;
+    padding: 7px;
 
-    display:flex;
-    align-items:center;
-    justify-content:space-around;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
 
-    background:rgba(255,255,255,.82);
-    backdrop-filter:blur(20px);
-    -webkit-backdrop-filter:blur(20px);
+    background: rgba(255, 255, 255, 0.88);
 
-    border:1px solid rgba(255,255,255,.7);
-    border-radius:24px;
+    backdrop-filter: blur(22px);
+    -webkit-backdrop-filter: blur(22px);
+
+    border: 1px solid rgba(255, 255, 255, 0.8);
+
+    border-radius: 24px;
 
     box-shadow:
-        0 12px 35px rgba(0,0,0,.12),
-        0 4px 12px rgba(123,44,255,.08);
+        0 15px 40px rgba(0, 0, 0, 0.12),
+        0 5px 15px rgba(123, 44, 255, 0.08);
 
-    z-index:1000;
+    z-index: 1000;
 }
 
-/* Each navigation item */
 
-.bottom-nav a{
-    position:relative;
+/* =====================================
+   NAV ITEMS
+===================================== */
 
-    width:72px;
-    height:54px;
+.bottom-nav a {
 
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
+    position: relative;
 
-    gap:3px;
+    width: 78px;
+    height: 58px;
 
-    text-decoration:none;
+    display: flex;
+    flex-direction: column;
 
-    font-size:23px;
+    align-items: center;
+    justify-content: center;
 
-    color:var(--muted);
+    gap: 4px;
 
-    border-radius:18px;
+    text-decoration: none;
 
-    opacity:1;
+    color: #8c8c9a;
+
+    border-radius: 19px;
 
     transition:
-        transform .25s ease,
-        background .25s ease,
-        color .25s ease,
-        box-shadow .25s ease;
+        .25s ease;
+
+    -webkit-tap-highlight-color: transparent;
 }
 
-/* Active navigation */
 
-.bottom-nav a.active{
-    color:#ffffff;
+/* =====================================
+   ICON
+===================================== */
 
-    background:linear-gradient(
-        135deg,
-        #7B2CFF,
-        #A855F7
-    );
+.nav-icon {
 
-    transform:translateY(-6px);
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 32px;
+    height: 32px;
+
+    font-size: 22px;
+
+    line-height: 1;
+
+    transition: .25s ease;
+}
+
+
+/* =====================================
+   LABEL
+===================================== */
+
+.nav-label {
+
+    font-size: 10px;
+
+    font-weight: 600;
+
+    line-height: 1;
+
+    color: #8c8c9a;
+
+    transition: .25s ease;
+}
+
+
+/* =====================================
+   ACTIVE ITEM
+===================================== */
+
+.bottom-nav a.active {
+
+    color: white;
+
+    background:
+        linear-gradient(
+            135deg,
+            #7B2CFF,
+            #A855F7
+        );
+
+    transform: translateY(-5px);
 
     box-shadow:
-        0 8px 20px rgba(123,44,255,.35);
-
-    opacity:1;
+        0 9px 22px rgba(123, 44, 255, .35);
 }
 
-/* Active little glow */
 
-.bottom-nav a.active::after{
-    content:"";
+/* Active icon */
 
-    position:absolute;
+.bottom-nav a.active .nav-icon {
 
-    width:5px;
-    height:5px;
-
-    bottom:5px;
-
-    border-radius:50%;
-
-    background:white;
-
-    box-shadow:0 0 8px rgba(255,255,255,.9);
+    transform: scale(1.08);
 }
 
-/* Hover */
 
-.bottom-nav a:hover{
-    transform:translateY(-3px);
+/* Active text */
 
-    color:var(--primary);
+.bottom-nav a.active .nav-label {
+
+    color: white;
 }
 
-/* Active hover */
 
-.bottom-nav a.active:hover{
-    transform:translateY(-7px);
-    color:white;
+/* =====================================
+   ACTIVE INDICATOR
+===================================== */
+
+.bottom-nav a.active::after {
+
+    content: "";
+
+    position: absolute;
+
+    bottom: 4px;
+
+    width: 5px;
+    height: 5px;
+
+    border-radius: 50%;
+
+    background: white;
+
+    box-shadow:
+        0 0 8px rgba(255,255,255,.9);
 }
 
+
+/* =====================================
+   HOVER
+===================================== */
+
+.bottom-nav a:hover {
+
+    transform: translateY(-3px);
+
+    color: var(--primary);
+}
+
+.bottom-nav a.active:hover {
+
+    transform: translateY(-5px);
+
+    color: white;
+}
+
+
+/* =====================================
+   DARK THEMES
+===================================== */
+
+body[class*="-dark"] .bottom-nav {
+
+    background: rgba(20, 20, 30, .88);
+
+    border-color:
+        rgba(255,255,255,.08);
+
+    box-shadow:
+        0 15px 40px rgba(0,0,0,.4),
+        0 5px 18px rgba(123,44,255,.15);
+}
+
+
+body[class*="-dark"] .bottom-nav a {
+
+    color: #9999a8;
+}
+
+
+body[class*="-dark"] .bottom-nav .nav-label {
+
+    color: #9999a8;
+}
+
+
+body[class*="-dark"] .bottom-nav a.active {
+
+    color: white;
+
+    background:
+        linear-gradient(
+            135deg,
+            #7B2CFF,
+            #A855F7
+        );
+}
+
+
+body[class*="-dark"] .bottom-nav a.active .nav-label {
+
+    color: white;
+}
+
+
+/* =====================================
+   MOBILE
+===================================== */
+
+@media (max-width: 600px) {
+
+    .bottom-nav {
+
+        left: 12px;
+        right: 12px;
+        bottom: 12px;
+
+        height: 68px;
+
+        padding: 6px;
+
+        border-radius: 23px;
+    }
+
+    .bottom-nav a {
+
+        width: 70px;
+        height: 55px;
+
+        border-radius: 18px;
+    }
+
+    .nav-icon {
+
+        width: 30px;
+        height: 30px;
+
+        font-size: 21px;
+    }
+
+    .nav-label {
+
+        font-size: 9px;
+    }
+}
+
+
+/* =====================================
+   VERY SMALL PHONES
+===================================== */
+
+@media (max-width: 380px) {
+
+    .bottom-nav {
+
+        left: 9px;
+        right: 9px;
+        bottom: 9px;
+
+        height: 64px;
+
+        border-radius: 21px;
+    }
+
+    .bottom-nav a {
+
+        width: 64px;
+        height: 51px;
+
+        border-radius: 16px;
+    }
+
+    .nav-icon {
+
+        font-size: 20px;
+    }
+
+    .nav-label {
+
+        font-size: 8px;
+    }
+}
 
 /* =====================================
    DARK MODE

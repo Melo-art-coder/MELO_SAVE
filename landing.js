@@ -1,161 +1,113 @@
-// =====================================
-// MELOSAV LANDING PAGE V2
-// Scroll Reveal + Navbar
-// =====================================
+/* =====================================
+   MELOSAV LANDING PAGE
+===================================== */
 
-window.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", () => {
 
-    console.log("💜 MELOSAV Landing V2 Loaded");
+    console.log("💜 MELOSAV Landing Page Ready");
 
 
     /* =====================================
-       HERO ENTRANCE
+       HERO ANIMATION
     ===================================== */
 
     const hero = document.querySelector(".hero");
 
     if (hero) {
 
-        hero.style.opacity = "0";
-        hero.style.transform = "translateY(30px)";
-
-        setTimeout(() => {
-
-            hero.style.transition =
-                "opacity .9s ease, transform .9s ease";
-
-            hero.style.opacity = "1";
-            hero.style.transform = "translateY(0)";
-
-        }, 150);
+        hero.classList.add("loaded");
 
     }
 
 
     /* =====================================
-       SCROLL REVEAL
+       HEADER SCROLL EFFECT
     ===================================== */
 
-    const revealElements = document.querySelectorAll(
-        ".reveal, .reveal-left, .reveal-right"
-    );
-
-    const observer = new IntersectionObserver(
-        (entries) => {
-
-            entries.forEach(entry => {
-
-                if (entry.isIntersecting) {
-
-                    entry.target.classList.add("show");
-
-                } else {
-
-                    // Remove this if you want animations
-                    // to happen only once.
-
-                    entry.target.classList.remove("show");
-
-                }
-
-            });
-
-        },
-        {
-            threshold: 0.15
-        }
-    );
+    const header =
+        document.querySelector(".site-header");
 
 
-    revealElements.forEach(element => {
+    function updateHeader() {
 
-        observer.observe(element);
-
-    });
+        if (!header) return;
 
 
-    /* =====================================
-       FEATURE CARD STAGGER
-    ===================================== */
+        if (window.scrollY > 30) {
 
-    const cards = document.querySelectorAll(
-        ".feature-card"
-    );
+            header.style.boxShadow =
+                "0 8px 30px rgba(0,0,0,.08)";
 
-    cards.forEach((card, index) => {
+        } else {
 
-        card.style.setProperty(
-            "--delay",
-            `${index * 0.08}s`
-        );
-
-    });
-
-
-    /* =====================================
-       STICKY NAVBAR EFFECT
-    ===================================== */
-
-    const navbar =
-        document.querySelector(".landing-nav");
-
-    if (navbar) {
-
-        function updateNavbar() {
-
-            if (window.scrollY > 30) {
-
-                navbar.classList.add("scrolled");
-
-            } else {
-
-                navbar.classList.remove("scrolled");
-
-            }
+            header.style.boxShadow =
+                "none";
 
         }
-
-        window.addEventListener(
-            "scroll",
-            updateNavbar,
-            { passive: true }
-        );
-
-        updateNavbar();
 
     }
+
+
+    window.addEventListener(
+        "scroll",
+        updateHeader,
+        { passive:true }
+    );
+
+
+    updateHeader();
 
 
     /* =====================================
        SMOOTH NAVIGATION
     ===================================== */
 
-    const navLinks =
-        document.querySelectorAll(
-            '.landing-nav a[href^="#"]'
-        );
+    document
+        .querySelectorAll('a[href^="#"]')
+        .forEach(link => {
 
-    navLinks.forEach(link => {
+            link.addEventListener(
+                "click",
+                event => {
 
-        link.addEventListener("click", event => {
+                    const targetId =
+                        link.getAttribute("href");
 
-            const targetId =
-                link.getAttribute("href");
 
-            const target =
-                document.querySelector(targetId);
+                    if (
+                        !targetId ||
+                        targetId === "#"
+                    ) {
 
-            if (!target) return;
+                        return;
 
-            event.preventDefault();
+                    }
 
-            target.scrollIntoView({
-                behavior: "smooth",
-                block: "start"
-            });
+
+                    const target =
+                        document.querySelector(
+                            targetId
+                        );
+
+
+                    if (!target) return;
+
+
+                    event.preventDefault();
+
+
+                    target.scrollIntoView({
+
+                        behavior:"smooth",
+
+                        block:"start"
+
+                    });
+
+                }
+            );
 
         });
 
-    });
 
 });

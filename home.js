@@ -1,9 +1,12 @@
 /* =====================================
-   MELOSAV HOME V5
+   MELOSAV HOME V6
 ===================================== */
-console.log("HOME V5 LOADED");
+
+console.log("HOME V6 LOADED");
+
 let currentUser = null;
 let balanceVisible = true;
+
 
 /* =====================================
    APP START
@@ -47,7 +50,7 @@ function loadUser() {
         getGreeting();
 
     updateWallet();
-loadExchangeRates();
+    loadExchangeRates();
     updateBudget();
     updateAIMessage();
     loadTransactions();
@@ -56,7 +59,7 @@ loadExchangeRates();
 
         speakGreeting(currentUser.name);
 
-    },800);
+    }, 800);
 
 }
 
@@ -65,7 +68,7 @@ loadExchangeRates();
    UPDATE WALLET
 ===================================== */
 
-function updateWallet(){
+function updateWallet() {
 
     const balance =
         Number(currentUser.balance || 0);
@@ -79,14 +82,190 @@ function updateWallet(){
     const savings =
         Number(currentUser.savings || 0);
 
-    animateMoney("balance",balance);
-    animateMoney("income",income);
-    animateMoney("expenses",expenses);
-    animateMoney("savings",savings);
 
-    document.getElementById("usdBalance").textContent="$0.00";
-    document.getElementById("eurBalance").textContent="€0.00";
-    document.getElementById("gbpBalance").textContent="£0.00";
+    /*
+       Store the REAL values
+       separately from what's displayed.
+    */
+
+    setMoneyValue("balance", balance);
+    setMoneyValue("income", income);
+    setMoneyValue("expenses", expenses);
+    setMoneyValue("savings", savings);
+
+
+    /*
+       Currency wallets
+    */
+
+    setCurrencyValue(
+        "usdBalance",
+        "$0.00"
+    );
+
+    setCurrencyValue(
+        "eurBalance",
+        "€0.00"
+    );
+
+    setCurrencyValue(
+        "gbpBalance",
+        "£0.00"
+    );
+
+
+    /*
+       Apply current visibility state.
+    */
+
+    refreshBalanceDisplay();
+
+}
+
+
+/* =====================================
+   STORE MONEY VALUE
+===================================== */
+
+function setMoneyValue(id, amount) {
+
+    const element =
+        document.getElementById(id);
+
+    if (!element) return;
+
+    element.dataset.value =
+        formatMoney(amount);
+
+}
+
+
+/* =====================================
+   STORE CURRENCY VALUE
+===================================== */
+
+function setCurrencyValue(id, value) {
+
+    const element =
+        document.getElementById(id);
+
+    if (!element) return;
+
+    element.dataset.value = value;
+
+}
+
+
+/* =====================================
+   SHOW / HIDE BALANCE
+===================================== */
+
+function setupBalanceToggle() {
+
+    const button =
+        document.getElementById("toggleBalance");
+
+    if (!button) {
+
+        console.error(
+            "❌ toggleBalance button not found."
+        );
+
+        return;
+
+    }
+
+
+    /*
+       Make sure the starting state
+       is visible.
+    */
+
+    balanceVisible = true;
+
+    refreshBalanceDisplay();
+
+
+    button.addEventListener("click", () => {
+
+        balanceVisible =
+            !balanceVisible;
+
+        refreshBalanceDisplay();
+
+    });
+
+}
+
+
+/* =====================================
+   REFRESH BALANCE DISPLAY
+===================================== */
+
+function refreshBalanceDisplay() {
+
+    const ids = [
+
+        "balance",
+        "income",
+        "expenses",
+        "savings",
+        "usdBalance",
+        "eurBalance",
+        "gbpBalance"
+
+    ];
+
+
+    ids.forEach(id => {
+
+        const element =
+            document.getElementById(id);
+
+        if (!element) return;
+
+
+        /*
+           REAL VALUE stays inside
+           data-value.
+        */
+
+        const realValue =
+            element.dataset.value || "₦0.00";
+
+
+        if (balanceVisible) {
+
+            element.textContent =
+                realValue;
+
+        } else {
+
+            element.textContent =
+                "••••••";
+
+        }
+
+    });
+
+
+    /*
+       Change eye icon.
+    */
+
+    const button =
+        document.getElementById(
+            "toggleBalance"
+        );
+
+    if (button) {
+
+        button.textContent =
+            balanceVisible
+                ? "👁️"
+                : "🙈";
+
+    }
 
 }
 
@@ -95,16 +274,38 @@ function updateWallet(){
    DAILY BUDGET
 ===================================== */
 
-function updateBudget(){
+function updateBudget() {
 
     const percent =
-        Number(currentUser.dailyBudget || 0);
+        Number(
+            currentUser.dailyBudget || 0
+        );
 
-    document.getElementById("budgetPercent").textContent =
-        percent + "%";
+    const percentElement =
+        document.getElementById(
+            "budgetPercent"
+        );
 
-    document.getElementById("budgetFill").style.width =
-        percent + "%";
+    const fillElement =
+        document.getElementById(
+            "budgetFill"
+        );
+
+
+    if (percentElement) {
+
+        percentElement.textContent =
+            percent + "%";
+
+    }
+
+
+    if (fillElement) {
+
+        fillElement.style.width =
+            percent + "%";
+
+    }
 
 }
 
@@ -113,15 +314,17 @@ function updateBudget(){
    FORMAT MONEY
 ===================================== */
 
-function formatMoney(amount){
+function formatMoney(amount) {
 
-    return "₦" + Number(amount).toLocaleString(
-        "en-NG",
-        {
-            minimumFractionDigits:2,
-            maximumFractionDigits:2
-        }
-    );
+    return "₦" +
+        Number(amount || 0)
+            .toLocaleString(
+                "en-NG",
+                {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                }
+            );
 
 }
 
@@ -130,18 +333,18 @@ function formatMoney(amount){
    GREETING
 ===================================== */
 
-function getGreeting(){
+function getGreeting() {
 
     const hour =
         new Date().getHours();
 
-    if(hour < 12){
+    if (hour < 12) {
 
         return "Good Morning ☀️";
 
     }
 
-    if(hour < 18){
+    if (hour < 18) {
 
         return "Good Afternoon 🌤️";
 
@@ -156,9 +359,9 @@ function getGreeting(){
    MELO AI
 ===================================== */
 
-function updateAIMessage(){
+function updateAIMessage() {
 
-    const tips=[
+    const tips = [
 
         "Save a little today for a better tomorrow. 💜",
 
@@ -173,10 +376,21 @@ function updateAIMessage(){
     ];
 
     const random =
-        Math.floor(Math.random()*tips.length);
+        Math.floor(
+            Math.random() * tips.length
+        );
 
-    document.getElementById("aiMessage").textContent =
-        tips[random];
+    const aiMessage =
+        document.getElementById(
+            "aiMessage"
+        );
+
+    if (aiMessage) {
+
+        aiMessage.textContent =
+            tips[random];
+
+    }
 
 }
 
@@ -185,9 +399,9 @@ function updateAIMessage(){
    VOICE GREETING
 ===================================== */
 
-function speakGreeting(name){
+function speakGreeting(name) {
 
-    if(!("speechSynthesis" in window))
+    if (!("speechSynthesis" in window))
         return;
 
     speechSynthesis.cancel();
@@ -198,87 +412,173 @@ function speakGreeting(name){
     const speech =
         new SpeechSynthesisUtterance(
 
-        `${getGreeting()} ${firstName}. Welcome back to MELOSAV.`
+            `${getGreeting()} ${firstName}. Welcome back to MELOSAV.`
 
         );
 
-    speech.rate=0.9;
-    speech.pitch=1;
-    speech.volume=1;
+    speech.rate = 0.9;
+    speech.pitch = 1;
+    speech.volume = 1;
 
     speechSynthesis.speak(speech);
 
 }
+
+
 /* =====================================
    BUTTON EVENTS
 ===================================== */
 
-function setupButtons(){
+function setupButtons() {
 
-    document.getElementById("settingsBtn").addEventListener("click",()=>{
+    const settingsBtn =
+        document.getElementById(
+            "settingsBtn"
+        );
 
-    location.href="settings.html";
+    if (settingsBtn) {
 
-});
-
-    document.getElementById("notificationBtn").addEventListener("click",()=>{
-
-    location.href="notifications.html";
-
-});
-
-    document.getElementById("incomeBtn").addEventListener("click", () => {
-
-    location.href = "income.html";
-
-});
-
-
-    document.getElementById("expenseBtn").addEventListener("click",()=>{
-
-    location.href = "expense.html";
-
-});
-
-    document.getElementById("saveBtn").addEventListener("click",()=>{
-
-    location.href = "savings.html";
-
-});
-
-    document.getElementById("goalBtn").addEventListener("click",()=>{
-
-    location.href = "goals.html";
-
-});
-
-    const transferBtn = document.getElementById("transferBtn");
-
-if (transferBtn) {
-
-    transferBtn.addEventListener("click", () => {
-
-        location.href = "transfer.html";
-
-    });
-
-}
-
-    const budgetBtn=document.getElementById("budgetBtn");
-
-    if(budgetBtn){
-
-        budgetBtn.addEventListener("click",()=>{
-
-            meloToast(
-                "📊 Budget",
-                "Budget feature coming soon.",
-                "info"
-            );
-
-        });
+        settingsBtn.addEventListener(
+            "click",
+            () => {
+                location.href =
+                    "settings.html";
+            }
+        );
 
     }
+
+
+    const notificationBtn =
+        document.getElementById(
+            "notificationBtn"
+        );
+
+    if (notificationBtn) {
+
+        notificationBtn.addEventListener(
+            "click",
+            () => {
+                location.href =
+                    "notifications.html";
+            }
+        );
+
+    }
+
+
+    const incomeBtn =
+        document.getElementById(
+            "incomeBtn"
+        );
+
+    if (incomeBtn) {
+
+        incomeBtn.addEventListener(
+            "click",
+            () => {
+                location.href =
+                    "income.html";
+            }
+        );
+
+    }
+
+
+    const expenseBtn =
+        document.getElementById(
+            "expenseBtn"
+        );
+
+    if (expenseBtn) {
+
+        expenseBtn.addEventListener(
+            "click",
+            () => {
+                location.href =
+                    "expense.html";
+            }
+        );
+
+    }
+
+
+    const saveBtn =
+        document.getElementById(
+            "saveBtn"
+        );
+
+    if (saveBtn) {
+
+        saveBtn.addEventListener(
+            "click",
+            () => {
+                location.href =
+                    "savings.html";
+            }
+        );
+
+    }
+
+
+    const goalBtn =
+        document.getElementById(
+            "goalBtn"
+        );
+
+    if (goalBtn) {
+
+        goalBtn.addEventListener(
+            "click",
+            () => {
+                location.href =
+                    "goals.html";
+            }
+        );
+
+    }
+
+
+    const transferBtn =
+        document.getElementById(
+            "transferBtn"
+        );
+
+    if (transferBtn) {
+
+        transferBtn.addEventListener(
+            "click",
+            () => {
+                location.href =
+                    "transfer.html";
+            }
+        );
+
+    }
+
+
+    const budgetBtn =
+        document.getElementById(
+            "budgetBtn"
+        );
+
+    if (budgetBtn) {
+
+        budgetBtn.addEventListener(
+            "click",
+            () => {
+
+                meloToast(
+                    "📊 Budget",
+                    "Budget feature coming soon.",
+                    "info"
+                );
+
+            }
+        );
+
+    }
+
 
     setupQuickSheet();
 
@@ -289,116 +589,85 @@ if (transferBtn) {
    QUICK SHEET
 ===================================== */
 
-function setupQuickSheet(){
+function setupQuickSheet() {
 
-    const fab=document.getElementById("fab");
-    const sheet=document.getElementById("quickSheet");
-    const close=document.getElementById("closeSheet");
+    const fab =
+        document.getElementById("fab");
 
-    fab.addEventListener("click",()=>{
+    const sheet =
+        document.getElementById(
+            "quickSheet"
+        );
 
-        sheet.classList.add("show");
-
-    });
-
-    close.addEventListener("click",()=>{
-
-        sheet.classList.remove("show");
-
-    });
-
-    document.getElementById("quickIncome").addEventListener("click",()=>{
-
-    sheet.classList.remove("show");
-
-    location.href = "income.html";
-
-});
-
-    document.getElementById("quickExpense").addEventListener("click",()=>{
-
-    sheet.classList.remove("show");
-
-    location.href = "expense.html";
-
-});
-    document.getElementById("quickSave").addEventListener("click",()=>{
-
-    sheet.classList.remove("show");
-
-    location.href = "savings.html";
-
-});
-
-    document.getElementById("quickGoal").addEventListener("click",()=>{
-
-    sheet.classList.remove("show");
-
-    location.href = "goals.html";
-
-});
-
-    document.getElementById("quickTransfer").addEventListener("click",()=>{
-
-    sheet.classList.remove("show");
-
-    location.href = "transfer.html";
-
-});
-
-}
+    const close =
+        document.getElementById(
+            "closeSheet"
+        );
 
 
-/* =====================================
-   SHOW / HIDE BALANCE
-===================================== */
+    if (!fab || !sheet || !close)
+        return;
 
-function setupBalanceToggle(){
 
-    const button = document.getElementById("toggleBalance");
+    fab.addEventListener(
+        "click",
+        () => {
 
-    if(!button) return;
+            sheet.classList.add(
+                "show"
+            );
 
-    button.addEventListener("click", () => {
+        }
+    );
 
-        balanceVisible = !balanceVisible;
 
-        const ids = [
-            "balance",
-            "expenses",
-            "savings",
-            "usdBalance",
-            "eurBalance",
-            "gbpBalance"
-        ];
+    close.addEventListener(
+        "click",
+        () => {
 
-        ids.forEach(id => {
+            sheet.classList.remove(
+                "show"
+            );
 
-            const el = document.getElementById(id);
+        }
+    );
 
-            if(!el) return;
 
-            // Save the real value once
-            if(!el.dataset.realValue){
+    const actions = {
 
-                el.dataset.realValue = el.textContent;
+        quickIncome: "income.html",
+
+        quickExpense: "expense.html",
+
+        quickSave: "savings.html",
+
+        quickGoal: "goals.html",
+
+        quickTransfer: "transfer.html"
+
+    };
+
+
+    Object.keys(actions).forEach(id => {
+
+        const button =
+            document.getElementById(id);
+
+        if (!button) return;
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                sheet.classList.remove(
+                    "show"
+                );
+
+                location.href =
+                    actions[id];
 
             }
-
-            if(balanceVisible){
-
-                el.textContent = el.dataset.realValue;
-
-            }else{
-
-                el.textContent = "••••••";
-
-            }
-
-        });
-
-        button.textContent =
-            balanceVisible ? "👁️" : "🙈";
+        );
 
     });
 
@@ -409,31 +678,49 @@ function setupBalanceToggle(){
    WALLET SLIDER
 ===================================== */
 
-function setupWalletSlider(){
+function setupWalletSlider() {
 
-    const slider=document.getElementById("walletSlider");
-
-    const dots=document.querySelectorAll(".wallet-dots span");
-
-    if(!slider) return;
-
-    slider.addEventListener("scroll",()=>{
-
-        const index=Math.round(
-            slider.scrollLeft/slider.clientWidth
+    const slider =
+        document.getElementById(
+            "walletSlider"
         );
 
-        dots.forEach(dot=>
-            dot.classList.remove("active")
+    const dots =
+        document.querySelectorAll(
+            ".wallet-dots span"
         );
 
-        if(dots[index]){
+    if (!slider) return;
 
-            dots[index].classList.add("active");
+
+    slider.addEventListener(
+        "scroll",
+        () => {
+
+            const index =
+                Math.round(
+                    slider.scrollLeft /
+                    slider.clientWidth
+                );
+
+
+            dots.forEach(dot =>
+                dot.classList.remove(
+                    "active"
+                )
+            );
+
+
+            if (dots[index]) {
+
+                dots[index].classList.add(
+                    "active"
+                );
+
+            }
 
         }
-
-    });
+    );
 
 }
 
@@ -442,17 +729,23 @@ function setupWalletSlider(){
    RECENT TRANSACTIONS
 ===================================== */
 
-function loadTransactions(){
+function loadTransactions() {
 
-    const container=document.getElementById("transactionList");
+    const container =
+        document.getElementById(
+            "transactionList"
+        );
 
-    if(!container) return;
+    if (!container) return;
 
-    const transactions=currentUser.transactions || [];
 
-    if(transactions.length===0){
+    const transactions =
+        currentUser.transactions || [];
 
-        container.innerHTML=`
+
+    if (transactions.length === 0) {
+
+        container.innerHTML = `
             <p class="empty">
                 No transactions yet.
             </p>
@@ -462,32 +755,48 @@ function loadTransactions(){
 
     }
 
-    container.innerHTML="";
+
+    container.innerHTML = "";
+
 
     transactions
-        .slice(-5)
-        .reverse()
-        .forEach(item=>{
+        .slice(0, 5)
+        .forEach(item => {
 
-            const card=document.createElement("div");
+            const card =
+                document.createElement(
+                    "div"
+                );
 
-            card.className="transaction-item";
+            card.className =
+                "transaction-item";
 
-            card.innerHTML=`
+
+            card.innerHTML = `
 
                 <div>
 
-                    <strong>${item.title || "Transaction"}</strong>
+                    <strong>
+                        ${item.title ||
+                        "Transaction"}
+                    </strong>
 
                     <br>
 
-                    <small>${item.date || ""}</small>
+                    <small>
+                        ${item.date || ""}
+                    </small>
 
                 </div>
 
-                <h3>${formatMoney(item.amount || 0)}</h3>
+                <h3>
+                    ${formatMoney(
+                        item.amount || 0
+                    )}
+                </h3>
 
             `;
+
 
             container.appendChild(card);
 
@@ -497,83 +806,46 @@ function loadTransactions(){
 
 
 /* =====================================
-   ANIMATE MONEY
+   EXCHANGE RATES
 ===================================== */
 
-function animateMoney(id, amount){
+function loadExchangeRates() {
 
-    const element = document.getElementById(id);
-
-    if(!element) return;
-
-    const realValue = formatMoney(amount);
-
-    // Always remember the actual amount
-    element.dataset.realValue = realValue;
-
-    // If balance is hidden, don't display the amount
-    if(!balanceVisible){
-
-        element.textContent = "••••••";
-
-        return;
-
-    }
-
-    let start = 0;
-
-    const duration = 1000;
-    const increment = amount / (duration / 16);
-
-    const timer = setInterval(() => {
-
-        // Stop animation if user hides balance
-        if(!balanceVisible){
-
-            clearInterval(timer);
-
-            element.textContent = "••••••";
-
-            return;
-
-        }
-
-        start += increment;
-
-        if(start >= amount){
-
-            start = amount;
-
-            clearInterval(timer);
-
-        }
-
-        element.textContent = formatMoney(start);
-
-    }, 16);
+    /*
+       Keep your existing exchange
+       rate function if you already
+       have one elsewhere.
+    */
 
 }
+
+
 /* =====================================
-   REGISTER SERVICE WORKER
+   SERVICE WORKER
 ===================================== */
 
 if ("serviceWorker" in navigator) {
 
-    window.addEventListener("load", () => {
+    window.addEventListener(
+        "load",
+        () => {
 
-        navigator.serviceWorker
-        .register("./sw.js")
-        .then(() => {
+            navigator.serviceWorker
+                .register("./sw.js")
+                .then(() => {
 
-            console.log("MELOSAV Service Worker Registered ✅");
+                    console.log(
+                        "MELOSAV Service Worker Registered ✅"
+                    );
 
-        })
-        .catch(error => {
+                })
+                .catch(error => {
 
-            console.error(error);
+                    console.error(error);
 
-        });
+                });
 
-    });
+        }
+    );
 
 }

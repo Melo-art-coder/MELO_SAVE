@@ -1,5 +1,6 @@
 /* =====================================
    MELOSAV LANDING PAGE
+   SMOOTH SCROLL + REVEAL ANIMATIONS
 ===================================== */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -8,20 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* =====================================
-       HERO ANIMATION
-    ===================================== */
-
-    const hero = document.querySelector(".hero");
-
-    if (hero) {
-
-        hero.classList.add("loaded");
-
-    }
-
-
-    /* =====================================
-       HEADER SCROLL EFFECT
+       HEADER
     ===================================== */
 
     const header =
@@ -32,16 +20,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (!header) return;
 
-
         if (window.scrollY > 30) {
 
-            header.style.boxShadow =
-                "0 8px 30px rgba(0,0,0,.08)";
+            header.classList.add("scrolled");
 
         } else {
 
-            header.style.boxShadow =
-                "none";
+            header.classList.remove("scrolled");
 
         }
 
@@ -51,7 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
     window.addEventListener(
         "scroll",
         updateHeader,
-        { passive:true }
+        { passive: true }
     );
 
 
@@ -70,37 +55,30 @@ document.addEventListener("DOMContentLoaded", () => {
                 "click",
                 event => {
 
-                    const targetId =
+                    const targetID =
                         link.getAttribute("href");
 
-
                     if (
-                        !targetId ||
-                        targetId === "#"
+                        !targetID ||
+                        targetID === "#"
                     ) {
-
                         return;
-
                     }
-
 
                     const target =
                         document.querySelector(
-                            targetId
+                            targetID
                         );
-
 
                     if (!target) return;
 
-
                     event.preventDefault();
-
 
                     target.scrollIntoView({
 
-                        behavior:"smooth",
+                        behavior: "smooth",
 
-                        block:"start"
+                        block: "start"
 
                     });
 
@@ -108,6 +86,75 @@ document.addEventListener("DOMContentLoaded", () => {
             );
 
         });
+
+
+    /* =====================================
+       SCROLL REVEAL
+    ===================================== */
+
+    const revealElements =
+        document.querySelectorAll(
+            ".feature-card, .step, .about-content, .faq-container, .contact-box, .section-heading"
+        );
+
+
+    revealElements.forEach(element => {
+
+        element.classList.add("scroll-reveal");
+
+    });
+
+
+    const observer =
+        new IntersectionObserver(
+
+            entries => {
+
+                entries.forEach(entry => {
+
+                    if (entry.isIntersecting) {
+
+                        entry.target.classList.add(
+                            "visible"
+                        );
+
+                    }
+
+                });
+
+            },
+
+            {
+                threshold: 0.15,
+
+                rootMargin:
+                    "0px 0px -60px 0px"
+
+            }
+
+        );
+
+
+    revealElements.forEach(element => {
+
+        observer.observe(element);
+
+    });
+
+
+    /* =====================================
+       HERO ANIMATION
+    ===================================== */
+
+    const hero =
+        document.querySelector(".hero-content");
+
+
+    if (hero) {
+
+        hero.classList.add("hero-loaded");
+
+    }
 
 
 });

@@ -1,101 +1,41 @@
-/* =====================================
-   MELOSAV LANDING PAGE
-   SMOOTH SCROLL + REVEAL ANIMATIONS
-===================================== */
+// =====================================
+// MELOSAV LANDING PAGE V2
+// Slow-Mo Scroll Animations
+// =====================================
 
-document.addEventListener("DOMContentLoaded", () => {
-
-    console.log("💜 MELOSAV Landing Page Ready");
-
+window.addEventListener("DOMContentLoaded", () => {
 
     /* =====================================
-       HEADER
+       HERO SLOW FADE-IN
     ===================================== */
 
-    const header =
-        document.querySelector(".site-header");
+    const hero = document.querySelector(".hero");
 
+    if (hero) {
 
-    function updateHeader() {
+        hero.style.opacity = "0";
+        hero.style.transform = "translateY(35px)";
 
-        if (!header) return;
+        setTimeout(() => {
 
-        if (window.scrollY > 30) {
+            hero.style.transition =
+                "opacity 1.2s ease, transform 1.2s ease";
 
-            header.classList.add("scrolled");
+            hero.style.opacity = "1";
+            hero.style.transform = "translateY(0)";
 
-        } else {
-
-            header.classList.remove("scrolled");
-
-        }
+        }, 200);
 
     }
-
-
-    window.addEventListener(
-        "scroll",
-        updateHeader,
-        { passive: true }
-    );
-
-
-    updateHeader();
-
-
-    /* =====================================
-       SMOOTH NAVIGATION
-    ===================================== */
-
-    document
-        .querySelectorAll('a[href^="#"]')
-        .forEach(link => {
-
-            link.addEventListener(
-                "click",
-                event => {
-
-                    const targetID =
-                        link.getAttribute("href");
-
-                    if (
-                        !targetID ||
-                        targetID === "#"
-                    ) {
-                        return;
-                    }
-
-                    const target =
-                        document.querySelector(
-                            targetID
-                        );
-
-                    if (!target) return;
-
-                    event.preventDefault();
-
-                    target.scrollIntoView({
-
-                        behavior: "smooth",
-
-                        block: "start"
-
-                    });
-
-                }
-            );
-
-        });
 
 
     /* =====================================
        SCROLL REVEAL
     ===================================== */
 
-    const revealElements =
-        document.querySelectorAll(
-            ".feature-card, .step, .about-content, .faq-container, .contact-box, .section-heading"
-        );
+    const revealElements = document.querySelectorAll(
+        ".features h2, .feature-card, footer"
+    );
 
 
     revealElements.forEach(element => {
@@ -105,34 +45,24 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 
-    const observer =
-        new IntersectionObserver(
+    const observer = new IntersectionObserver(
+        (entries) => {
 
-            entries => {
+            entries.forEach(entry => {
 
-                entries.forEach(entry => {
+                if (entry.isIntersecting) {
 
-                    if (entry.isIntersecting) {
+                    entry.target.classList.add("visible");
 
-                        entry.target.classList.add(
-                            "visible"
-                        );
+                }
 
-                    }
+            });
 
-                });
-
-            },
-
-            {
-                threshold: 0.15,
-
-                rootMargin:
-                    "0px 0px -60px 0px"
-
-            }
-
-        );
+        },
+        {
+            threshold: 0.15
+        }
+    );
 
 
     revealElements.forEach(element => {
@@ -143,18 +73,56 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* =====================================
-       HERO ANIMATION
+       FEATURE CARD STAGGER
     ===================================== */
 
-    const hero =
-        document.querySelector(".hero-content");
+    const cards =
+        document.querySelectorAll(".feature-card");
 
 
-    if (hero) {
+    cards.forEach((card, index) => {
 
-        hero.classList.add("hero-loaded");
+        card.style.transitionDelay =
+            `${index * 0.12}s`;
 
-    }
+    });
 
+
+    /* =====================================
+       SMOOTH ANCHOR SCROLL
+    ===================================== */
+
+    document.querySelectorAll(
+        'a[href^="#"]'
+    ).forEach(link => {
+
+        link.addEventListener("click", event => {
+
+            const target =
+                document.querySelector(
+                    link.getAttribute("href")
+                );
+
+            if (!target) return;
+
+            event.preventDefault();
+
+            target.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+
+        });
+
+    });
+
+
+    /* =====================================
+       CONSOLE
+    ===================================== */
+
+    console.log(
+        "💜 MELOSAV Landing Page V2 Loaded"
+    );
 
 });

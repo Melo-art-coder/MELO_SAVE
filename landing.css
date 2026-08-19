@@ -30,17 +30,21 @@ html {
         0 15px 40px rgba(70, 25, 130, .10);
 }
 
-body {
-    background:
-        linear-gradient(
-            180deg,
-            #FCFAFF,
-            #F2EBFF
-        );
+body{
 
-    color: var(--text);
+    background:linear-gradient(
+        180deg,
+        #FCFAFF 0%,
+        #F2EBFF 100%
+    );
 
-    overflow-x: hidden;
+    color:var(--text);
+
+    overflow-x:hidden;
+
+    margin:0;
+    padding:0;
+
 }
 
 /* =====================================

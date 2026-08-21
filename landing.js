@@ -1,30 +1,22 @@
-// =====================================
-// MELOSAV LANDING PAGE V2
-// Slow-Mo Scroll Animations
-// =====================================
+/* =====================================
+   MELOSAV LANDING PAGE V2
+   SLOW-MO SCROLL ANIMATIONS
+===================================== */
 
-window.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", () => {
+
+    console.log("💜 MELOSAV Landing V2 Loaded");
+
 
     /* =====================================
-       HERO SLOW FADE-IN
+       HERO INTRO
     ===================================== */
 
     const hero = document.querySelector(".hero");
 
     if (hero) {
 
-        hero.style.opacity = "0";
-        hero.style.transform = "translateY(35px)";
-
-        setTimeout(() => {
-
-            hero.style.transition =
-                "opacity 1.2s ease, transform 1.2s ease";
-
-            hero.style.opacity = "1";
-            hero.style.transform = "translateY(0)";
-
-        }, 200);
+        hero.classList.add("hero-ready");
 
     }
 
@@ -38,21 +30,16 @@ window.addEventListener("DOMContentLoaded", () => {
     );
 
 
-    revealElements.forEach(element => {
-
-        element.classList.add("scroll-reveal");
-
-    });
-
-
     const observer = new IntersectionObserver(
         (entries) => {
 
-            entries.forEach(entry => {
+            entries.forEach((entry) => {
 
                 if (entry.isIntersecting) {
 
-                    entry.target.classList.add("visible");
+                    entry.target.classList.add("reveal-show");
+
+                    observer.unobserve(entry.target);
 
                 }
 
@@ -60,12 +47,14 @@ window.addEventListener("DOMContentLoaded", () => {
 
         },
         {
-            threshold: 0.15
+            threshold: 0.12
         }
     );
 
 
-    revealElements.forEach(element => {
+    revealElements.forEach((element) => {
+
+        element.classList.add("reveal");
 
         observer.observe(element);
 
@@ -73,56 +62,36 @@ window.addEventListener("DOMContentLoaded", () => {
 
 
     /* =====================================
-       FEATURE CARD STAGGER
+       SMOOTH SCROLL
     ===================================== */
 
-    const cards =
-        document.querySelectorAll(".feature-card");
-
-
-    cards.forEach((card, index) => {
-
-        card.style.transitionDelay =
-            `${index * 0.12}s`;
-
-    });
+    document.documentElement.style.scrollBehavior = "smooth";
 
 
     /* =====================================
-       SMOOTH ANCHOR SCROLL
+       PARALLAX HERO
     ===================================== */
 
-    document.querySelectorAll(
-        'a[href^="#"]'
-    ).forEach(link => {
+    window.addEventListener(
+        "scroll",
+        () => {
 
-        link.addEventListener("click", event => {
+            if (!hero) return;
 
-            const target =
-                document.querySelector(
-                    link.getAttribute("href")
-                );
+            const scrollY = window.scrollY;
 
-            if (!target) return;
+            if (scrollY < window.innerHeight) {
 
-            event.preventDefault();
+                hero.style.transform =
+                    `translateY(${scrollY * 0.12}px)`;
 
-            target.scrollIntoView({
-                behavior: "smooth",
-                block: "start"
-            });
+            }
 
-        });
-
-    });
-
-
-    /* =====================================
-       CONSOLE
-    ===================================== */
-
-    console.log(
-        "💜 MELOSAV Landing Page V2 Loaded"
+        },
+        {
+            passive: true
+        }
     );
+
 
 });

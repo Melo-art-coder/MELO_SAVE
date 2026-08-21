@@ -1,19 +1,11 @@
 /* =====================================
-   MELOSAV GOALS V7
-   CREATE + SAVE + ADD MONEY
+   MELOSAV GOALS V8
+   GOALS + WALLET SYNC + TRANSACTIONS
 ===================================== */
 
-console.log("🎯 MELOSAV GOALS V7 LOADED");
+console.log("🎯 MELOSAV GOALS V8 LOADED");
 
-
-/* =====================================
-   CURRENT USER
-===================================== */
-
-let currentUser = JSON.parse(
-    localStorage.getItem("meloCurrentUser")
-);
-
+let currentUser = null;
 let selectedGoal = null;
 
 
@@ -44,36 +36,49 @@ const moneyInput =
 
 
 /* =====================================
-   APP START
+   START
 ===================================== */
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
 
-    if (typeof loadTheme === "function") {
-        loadTheme();
+        if (
+            typeof loadTheme === "function"
+        ) {
+
+            loadTheme();
+
+        }
+
+        currentUser =
+            typeof getCurrentUser === "function"
+                ? getCurrentUser()
+                : JSON.parse(
+                    localStorage.getItem(
+                        "meloCurrentUser"
+                    )
+                );
+
+        if (!currentUser) {
+
+            location.href =
+                "login.html";
+
+            return;
+
+        }
+
+        currentUser.goals =
+            Array.isArray(currentUser.goals)
+                ? currentUser.goals
+                : [];
+
+        loadGoals();
+        setupButtons();
+
     }
-
-    if (!currentUser) {
-
-        window.location.href = "login.html";
-
-        return;
-    }
-
-    /*
-       Make sure goals exists
-    */
-
-    currentUser.goals =
-        Array.isArray(currentUser.goals)
-            ? currentUser.goals
-            : [];
-
-    loadGoals();
-
-    setupButtons();
-
-});
+);
 
 
 /* =====================================
@@ -83,17 +88,22 @@ document.addEventListener("DOMContentLoaded", () => {
 function setupButtons() {
 
     const createBtn =
-        document.getElementById("createGoalBtn");
+        document.getElementById(
+            "createGoalBtn"
+        );
 
     const fab =
         document.getElementById("fab");
 
     const cancelBtn =
-        document.getElementById("cancelGoal");
+        document.getElementById(
+            "cancelGoal"
+        );
 
     const saveBtn =
-        document.getElementById("saveGoal");
-
+        document.getElementById(
+            "saveGoal"
+        );
 
     if (createBtn) {
 
@@ -104,7 +114,6 @@ function setupButtons() {
 
     }
 
-
     if (fab) {
 
         fab.addEventListener(
@@ -114,7 +123,6 @@ function setupButtons() {
 
     }
 
-
     if (cancelBtn) {
 
         cancelBtn.addEventListener(
@@ -123,7 +131,6 @@ function setupButtons() {
         );
 
     }
-
 
     if (saveBtn) {
 
@@ -138,53 +145,29 @@ function setupButtons() {
 
 
 /* =====================================
-   SAVE USER
+   SAVE CURRENT USER
 ===================================== */
 
-function saveUser() {
+function refreshUser() {
 
-    /*
-       Save current user
-    */
+    if (
+        typeof getCurrentUser ===
+        "function"
+    ) {
 
-    localStorage.setItem(
-        "meloCurrentUser",
-        JSON.stringify(currentUser)
-    );
-
-
-    /*
-       Save inside all users
-    */
-
-    let users =
-        JSON.parse(
-            localStorage.getItem("meloUsers")
-        ) || [];
-
-
-    const index =
-        users.findIndex(
-            user =>
-                user.email === currentUser.email
-        );
-
-
-    if (index !== -1) {
-
-        users[index] = currentUser;
+        currentUser =
+            getCurrentUser();
 
     } else {
 
-        users.push(currentUser);
+        currentUser =
+            JSON.parse(
+                localStorage.getItem(
+                    "meloCurrentUser"
+                )
+            );
 
     }
-
-
-    localStorage.setItem(
-        "meloUsers",
-        JSON.stringify(users)
-    );
 
 }
 
@@ -243,12 +226,8 @@ function createGoal() {
         Number(goalTarget.value);
 
     const date =
-        goalDate.value || "No deadline";
-
-
-    /*
-       Validation
-    */
+        goalDate.value ||
+        "No deadline";
 
     if (!name) {
 
@@ -259,8 +238,8 @@ function createGoal() {
         );
 
         return;
-    }
 
+    }
 
     if (!target || target <= 0) {
 
@@ -271,42 +250,69 @@ function createGoal() {
         );
 
         return;
+
     }
 
 
-    /*
-       Create goal
-    */
-
-    const newGoal = {
-
-        id: Date.now(),
-
-        name: name,
-
-        target: target,
-
-        saved: 0,
-
-        date: date,
-
-        completed: false,
-
-        createdAt:
-            new Date().toISOString()
-
-    };
+    let goal = null;
 
 
-    currentUser.goals.push(newGoal);
+    if (
+        typeof createGoalData ===
+        "function"
+    ) {
+
+        goal =
+            createGoalData(
+                name,
+                target,
+                date
+            );
+
+    } else {
+
+        currentUser.goals.push({
+
+            id: Date.now(),
+
+            name,
+
+            target,
+
+            saved: 0,
+
+            date,
+
+            completed: false,
+
+            createdAt:
+                new Date().toISOString()
+
+        });
+
+        saveFallbackUser();
+
+    }
 
 
-    saveUser();
+    if (!goal) {
+
+        meloToast(
+            "❌ Goal Error",
+            "The goal could not be created.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    refreshUser();
 
     closeGoalModal();
 
     loadGoals();
-
 
     meloToast(
         "🎯 Goal Created!",
@@ -323,25 +329,20 @@ function createGoal() {
 
 function loadGoals() {
 
-    if (!goalsContainer) return;
+    refreshUser();
 
+    if (!goalsContainer) return;
 
     goalsContainer.innerHTML = "";
 
-
     let totalSaved = 0;
-
     let completed = 0;
 
+    const goals =
+        currentUser?.goals || [];
 
-    /*
-       No goals
-    */
 
-    if (
-        !currentUser.goals ||
-        currentUser.goals.length === 0
-    ) {
+    if (goals.length === 0) {
 
         goalsContainer.innerHTML = `
 
@@ -360,29 +361,20 @@ function loadGoals() {
 
         `;
 
-
-        updateSummary(
-            0,
-            0,
-            0
-        );
+        updateSummary(0, 0, 0);
 
         return;
+
     }
 
 
-    /*
-       Display every goal
-    */
-
-    currentUser.goals.forEach(goal => {
+    goals.forEach(goal => {
 
         const target =
             Number(goal.target) || 0;
 
         const saved =
             Number(goal.saved) || 0;
-
 
         const percent =
             target > 0
@@ -392,11 +384,12 @@ function loadGoals() {
                 )
                 : 0;
 
-
         totalSaved += saved;
 
-
-        if (saved >= target && target > 0) {
+        if (
+            saved >= target &&
+            target > 0
+        ) {
 
             completed++;
 
@@ -408,9 +401,8 @@ function loadGoals() {
         const card =
             document.createElement("div");
 
-
-        card.className = "goal-card";
-
+        card.className =
+            "goal-card";
 
         card.innerHTML = `
 
@@ -419,7 +411,8 @@ function loadGoals() {
                 <div>
 
                     <h3>
-                        🎯 ${escapeHTML(goal.name)}
+                        🎯
+                        ${escapeHTML(goal.name)}
                     </h3>
 
                     <small>
@@ -459,9 +452,7 @@ function loadGoals() {
 
 
             <p class="goal-ai">
-
                 ${getGoalMessage(percent)}
-
             </p>
 
 
@@ -488,25 +479,13 @@ function loadGoals() {
 
         `;
 
-
         goalsContainer.appendChild(card);
 
     });
 
 
-    /*
-       Save completion changes
-    */
-
-    saveUser();
-
-
-    /*
-       Update summary
-    */
-
     updateSummary(
-        currentUser.goals.length,
+        goals.length,
         completed,
         totalSaved
     );
@@ -539,7 +518,6 @@ function updateSummary(
             "savedGoals"
         );
 
-
     if (totalElement) {
 
         totalElement.textContent =
@@ -547,14 +525,12 @@ function updateSummary(
 
     }
 
-
     if (completedElement) {
 
         completedElement.textContent =
             completed;
 
     }
-
 
     if (savedElement) {
 
@@ -567,19 +543,19 @@ function updateSummary(
 
 
 /* =====================================
-   ADD MONEY
+   OPEN ADD MONEY
 ===================================== */
 
 function addMoney(id) {
 
     selectedGoal = id;
 
-
     const goal =
         currentUser.goals.find(
-            g => g.id === id
+            g =>
+                Number(g.id) ===
+                Number(id)
         );
-
 
     if (!goal) {
 
@@ -590,8 +566,8 @@ function addMoney(id) {
         );
 
         return;
-    }
 
+    }
 
     if (!moneyModal || !moneyInput) {
 
@@ -600,14 +576,12 @@ function addMoney(id) {
         );
 
         return;
-    }
 
+    }
 
     moneyInput.value = "";
 
-
     moneyModal.classList.add("show");
-
 
     setTimeout(() => {
 
@@ -624,19 +598,14 @@ function addMoney(id) {
 
 function confirmAddMoney() {
 
-    if (!selectedGoal) {
+    if (selectedGoal === null) {
 
         return;
-    }
 
+    }
 
     const amount =
         Number(moneyInput.value);
-
-
-    /*
-       Validate amount
-    */
 
     if (!amount || amount <= 0) {
 
@@ -647,188 +616,96 @@ function confirmAddMoney() {
         );
 
         return;
+
     }
 
 
-    /*
-       Find goal
-    */
+    /* =================================
+       USE STORAGE V7
+    ================================= */
 
-    const goal =
-        currentUser.goals.find(
-            g => g.id === selectedGoal
-        );
-
-
-    if (!goal) {
-
-        closeMoneyModal();
-
-        return;
-    }
-
-
-    /*
-       Make sure balance exists
-    */
-
-    const balance =
-        Number(currentUser.balance || 0);
-
-
-    /*
-       Don't allow saving more
-       than available balance
-    */
-
-    if (balance < amount) {
+    if (
+        typeof addGoalDeposit !==
+        "function"
+    ) {
 
         meloToast(
-            "💸 Insufficient Balance",
-            "You don't have enough money in your wallet.",
+            "⚠️ Storage Error",
+            "Storage system is not loaded.",
             "error"
         );
 
-        return;
-    }
-
-
-    /*
-       Don't save beyond target
-    */
-
-    const remaining =
-        Math.max(
-            Number(goal.target) -
-            Number(goal.saved || 0),
-            0
+        console.error(
+            "addGoalDeposit() is unavailable."
         );
-
-
-    if (remaining <= 0) {
-
-        meloToast(
-            "🎉 Already Completed!",
-            "This goal has already reached its target.",
-            "info"
-        );
-
-        closeMoneyModal();
 
         return;
+
     }
 
 
-    const amountToAdd =
-        Math.min(
-            amount,
-            remaining
+    const result =
+        addGoalDeposit(
+            selectedGoal,
+            amount
         );
 
 
-    /*
-       Update goal
-    */
+    if (!result.success) {
 
-    goal.saved =
-        Number(goal.saved || 0)
-        + amountToAdd;
+        if (
+            result.reason ===
+            "INSUFFICIENT_BALANCE"
+        ) {
 
+            meloToast(
+                "💸 Insufficient Balance",
+                "You don't have enough money in your wallet.",
+                "error"
+            );
 
-    /*
-       Update wallet balance
-    */
+        }
 
-    currentUser.balance =
-        balance - amountToAdd;
+        else if (
+            result.reason ===
+            "ALREADY_COMPLETED"
+        ) {
 
+            meloToast(
+                "🎉 Already Completed!",
+                "This goal has already reached its target.",
+                "info"
+            );
 
-    /*
-       Update savings
-    */
+        }
 
-    currentUser.savings =
-        Number(currentUser.savings || 0)
-        + amountToAdd;
+        else {
 
+            meloToast(
+                "❌ Couldn't Add Money",
+                "Something went wrong.",
+                "error"
+            );
 
-    /*
-       Add transaction
-    */
+        }
 
-    if (!Array.isArray(currentUser.transactions)) {
-
-        currentUser.transactions = [];
-
-    }
-
-
-    currentUser.transactions.unshift({
-
-        id: Date.now(),
-
-        type: "savings",
-
-        title:
-            `Savings Goal: ${goal.name}`,
-
-        amount: amountToAdd,
-
-        date:
-            new Date().toISOString()
-
-    });
-
-
-    /*
-       Check completion
-    */
-
-    const wasCompleted =
-        goal.completed === true;
-
-
-    if (
-        goal.saved >= goal.target
-    ) {
-
-        goal.saved =
-            goal.target;
-
-        goal.completed = true;
+        return;
 
     }
 
 
-    /*
-       Save everything
-    */
+    refreshUser();
 
-    saveUser();
+    const goal =
+        result.goal;
 
-
-    /*
-       Close modal
-    */
 
     closeMoneyModal();
-
-
-    /*
-       Refresh goals
-    */
 
     loadGoals();
 
 
-    /*
-       Completion
-    */
-
-    if (
-        goal.completed &&
-        !wasCompleted
-    ) {
+    if (result.completed) {
 
         if (
             typeof celebrateGoalConfetti ===
@@ -839,18 +716,19 @@ function confirmAddMoney() {
 
         }
 
-
         meloToast(
             "🎉 Goal Completed!",
             `${goal.name} has reached its target!`,
             "success"
         );
 
-    } else {
+    }
+
+    else {
 
         meloToast(
             "💜 Money Added!",
-            `${formatMoney(amountToAdd)} added to ${goal.name}.`,
+            `${formatMoney(result.amount)} added to ${goal.name}.`,
             "success"
         );
 
@@ -889,11 +767,14 @@ function closeMoneyModal() {
 
 function deleteGoal(id) {
 
+    refreshUser();
+
     const goal =
         currentUser.goals.find(
-            g => g.id === id
+            g =>
+                Number(g.id) ===
+                Number(id)
         );
-
 
     if (!goal) return;
 
@@ -903,21 +784,31 @@ function deleteGoal(id) {
             `Delete "${goal.name}"?`
         );
 
+    if (!confirmed) return;
 
-    if (!confirmed) {
 
-        return;
+    if (
+        typeof deleteGoalData ===
+        "function"
+    ) {
+
+        deleteGoalData(id);
+
+    } else {
+
+        currentUser.goals =
+            currentUser.goals.filter(
+                g =>
+                    Number(g.id) !==
+                    Number(id)
+            );
+
+        saveFallbackUser();
+
     }
 
 
-    currentUser.goals =
-        currentUser.goals.filter(
-            goal =>
-                goal.id !== id
-        );
-
-
-    saveUser();
+    refreshUser();
 
     loadGoals();
 
@@ -932,7 +823,7 @@ function deleteGoal(id) {
 
 
 /* =====================================
-   MONEY FORMAT
+   FORMAT MONEY
 ===================================== */
 
 function formatMoney(amount) {
@@ -951,7 +842,7 @@ function formatMoney(amount) {
 
 
 /* =====================================
-   DATE FORMAT
+   DATE
 ===================================== */
 
 function formatDate(date) {
@@ -965,17 +856,14 @@ function formatDate(date) {
 
     }
 
-
     const parsed =
         new Date(date);
-
 
     if (isNaN(parsed.getTime())) {
 
         return "No deadline";
 
     }
-
 
     return parsed.toLocaleDateString(
         "en-NG",
@@ -990,38 +878,22 @@ function formatDate(date) {
 
 
 /* =====================================
-   GOAL AI MESSAGE
+   GOAL MESSAGE
 ===================================== */
 
 function getGoalMessage(percent) {
 
-    if (percent >= 100) {
-
+    if (percent >= 100)
         return "🎉 Goal completed! Amazing work!";
 
-    }
-
-
-    if (percent >= 75) {
-
+    if (percent >= 75)
         return "🔥 You're almost there!";
 
-    }
-
-
-    if (percent >= 50) {
-
+    if (percent >= 50)
         return "💜 Halfway there! Keep saving.";
 
-    }
-
-
-    if (percent >= 25) {
-
+    if (percent >= 25)
         return "🚀 Nice progress! Keep going.";
-
-    }
-
 
     return "🌱 Every little step counts.";
 
@@ -1045,7 +917,46 @@ function escapeHTML(value) {
 
 
 /* =====================================
-   CLOSE MODALS BY CLICKING OUTSIDE
+   FALLBACK SAVE
+===================================== */
+
+function saveFallbackUser() {
+
+    localStorage.setItem(
+        "meloCurrentUser",
+        JSON.stringify(currentUser)
+    );
+
+    let users =
+        JSON.parse(
+            localStorage.getItem(
+                "meloUsers"
+            )
+        ) || [];
+
+    const index =
+        users.findIndex(
+            u =>
+                u.email ===
+                currentUser.email
+        );
+
+    if (index !== -1) {
+
+        users[index] = currentUser;
+
+    }
+
+    localStorage.setItem(
+        "meloUsers",
+        JSON.stringify(users)
+    );
+
+}
+
+
+/* =====================================
+   MODALS
 ===================================== */
 
 if (goalModal) {
@@ -1055,7 +966,8 @@ if (goalModal) {
         event => {
 
             if (
-                event.target === goalModal
+                event.target ===
+                goalModal
             ) {
 
                 closeGoalModal();
@@ -1075,7 +987,8 @@ if (moneyModal) {
         event => {
 
             if (
-                event.target === moneyModal
+                event.target ===
+                moneyModal
             ) {
 
                 closeMoneyModal();
@@ -1089,31 +1002,33 @@ if (moneyModal) {
 
 
 /* =====================================
-   KEYBOARD SUPPORT
+   ESCAPE KEY
 ===================================== */
 
 document.addEventListener(
     "keydown",
     event => {
 
-        if (event.key !== "Escape") {
-            return;
-        }
-
+        if (
+            event.key !== "Escape"
+        ) return;
 
         if (
             goalModal &&
-            goalModal.classList.contains("show")
+            goalModal.classList.contains(
+                "show"
+            )
         ) {
 
             closeGoalModal();
 
         }
 
-
         if (
             moneyModal &&
-            moneyModal.classList.contains("show")
+            moneyModal.classList.contains(
+                "show"
+            )
         ) {
 
             closeMoneyModal();
@@ -1125,7 +1040,7 @@ document.addEventListener(
 
 
 /* =====================================
-   ENTER TO ADD MONEY
+   ENTER
 ===================================== */
 
 if (moneyInput) {
@@ -1134,7 +1049,9 @@ if (moneyInput) {
         "keydown",
         event => {
 
-            if (event.key === "Enter") {
+            if (
+                event.key === "Enter"
+            ) {
 
                 event.preventDefault();
 
@@ -1148,24 +1065,6 @@ if (moneyInput) {
 }
 
 
-/* =====================================
-   AUTO SAVE
-===================================== */
-
-window.addEventListener(
-    "beforeunload",
-    () => {
-
-        if (currentUser) {
-
-            saveUser();
-
-        }
-
-    }
-);
-
-
 console.log(
-    "✅ MELOSAV Goals V7 Ready"
+    "✅ MELOSAV Goals V8 Ready"
 );

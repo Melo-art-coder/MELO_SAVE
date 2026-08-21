@@ -1,89 +1,58 @@
 /* =====================================
-   MELOSAV LANDING PAGE V2
-   SLOW-MO SCROLL ANIMATIONS
+   MELOSAV LANDING PAGE
+   TRUE SLOW-MO SCROLL SYSTEM
 ===================================== */
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    console.log("💜 MELOSAV Landing V2 Loaded");
-
-
-    /* =====================================
-       HERO INTRO
-    ===================================== */
+    console.log("💜 MELOSAV SLOW-MO V3 LOADED");
 
     const hero = document.querySelector(".hero");
+    const sections = document.querySelectorAll(
+        ".features, footer"
+    );
+
+    /* =====================================
+       HERO
+    ===================================== */
 
     if (hero) {
-
-        hero.classList.add("hero-ready");
-
+        hero.classList.add("slow-ready");
     }
 
 
     /* =====================================
-       SCROLL REVEAL
+       PREPARE SECTIONS
     ===================================== */
 
-    const revealElements = document.querySelectorAll(
-        ".features h2, .feature-card, footer"
-    );
-
-
-    const observer = new IntersectionObserver(
-        (entries) => {
-
-            entries.forEach((entry) => {
-
-                if (entry.isIntersecting) {
-
-                    entry.target.classList.add("reveal-show");
-
-                    observer.unobserve(entry.target);
-
-                }
-
-            });
-
-        },
-        {
-            threshold: 0.12
-        }
-    );
-
-
-    revealElements.forEach((element) => {
-
-        element.classList.add("reveal");
-
-        observer.observe(element);
-
+    sections.forEach(section => {
+        section.classList.add("slow-section");
     });
 
 
     /* =====================================
-       SMOOTH SCROLL
+       SCROLL ENGINE
     ===================================== */
 
-    document.documentElement.style.scrollBehavior = "smooth";
+    let currentScroll = window.scrollY;
+    let targetScroll = window.scrollY;
 
+    let ticking = false;
 
-    /* =====================================
-       PARALLAX HERO
-    ===================================== */
 
     window.addEventListener(
         "scroll",
         () => {
 
-            if (!hero) return;
+            targetScroll = window.scrollY;
 
-            const scrollY = window.scrollY;
+            if (!ticking) {
 
-            if (scrollY < window.innerHeight) {
+                window.requestAnimationFrame(
+                    smoothScrollEffect
+                );
 
-                hero.style.transform =
-                    `translateY(${scrollY * 0.12}px)`;
+                ticking = true;
 
             }
 
@@ -93,5 +62,122 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     );
 
+
+    function smoothScrollEffect() {
+
+        currentScroll +=
+            (targetScroll - currentScroll) * 0.08;
+
+
+        /* HERO PARALLAX */
+
+        if (hero) {
+
+            const movement =
+                currentScroll * 0.18;
+
+            hero.style.transform =
+                `translate3d(0, ${movement}px, 0)`;
+
+        }
+
+
+        /* SECTION MOVEMENT */
+
+        sections.forEach(section => {
+
+            const rect =
+                section.getBoundingClientRect();
+
+            const windowHeight =
+                window.innerHeight;
+
+
+            if (
+                rect.top < windowHeight &&
+                rect.bottom > 0
+            ) {
+
+                const distance =
+                    (windowHeight / 2) -
+                    (rect.top + rect.height / 2);
+
+
+                const movement =
+                    distance * 0.06;
+
+
+                section.style.transform =
+                    `translate3d(0, ${movement}px, 0)`;
+
+            }
+
+        });
+
+
+        ticking = false;
+
+
+        if (
+            Math.abs(
+                targetScroll - currentScroll
+            ) > 0.5
+        ) {
+
+            window.requestAnimationFrame(
+                smoothScrollEffect
+            );
+
+            ticking = true;
+
+        }
+
+    }
+
+
+    /* =====================================
+       REVEAL ANIMATION
+    ===================================== */
+
+    const revealElements =
+        document.querySelectorAll(
+            ".features h2, .feature-card, footer"
+        );
+
+
+    const observer =
+        new IntersectionObserver(
+            entries => {
+
+                entries.forEach(entry => {
+
+                    if (
+                        entry.isIntersecting
+                    ) {
+
+                        entry.target.classList.add(
+                            "slow-visible"
+                        );
+
+                    }
+
+                });
+
+            },
+            {
+                threshold: 0.08
+            }
+        );
+
+
+    revealElements.forEach(element => {
+
+        element.classList.add(
+            "slow-hidden"
+        );
+
+        observer.observe(element);
+
+    });
 
 });

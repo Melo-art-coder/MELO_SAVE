@@ -1,50 +1,82 @@
 /* =====================================
-   MELOSAV TRANSACTIONS
+   MELOSAV TRANSACTIONS V2
+   COMPLETE MONEY HISTORY
 ===================================== */
+
+console.log(
+    "📄 MELOSAV TRANSACTIONS V2 LOADED"
+);
 
 let currentUser = null;
 let transactions = [];
 let currentFilter = "all";
+let searchText = "";
+
 
 /* =====================================
-   APP START
+   START
 ===================================== */
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
 
-    if (typeof loadTheme === "function") {
-        loadTheme();
+        if (
+            typeof loadTheme ===
+            "function"
+        ) {
+
+            loadTheme();
+
+        }
+
+        loadUser();
+
+        setupSearch();
+
+        setupFilters();
+
+        setupButtons();
+
     }
-
-    loadUser();
-    setupButtons();
-    setupSearch();
-    setupFilters();
-
-});
+);
 
 
 /* =====================================
    LOAD USER
 ===================================== */
 
-function loadUser(){
+function loadUser() {
 
-    currentUser = JSON.parse(
-        localStorage.getItem("meloCurrentUser")
-    );
+    currentUser =
+        typeof getCurrentUser ===
+        "function"
+            ? getCurrentUser()
+            : JSON.parse(
+                localStorage.getItem(
+                    "meloCurrentUser"
+                )
+            );
 
-    if(!currentUser){
+    if (!currentUser) {
 
-        location.href = "login.html";
+        location.href =
+            "login.html";
+
         return;
 
     }
 
-    transactions = currentUser.transactions || [];
+    transactions =
+        Array.isArray(
+            currentUser.transactions
+        )
+            ? currentUser.transactions
+            : [];
 
     updateSummary();
-    displayTransactions(transactions);
+
+    renderTransactions();
 
 }
 
@@ -53,75 +85,183 @@ function loadUser(){
    SUMMARY
 ===================================== */
 
-function updateSummary(){
+function updateSummary() {
 
     let income = 0;
     let expense = 0;
     let savings = 0;
 
-    transactions.forEach(item=>{
+    transactions.forEach(
+        item => {
 
-        const amount = Number(item.amount || 0);
+            const amount =
+                Number(item.amount || 0);
 
-        if(item.type === "income"){
+            if (
+                item.type ===
+                "income"
+            ) {
 
-            income += amount;
+                income += amount;
+
+            }
+
+            else if (
+                item.type ===
+                "expense"
+            ) {
+
+                expense += amount;
+
+            }
+
+            else if (
+                item.type ===
+                "savings"
+            ) {
+
+                savings += amount;
+
+            }
 
         }
+    );
 
-        if(item.type === "expense"){
 
-            expense += amount;
+    const incomeElement =
+        document.getElementById(
+            "incomeTotal"
+        );
 
-        }
+    const expenseElement =
+        document.getElementById(
+            "expenseTotal"
+        );
 
-        if(item.type === "savings"){
+    const savingsElement =
+        document.getElementById(
+            "savingsTotal"
+        );
 
-            savings += amount;
 
-        }
+    if (incomeElement)
+        incomeElement.textContent =
+            formatMoney(income);
 
-    });
+    if (expenseElement)
+        expenseElement.textContent =
+            formatMoney(expense);
 
-    document.getElementById("incomeTotal").textContent =
-        formatMoney(income);
-
-    document.getElementById("expenseTotal").textContent =
-        formatMoney(expense);
-
-    document.getElementById("savingsTotal").textContent =
-        formatMoney(savings);
+    if (savingsElement)
+        savingsElement.textContent =
+            formatMoney(savings);
 
 }
 
 
 /* =====================================
-   DISPLAY TRANSACTIONS
+   FILTER + SEARCH
 ===================================== */
 
-function displayTransactions(list){
+function getFilteredTransactions() {
+
+    return transactions.filter(
+        item => {
+
+            const matchesFilter =
+                currentFilter === "all" ||
+                item.type === currentFilter;
+
+
+            const search =
+                searchText.trim();
+
+            if (!search) {
+
+                return matchesFilter;
+
+            }
+
+
+            const searchableText = [
+
+                item.title,
+
+                item.type,
+
+                item.category,
+
+                item.goalName,
+
+                item.date
+
+            ]
+                .filter(Boolean)
+                .join(" ")
+                .toLowerCase();
+
+
+            return (
+                matchesFilter &&
+                searchableText.includes(
+                    search
+                )
+            );
+
+        }
+    );
+
+}
+
+
+/* =====================================
+   RENDER
+===================================== */
+
+function renderTransactions() {
+
+    const list =
+        getFilteredTransactions();
+
+    displayTransactions(list);
+
+}
+
+
+/* =====================================
+   DISPLAY
+===================================== */
+
+function displayTransactions(list) {
 
     const container =
-        document.getElementById("transactionList");
+        document.getElementById(
+            "transactionList"
+        );
 
-    if(list.length === 0){
+    if (!container) return;
+
+
+    if (!list.length) {
 
         container.innerHTML = `
 
-        <div class="empty-state">
+            <div class="empty-state">
 
-            <div class="emoji">📄</div>
+                <div class="emoji">
+                    📄
+                </div>
 
-            <h2>No Transactions Yet</h2>
+                <h2>
+                    No Transactions Found
+                </h2>
 
-            <p>
+                <p>
+                    Your money activity will
+                    appear here.
+                </p>
 
-            Your income, expenses and savings
-            will appear here.
-
-            </p>
-
-        </div>
+            </div>
 
         `;
 
@@ -129,79 +269,105 @@ function displayTransactions(list){
 
     }
 
+
     container.innerHTML = "";
 
-    list
-    .slice()
-    .reverse()
-    .forEach(item=>{
+
+    list.forEach(item => {
 
         let icon = "💰";
         let color = "icon-income";
 
-        if(item.type === "expense"){
+
+        if (
+            item.type ===
+            "expense"
+        ) {
 
             icon = "💸";
             color = "icon-expense";
 
         }
 
-        if(item.type === "savings"){
+        else if (
+            item.type ===
+            "savings"
+        ) {
 
             icon = "🏦";
             color = "icon-savings";
 
         }
 
-        const card = document.createElement("div");
+        else if (
+            item.type ===
+            "goal"
+        ) {
 
-        card.className = "transaction-card";
+            icon = "🎯";
+            color = "icon-savings";
+
+        }
+
+
+        const card =
+            document.createElement(
+                "div"
+            );
+
+        card.className =
+            "transaction-card";
+
 
         card.innerHTML = `
 
-        <div class="transaction-left">
+            <div class="transaction-left">
 
-            <div class="transaction-icon ${color}">
+                <div
+                    class="transaction-icon ${color}">
+                    ${icon}
+                </div>
 
-                ${icon}
+                <div
+                    class="transaction-info">
+
+                    <h3>
+                        ${escapeHTML(
+                            item.title ||
+                            "Transaction"
+                        )}
+                    </h3>
+
+                    <p>
+                        ${formatDateTime(
+                            item.date
+                        )}
+                    </p>
+
+                </div>
 
             </div>
 
-            <div class="transaction-info">
 
-                <h3>
+            <div class="transaction-amount">
 
-                    ${item.title || "Transaction"}
+                <h2>
+                    ${formatMoney(
+                        item.amount
+                    )}
+                </h2>
 
-                </h3>
-
-                <p>
-
-                    ${item.date || "Today"}
-
-                </p>
+                <small>
+                    ${escapeHTML(
+                        item.type ||
+                        "other"
+                    )}
+                </small>
 
             </div>
-
-        </div>
-
-        <div class="transaction-amount">
-
-            <h2>
-
-                ${formatMoney(item.amount)}
-
-            </h2>
-
-            <small>
-
-                ${item.type}
-
-            </small>
-
-        </div>
 
         `;
+
 
         container.appendChild(card);
 
@@ -214,28 +380,27 @@ function displayTransactions(list){
    SEARCH
 ===================================== */
 
-function setupSearch(){
+function setupSearch() {
 
     const search =
-    document.getElementById("searchTransaction");
+        document.getElementById(
+            "searchTransaction"
+        );
 
-    search.addEventListener("input",()=>{
+    if (!search) return;
 
-        const text =
-        search.value.toLowerCase();
 
-        const filtered =
-        transactions.filter(item=>{
+    search.addEventListener(
+        "input",
+        () => {
 
-            return (
-                item.title?.toLowerCase().includes(text)
-            );
+            searchText =
+                search.value.toLowerCase();
 
-        });
+            renderTransactions();
 
-        displayTransactions(filtered);
-
-    });
+        }
+    );
 
 }
 
@@ -244,95 +409,165 @@ function setupSearch(){
    FILTERS
 ===================================== */
 
-function setupFilters(){
+function setupFilters() {
 
     const buttons =
-    document.querySelectorAll(
-        ".filter-row button"
-    );
-
-    buttons.forEach(button=>{
-
-        button.addEventListener("click",()=>{
-
-            buttons.forEach(btn=>
-                btn.classList.remove("active")
-            );
-
-            button.classList.add("active");
-
-            currentFilter =
-            button.dataset.filter;
-
-            if(currentFilter === "all"){
-
-                displayTransactions(transactions);
-
-                return;
-
-            }
-
-            const filtered =
-            transactions.filter(item=>
-
-                item.type === currentFilter
-
-            );
-
-            displayTransactions(filtered);
-
-        });
-
-    });
-
-}
-
-
-/* =====================================
-   BUTTONS
-===================================== */
-
-function setupButtons(){
-
-    document
-    .getElementById("addTransaction")
-    .addEventListener("click",()=>{
-
-        meloToast(
-
-            "➕ Add Transaction",
-
-            "Use Income, Expense or Savings pages to add transactions.",
-
-            "info"
-
+        document.querySelectorAll(
+            ".filter-row button"
         );
 
-    });
+
+    buttons.forEach(
+        button => {
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    buttons.forEach(
+                        btn =>
+                            btn.classList.remove(
+                                "active"
+                            )
+                    );
+
+                    button.classList.add(
+                        "active"
+                    );
+
+                    currentFilter =
+                        button.dataset.filter ||
+                        "all";
+
+                    renderTransactions();
+
+                }
+            );
+
+        }
+    );
 
 }
 
 
 /* =====================================
-   FORMAT MONEY
+   REFRESH WHEN RETURNING TO PAGE
 ===================================== */
 
-function formatMoney(amount){
+window.addEventListener(
+    "pageshow",
+    () => {
 
-    return "₦" +
+        loadUser();
 
-    Number(amount).toLocaleString(
+    }
+);
 
-        "en-NG",
 
-        {
+/* =====================================
+   BUTTON
+===================================== */
 
-            minimumFractionDigits:2,
+function setupButtons() {
 
-            maximumFractionDigits:2
+    const button =
+        document.getElementById(
+            "addTransaction"
+        );
+
+    if (!button) return;
+
+
+    button.addEventListener(
+        "click",
+        () => {
+
+            meloToast(
+                "➕ Add Transaction",
+                "Use the Income, Expense or Savings pages to record money.",
+                "info"
+            );
 
         }
-
     );
 
 }
+
+
+/* =====================================
+   MONEY
+===================================== */
+
+function formatMoney(amount) {
+
+    return "₦" +
+        Number(amount || 0)
+            .toLocaleString(
+                "en-NG",
+                {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                }
+            );
+
+}
+
+
+/* =====================================
+   DATE
+===================================== */
+
+function formatDateTime(date) {
+
+    if (!date) {
+
+        return "Today";
+
+    }
+
+    const parsed =
+        new Date(date);
+
+    if (
+        isNaN(
+            parsed.getTime()
+        )
+    ) {
+
+        return String(date);
+
+    }
+
+    return parsed.toLocaleString(
+        "en-NG",
+        {
+            day: "numeric",
+            month: "short",
+            year: "numeric",
+            hour: "numeric",
+            minute: "2-digit"
+        }
+    );
+
+}
+
+
+/* =====================================
+   ESCAPE
+===================================== */
+
+function escapeHTML(value) {
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+console.log(
+    "✅ MELOSAV Transactions V2 Ready"
+);

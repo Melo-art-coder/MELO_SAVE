@@ -1,21 +1,16 @@
 /* =====================================
-   MELOSAV STORAGE V6
-   CENTRAL DATA + TRANSACTIONS SYSTEM
+   MELOSAV STORAGE V7
+   CENTRAL DATA + WALLETS + TRANSACTIONS
 ===================================== */
 
-console.log("💜 STORAGE V6 LOADED");
-
-
-/* =====================================
-   STORAGE KEYS
-===================================== */
+console.log("💜 MELOSAV STORAGE V7 LOADED");
 
 const USERS_KEY = "meloUsers";
 const CURRENT_USER_KEY = "meloCurrentUser";
 
 
 /* =====================================
-   GET ALL USERS
+   USER STORAGE
 ===================================== */
 
 function getUsers(){
@@ -27,10 +22,6 @@ function getUsers(){
 }
 
 
-/* =====================================
-   SAVE ALL USERS
-===================================== */
-
 function saveUsers(users){
 
     localStorage.setItem(
@@ -41,10 +32,6 @@ function saveUsers(users){
 }
 
 
-/* =====================================
-   GET CURRENT USER
-===================================== */
-
 function getCurrentUser(){
 
     return JSON.parse(
@@ -53,10 +40,6 @@ function getCurrentUser(){
 
 }
 
-
-/* =====================================
-   SAVE CURRENT USER
-===================================== */
 
 function saveCurrentUser(user){
 
@@ -68,15 +51,11 @@ function saveCurrentUser(user){
 }
 
 
-/* =====================================
-   UPDATE CURRENT USER
-===================================== */
-
 function updateCurrentUser(user){
 
     if(!user) return;
 
-    let users = getUsers();
+    const users = getUsers();
 
     const index = users.findIndex(
         u => u.email === user.email
@@ -93,8 +72,47 @@ function updateCurrentUser(user){
     }
 
     saveUsers(users);
-
     saveCurrentUser(user);
+
+}
+
+
+/* =====================================
+   WALLET CONFIG
+===================================== */
+
+const MELOSAV_RATES = {
+
+    NGN: 1,
+
+    USD: 1500,
+
+    EUR: 1750,
+
+    GBP: 2000
+
+};
+
+
+function convertCurrency(
+    amount,
+    from,
+    to
+){
+
+    amount = Number(amount) || 0;
+
+    if(from === to){
+
+        return amount;
+
+    }
+
+    const ngnValue =
+        amount * MELOSAV_RATES[from];
+
+    return ngnValue /
+        MELOSAV_RATES[to];
 
 }
 
@@ -109,46 +127,78 @@ function createUserData(user){
 
         ...user,
 
-        balance: Number(user.balance || 0),
+        balance:
+            Number(user.balance || 0),
 
-        income: Number(user.income || 0),
+        income:
+            Number(user.income || 0),
 
-        expenses: Number(user.expenses || 0),
+        expenses:
+            Number(user.expenses || 0),
 
-        savings: Number(user.savings || 0),
+        savings:
+            Number(user.savings || 0),
 
-        dailyBudget: Number(user.dailyBudget || 0),
+        dailyBudget:
+            Number(user.dailyBudget || 0),
 
-        goals: Array.isArray(user.goals)
-            ? user.goals
-            : [],
+        goals:
+            Array.isArray(user.goals)
+                ? user.goals
+                : [],
 
-        transactions: Array.isArray(user.transactions)
-            ? user.transactions
-            : [],
+        transactions:
+            Array.isArray(user.transactions)
+                ? user.transactions
+                : [],
 
-        achievements: Array.isArray(user.achievements)
-            ? user.achievements
-            : [],
+        achievements:
+            Array.isArray(user.achievements)
+                ? user.achievements
+                : [],
 
-        streak: Number(user.streak || 0),
+        streak:
+            Number(user.streak || 0),
 
-        notifications: Array.isArray(user.notifications)
-            ? user.notifications
-            : [],
+        notifications:
+            Array.isArray(user.notifications)
+                ? user.notifications
+                : [],
 
         reminderSettings:
             user.reminderSettings || {
 
-                enabled: true,
+                enabled:true,
+                spendingReminder:true,
+                goalReminder:true,
+                savingReminder:true
 
-                spendingReminder: true,
+            },
 
-                goalReminder: true,
+        wallets:
+            user.wallets || {
 
-                savingReminder: true
+                NGN:{
+                    balance:
+                        Number(user.balance || 0)
+                },
 
-            }
+                USD:{
+                    balance:0
+                },
+
+                EUR:{
+                    balance:0
+                },
+
+                GBP:{
+                    balance:0
+                }
+
+            },
+
+        defaultCurrency:
+            user.defaultCurrency || "NGN"
 
     };
 
@@ -156,7 +206,80 @@ function createUserData(user){
 
 
 /* =====================================
-   CENTRAL TRANSACTION FUNCTION
+   ENSURE USER STRUCTURE
+===================================== */
+
+function ensureUserStructure(user){
+
+    if(!user) return null;
+
+
+    user.balance =
+        Number(user.balance || 0);
+
+    user.income =
+        Number(user.income || 0);
+
+    user.expenses =
+        Number(user.expenses || 0);
+
+    user.savings =
+        Number(user.savings || 0);
+
+
+    if(!Array.isArray(user.goals))
+        user.goals = [];
+
+
+    if(!Array.isArray(user.transactions))
+        user.transactions = [];
+
+
+    if(!Array.isArray(user.notifications))
+        user.notifications = [];
+
+
+    if(!user.wallets){
+
+        user.wallets = {};
+
+    }
+
+
+    ["NGN","USD","EUR","GBP"]
+        .forEach(currency => {
+
+            if(!user.wallets[currency]){
+
+                user.wallets[currency] = {
+                    balance:0
+                };
+
+            }
+
+            user.wallets[currency].balance =
+                Number(
+                    user.wallets[currency].balance || 0
+                );
+
+        });
+
+
+    /*
+       Keep old NGN balance compatible
+    */
+
+    user.wallets.NGN.balance =
+        Number(user.balance || 0);
+
+
+    return user;
+
+}
+
+
+/* =====================================
+   CENTRAL TRANSACTION SYSTEM
 ===================================== */
 
 function addTransaction(
@@ -166,52 +289,43 @@ function addTransaction(
     extraData = {}
 ){
 
-    const user = getCurrentUser();
+    const user =
+        ensureUserStructure(
+            getCurrentUser()
+        );
 
     if(!user) return null;
 
 
-    if(!Array.isArray(user.transactions)){
-
-        user.transactions = [];
-
-    }
-
-
     const transaction = {
 
-        id: Date.now(),
+        id:
+            Date.now() +
+            Math.random(),
 
-        title: title || "Transaction",
+        title:
+            title || "Transaction",
 
-        amount: Number(amount || 0),
+        amount:
+            Number(amount || 0),
 
-        type: type || "other",
+        type:
+            type || "other",
 
-        date: new Date().toISOString(),
+        date:
+            new Date().toISOString(),
 
         ...extraData
 
     };
 
 
-    /*
-       Add newest transaction
-       to the beginning
-    */
-
     user.transactions.unshift(
         transaction
     );
 
 
-    /*
-       Keep the transaction history
-       connected to the current user
-    */
-
     updateCurrentUser(user);
-
 
     return transaction;
 
@@ -222,55 +336,72 @@ function addTransaction(
    ADD INCOME
 ===================================== */
 
-function addIncome(amount, title = "Income"){
+function addIncome(
+    amount,
+    title = "Income",
+    currency = "NGN"
+){
 
-    const user = getCurrentUser();
+    const user =
+        ensureUserStructure(
+            getCurrentUser()
+        );
 
-    if(!user) return;
+    if(!user) return false;
 
 
     amount = Number(amount);
 
 
-    if(!amount || amount <= 0) return;
+    if(!amount || amount <= 0)
+        return false;
 
 
-    user.income =
-        Number(user.income || 0) + amount;
+    currency =
+        MELOSAV_RATES[currency]
+            ? currency
+            : "NGN";
 
 
-    user.balance =
-        Number(user.balance || 0) + amount;
+    user.wallets[currency].balance += amount;
 
 
     /*
-       Add transaction directly
-       without saving twice
+       NGN remains the main dashboard balance
     */
 
-    if(!Array.isArray(user.transactions)){
+    if(currency === "NGN"){
 
-        user.transactions = [];
+        user.balance += amount;
 
     }
 
 
+    user.income += amount;
+
+
     user.transactions.unshift({
 
-        id: Date.now(),
+        id:
+            Date.now() +
+            Math.random(),
 
-        title: title,
+        title:title,
 
-        amount: amount,
+        amount:amount,
 
-        type: "income",
+        type:"income",
 
-        date: new Date().toISOString()
+        currency:currency,
+
+        date:new Date().toISOString()
 
     });
 
 
     updateCurrentUser(user);
+
+    return true;
 
 }
 
@@ -279,50 +410,79 @@ function addIncome(amount, title = "Income"){
    ADD EXPENSE
 ===================================== */
 
-function addExpense(amount, title = "Expense"){
+function addExpense(
+    amount,
+    title = "Expense",
+    currency = "NGN"
+){
 
-    const user = getCurrentUser();
+    const user =
+        ensureUserStructure(
+            getCurrentUser()
+        );
 
-    if(!user) return;
+    if(!user) return false;
 
 
     amount = Number(amount);
 
 
-    if(!amount || amount <= 0) return;
+    if(!amount || amount <= 0)
+        return false;
 
 
-    user.expenses =
-        Number(user.expenses || 0) + amount;
+    currency =
+        MELOSAV_RATES[currency]
+            ? currency
+            : "NGN";
 
 
-    user.balance =
-        Number(user.balance || 0) - amount;
+    const wallet =
+        user.wallets[currency];
 
 
-    if(!Array.isArray(user.transactions)){
+    if(wallet.balance < amount){
 
-        user.transactions = [];
+        return false;
 
     }
 
 
+    wallet.balance -= amount;
+
+
+    if(currency === "NGN"){
+
+        user.balance -= amount;
+
+    }
+
+
+    user.expenses += amount;
+
+
     user.transactions.unshift({
 
-        id: Date.now(),
+        id:
+            Date.now() +
+            Math.random(),
 
-        title: title,
+        title:title,
 
-        amount: amount,
+        amount:amount,
 
-        type: "expense",
+        type:"expense",
 
-        date: new Date().toISOString()
+        currency:currency,
+
+        date:new Date().toISOString()
 
     });
 
 
     updateCurrentUser(user);
+
+    return true;
 
 }
 
@@ -331,82 +491,16 @@ function addExpense(amount, title = "Expense"){
    ADD SAVINGS
 ===================================== */
 
-function addSavings(amount, title = "Savings"){
-
-    const user = getCurrentUser();
-
-    if(!user) return;
-
-
-    amount = Number(amount);
-
-
-    if(!amount || amount <= 0) return;
-
-
-    /*
-       Don't allow saving more
-       than the wallet contains
-    */
-
-    if(
-        Number(user.balance || 0)
-        < amount
-    ){
-
-        return false;
-
-    }
-
-
-    user.savings =
-        Number(user.savings || 0) + amount;
-
-
-    user.balance =
-        Number(user.balance || 0) - amount;
-
-
-    if(!Array.isArray(user.transactions)){
-
-        user.transactions = [];
-
-    }
-
-
-    user.transactions.unshift({
-
-        id: Date.now(),
-
-        title: title,
-
-        amount: amount,
-
-        type: "savings",
-
-        date: new Date().toISOString()
-
-    });
-
-
-    updateCurrentUser(user);
-
-
-    return true;
-
-}
-
-
-/* =====================================
-   ADD GOAL DEPOSIT
-===================================== */
-
-function addGoalDeposit(
-    goalId,
-    amount
+function addSavings(
+    amount,
+    title = "Savings",
+    currency = "NGN"
 ){
 
-    const user = getCurrentUser();
+    const user =
+        ensureUserStructure(
+            getCurrentUser()
+        );
 
     if(!user) return false;
 
@@ -414,49 +508,130 @@ function addGoalDeposit(
     amount = Number(amount);
 
 
-    if(!amount || amount <= 0){
+    if(!amount || amount <= 0)
+        return false;
+
+
+    currency =
+        MELOSAV_RATES[currency]
+            ? currency
+            : "NGN";
+
+
+    const wallet =
+        user.wallets[currency];
+
+
+    if(wallet.balance < amount){
 
         return false;
 
     }
 
 
-    if(!Array.isArray(user.goals)){
+    wallet.balance -= amount;
 
-        user.goals = [];
+
+    if(currency === "NGN"){
+
+        user.balance -= amount;
 
     }
 
 
-    const goal = user.goals.find(
-        goal => goal.id === goalId
-    );
+    user.savings += amount;
+
+
+    user.transactions.unshift({
+
+        id:
+            Date.now() +
+            Math.random(),
+
+        title:title,
+
+        amount:amount,
+
+        type:"savings",
+
+        currency:currency,
+
+        date:new Date().toISOString()
+
+    });
+
+
+    updateCurrentUser(user);
+
+    return true;
+
+}
+
+
+/* =====================================
+   GOAL DEPOSIT
+===================================== */
+
+function addGoalDeposit(
+    goalId,
+    amount,
+    currency = "NGN"
+){
+
+    const user =
+        ensureUserStructure(
+            getCurrentUser()
+        );
+
+    if(!user) return false;
+
+
+    amount = Number(amount);
+
+
+    if(!amount || amount <= 0)
+        return false;
+
+
+    currency =
+        MELOSAV_RATES[currency]
+            ? currency
+            : "NGN";
+
+
+    const goal =
+        user.goals.find(
+            g => g.id === goalId
+        );
 
 
     if(!goal){
 
-        return false;
+        return {
+            success:false,
+            reason:"goal-not-found"
+        };
 
     }
 
 
-    const balance =
-        Number(user.balance || 0);
+    const wallet =
+        user.wallets[currency];
 
 
-    /*
-       Wallet check
-    */
+    if(wallet.balance < amount){
 
-    if(balance < amount){
-
-        return false;
+        return {
+            success:false,
+            reason:"insufficient-balance"
+        };
 
     }
 
 
     const target =
         Number(goal.target || 0);
+
 
     const saved =
         Number(goal.saved || 0);
@@ -475,15 +650,13 @@ function addGoalDeposit(
 
         updateCurrentUser(user);
 
-        return false;
+        return {
+            success:false,
+            reason:"completed"
+        };
 
     }
 
-
-    /*
-       Never allow the goal
-       to go above its target
-    */
 
     const amountToAdd =
         Math.min(
@@ -496,13 +669,17 @@ function addGoalDeposit(
         saved + amountToAdd;
 
 
-    user.balance =
-        balance - amountToAdd;
+    wallet.balance -= amountToAdd;
 
 
-    user.savings =
-        Number(user.savings || 0)
-        + amountToAdd;
+    if(currency === "NGN"){
+
+        user.balance -= amountToAdd;
+
+    }
+
+
+    user.savings += amountToAdd;
 
 
     if(goal.saved >= target){
@@ -514,35 +691,28 @@ function addGoalDeposit(
     }
 
 
-    /*
-       Record goal deposit
-    */
-
-    if(!Array.isArray(user.transactions)){
-
-        user.transactions = [];
-
-    }
-
-
     user.transactions.unshift({
 
-        id: Date.now(),
+        id:
+            Date.now() +
+            Math.random(),
 
         title:
             `Savings Goal: ${goal.name}`,
 
-        amount: amountToAdd,
+        amount:amountToAdd,
 
-        type: "savings",
+        type:"savings",
 
-        category: "goal",
+        category:"goal",
 
-        goalId: goal.id,
+        goalId:goal.id,
 
-        goalName: goal.name,
+        goalName:goal.name,
 
-        date: new Date().toISOString()
+        currency:currency,
+
+        date:new Date().toISOString()
 
     });
 
@@ -552,11 +722,126 @@ function addGoalDeposit(
 
     return {
 
-        success: true,
+        success:true,
 
-        amount: amountToAdd,
+        amount:amountToAdd,
 
-        completed: goal.completed === true
+        completed:
+            goal.completed === true
+
+    };
+
+}
+
+
+/* =====================================
+   TRANSFER MONEY
+===================================== */
+
+function transferMoney(
+    amount,
+    fromCurrency,
+    toCurrency,
+    title = "Transfer"
+){
+
+    const user =
+        ensureUserStructure(
+            getCurrentUser()
+        );
+
+    if(!user) return false;
+
+
+    amount = Number(amount);
+
+
+    if(!amount || amount <= 0)
+        return false;
+
+
+    if(
+        !MELOSAV_RATES[fromCurrency] ||
+        !MELOSAV_RATES[toCurrency]
+    ){
+
+        return false;
+
+    }
+
+
+    const source =
+        user.wallets[fromCurrency];
+
+
+    if(source.balance < amount){
+
+        return false;
+
+    }
+
+
+    const converted =
+        convertCurrency(
+            amount,
+            fromCurrency,
+            toCurrency
+        );
+
+
+    source.balance -= amount;
+
+
+    user.wallets[toCurrency].balance +=
+        converted;
+
+
+    if(fromCurrency === "NGN"){
+
+        user.balance -= amount;
+
+    }
+
+
+    if(toCurrency === "NGN"){
+
+        user.balance += converted;
+
+    }
+
+
+    user.transactions.unshift({
+
+        id:
+            Date.now() +
+            Math.random(),
+
+        title:title,
+
+        amount:amount,
+
+        convertedAmount:converted,
+
+        type:"transfer",
+
+        fromCurrency,
+
+        toCurrency,
+
+        date:new Date().toISOString()
+
+    });
+
+
+    updateCurrentUser(user);
+
+    return {
+
+        success:true,
+
+        amount,
+
+        converted
 
     };
 
@@ -569,7 +854,8 @@ function addGoalDeposit(
 
 function saveGoals(goals){
 
-    const user = getCurrentUser();
+    const user =
+        getCurrentUser();
 
     if(!user) return;
 
@@ -591,7 +877,8 @@ function saveGoals(goals){
 
 function getGoals(){
 
-    const user = getCurrentUser();
+    const user =
+        getCurrentUser();
 
     if(!user) return [];
 
@@ -613,33 +900,61 @@ function addNotification(
     type = "info"
 ){
 
-    const user = getCurrentUser();
+    const user =
+        ensureUserStructure(
+            getCurrentUser()
+        );
 
     if(!user) return;
 
 
-    if(!Array.isArray(user.notifications)){
-
-        user.notifications = [];
-
-    }
-
-
     user.notifications.unshift({
 
-        id: Date.now(),
+        id:
+            Date.now() +
+            Math.random(),
 
-        title: title,
+        title:title,
 
-        message: message,
+        message:message,
 
-        type: type,
+        type:type,
 
-        read: false,
+        read:false,
 
-        date: new Date().toISOString()
+        date:new Date().toISOString()
 
     });
+
+
+    updateCurrentUser(user);
+
+}
+
+
+/* =====================================
+   MARK NOTIFICATION READ
+===================================== */
+
+function markNotificationRead(id){
+
+    const user =
+        getCurrentUser();
+
+    if(!user) return;
+
+
+    const notification =
+        user.notifications.find(
+            n => n.id === id
+        );
+
+
+    if(notification){
+
+        notification.read = true;
+
+    }
 
 
     updateCurrentUser(user);
@@ -657,9 +972,12 @@ function logout(){
         CURRENT_USER_KEY
     );
 
-    location.href = "login.html";
+    location.href =
+        "login.html";
 
 }
 
 
-console.log("✅ MELOSAV Storage V6 Ready");
+console.log(
+    "✅ MELOSAV STORAGE V7 READY"
+);

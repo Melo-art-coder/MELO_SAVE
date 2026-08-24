@@ -1,6 +1,6 @@
 /* =====================================
    MELOSAV GOALS V8
-   GOALS + HOME SYNC + TRANSACTIONS
+   GOALS + NOTIFICATIONS + MONEY
 ===================================== */
 
 console.log("🎯 MELOSAV GOALS V8 LOADED");
@@ -8,116 +8,48 @@ console.log("🎯 MELOSAV GOALS V8 LOADED");
 let currentUser = null;
 let selectedGoal = null;
 
-
-/* =====================================
-   ELEMENTS
-===================================== */
-
-let goalsContainer;
-let goalModal;
-let goalName;
-let goalTarget;
-let goalDeadline;
-let moneyModal;
-let moneyInput;
+const goalsContainer = document.getElementById("goalList");
+const goalModal = document.getElementById("goalModal");
+const goalName = document.getElementById("goalName");
+const goalTarget = document.getElementById("goalAmount");
+const moneyModal = document.getElementById("moneyModal");
+const moneyInput = document.getElementById("moneyInput");
 
 
 /* =====================================
    START
 ===================================== */
 
-document.addEventListener(
-    "DOMContentLoaded",
-    () => {
+document.addEventListener("DOMContentLoaded", () => {
 
-        if(typeof loadTheme === "function"){
-
-            loadTheme();
-
-        }
-
-
-        currentUser =
-            getCurrentUser();
-
-
-        if(!currentUser){
-
-            location.href =
-                "login.html";
-
-            return;
-
-        }
-
-
-        currentUser.goals =
-            Array.isArray(currentUser.goals)
-                ? currentUser.goals
-                : [];
-
-
-        cacheElements();
-
-        loadGoals();
-
-        setupButtons();
-
-        setupModals();
-
+    if (typeof loadTheme === "function") {
+        loadTheme();
     }
-);
+
+    currentUser = getCurrentUser();
+
+    if (!currentUser) {
+        location.href = "login.html";
+        return;
+    }
+
+    currentUser.goals = Array.isArray(currentUser.goals)
+        ? currentUser.goals
+        : [];
+
+    loadGoals();
+    setupButtons();
+
+});
 
 
 /* =====================================
-   ELEMENTS
+   SAVE USER
 ===================================== */
 
-function cacheElements(){
+function saveUser() {
 
-    goalsContainer =
-        document.getElementById(
-            "goalList"
-        );
-
-    goalModal =
-        document.getElementById(
-            "goalModal"
-        );
-
-    goalName =
-        document.getElementById(
-            "goalName"
-        );
-
-    goalTarget =
-        document.getElementById(
-            "goalAmount"
-        );
-
-    /*
-       New field.
-       Supports either ID.
-    */
-
-    goalDeadline =
-        document.getElementById(
-            "goalDeadline"
-        ) ||
-        document.getElementById(
-            "goalDate"
-        );
-
-
-    moneyModal =
-        document.getElementById(
-            "moneyModal"
-        );
-
-    moneyInput =
-        document.getElementById(
-            "moneyInput"
-        );
+    updateCurrentUser(currentUser);
 
 }
 
@@ -126,84 +58,67 @@ function cacheElements(){
    BUTTONS
 ===================================== */
 
-function setupButtons(){
+function setupButtons() {
 
     const createBtn =
-        document.getElementById(
-            "createGoalBtn"
-        );
+        document.getElementById("createGoalBtn");
 
     const fab =
-        document.getElementById(
-            "fab"
-        );
+        document.getElementById("fab");
 
     const cancelBtn =
-        document.getElementById(
-            "cancelGoal"
-        );
+        document.getElementById("cancelGoal");
 
     const saveBtn =
-        document.getElementById(
-            "saveGoal"
-        );
+        document.getElementById("saveGoal");
 
     const cancelMoney =
-        document.getElementById(
-            "cancelMoney"
-        );
+        document.getElementById("cancelMoney");
 
     const confirmMoney =
-        document.getElementById(
-            "confirmMoney"
+        document.getElementById("confirmMoney");
+
+
+    if (createBtn) {
+        createBtn.addEventListener(
+            "click",
+            openGoalModal
         );
-
-
-    if(createBtn){
-
-        createBtn.onclick =
-            openGoalModal;
-
     }
 
-
-    if(fab){
-
-        fab.onclick =
-            openGoalModal;
-
+    if (fab) {
+        fab.addEventListener(
+            "click",
+            openGoalModal
+        );
     }
 
-
-    if(cancelBtn){
-
-        cancelBtn.onclick =
-            closeGoalModal;
-
+    if (cancelBtn) {
+        cancelBtn.addEventListener(
+            "click",
+            closeGoalModal
+        );
     }
 
-
-    if(saveBtn){
-
-        saveBtn.onclick =
-            createGoal;
-
+    if (saveBtn) {
+        saveBtn.addEventListener(
+            "click",
+            createGoal
+        );
     }
 
-
-    if(cancelMoney){
-
-        cancelMoney.onclick =
-            closeMoneyModal;
-
+    if (cancelMoney) {
+        cancelMoney.addEventListener(
+            "click",
+            closeMoneyModal
+        );
     }
 
-
-    if(confirmMoney){
-
-        confirmMoney.onclick =
-            confirmAddMoney;
-
+    if (confirmMoney) {
+        confirmMoney.addEventListener(
+            "click",
+            confirmAddMoney
+        );
     }
 
 }
@@ -213,46 +128,34 @@ function setupButtons(){
    CREATE GOAL MODAL
 ===================================== */
 
-function openGoalModal(){
+function openGoalModal() {
 
-    if(!goalModal) return;
+    if (!goalModal) return;
 
-    goalModal.classList.add(
-        "show"
-    );
+    goalModal.classList.add("show");
 
+    setTimeout(() => {
 
-    setTimeout(
-        () => {
+        if (goalName) {
+            goalName.focus();
+        }
 
-            goalName?.focus();
-
-        },
-        100
-    );
+    }, 100);
 
 }
 
 
-function closeGoalModal(){
+function closeGoalModal() {
 
-    if(!goalModal) return;
+    if (!goalModal) return;
 
-    goalModal.classList.remove(
-        "show"
-    );
+    goalModal.classList.remove("show");
 
-
-    if(goalName)
+    if (goalName)
         goalName.value = "";
 
-
-    if(goalTarget)
+    if (goalTarget)
         goalTarget.value = "";
-
-
-    if(goalDeadline)
-        goalDeadline.value = "";
 
 }
 
@@ -261,67 +164,50 @@ function closeGoalModal(){
    CREATE GOAL
 ===================================== */
 
-function createGoal(){
+function createGoal() {
 
     const name =
         goalName?.value.trim();
 
-
     const target =
-        Number(
-            goalTarget?.value
-        );
+        Number(goalTarget?.value);
 
 
-    const deadline =
-        goalDeadline?.value ||
-        "No deadline";
-
-
-    if(!name){
+    if (!name) {
 
         meloToast(
             "🎯 Goal Name Missing",
-            "Give your savings goal a name.",
+            "Give your goal a name.",
             "warning"
         );
 
         return;
-
     }
 
 
-    if(
-        !target ||
-        target <= 0
-    ){
+    if (!target || target <= 0) {
 
         meloToast(
-            "💰 Invalid Amount",
+            "💰 Invalid Target",
             "Enter a valid target amount.",
             "error"
         );
 
         return;
-
     }
 
 
     const newGoal = {
 
-        id:
-            Date.now() +
-            Math.random(),
+        id: Date.now(),
 
-        name:name,
+        name: name,
 
-        target:target,
+        target: target,
 
-        saved:0,
+        saved: 0,
 
-        deadline:deadline,
-
-        completed:false,
+        completed: false,
 
         createdAt:
             new Date().toISOString()
@@ -329,36 +215,32 @@ function createGoal(){
     };
 
 
-    currentUser.goals.push(
-        newGoal
-    );
+    currentUser.goals.push(newGoal);
+
+    saveUser();
 
 
-    updateCurrentUser(
-        currentUser
-    );
+    /* Notification only.
+       Creating a goal is NOT a money transaction. */
 
+    if (typeof notifyGoalCreated === "function") {
 
-    loadGoals();
+        notifyGoalCreated(name);
+
+    } else {
+
+        addNotification(
+            "🎯 New Goal Created",
+            `Melo just created a new savings goal: "${name}".`,
+            "goal"
+        );
+
+    }
 
 
     closeGoalModal();
 
-
-    /*
-       Record the creation itself
-       as a non-money activity.
-    */
-
-    addTransaction(
-        `Created Goal: ${name}`,
-        0,
-        "goal_created",
-        {
-            goalId:newGoal.id,
-            goalName:name
-        }
-    );
+    loadGoals();
 
 
     meloToast(
@@ -374,35 +256,20 @@ function createGoal(){
    LOAD GOALS
 ===================================== */
 
-function loadGoals(){
+function loadGoals() {
 
-    if(!goalsContainer)
-        return;
+    if (!goalsContainer) return;
 
-
-    currentUser =
-        getCurrentUser();
-
-
-    currentUser.goals =
-        Array.isArray(
-            currentUser.goals
-        )
-            ? currentUser.goals
-            : [];
-
-
-    goalsContainer.innerHTML =
-        "";
-
+    goalsContainer.innerHTML = "";
 
     let totalSaved = 0;
     let completed = 0;
 
 
-    if(
+    if (
+        !currentUser.goals ||
         currentUser.goals.length === 0
-    ){
+    ) {
 
         goalsContainer.innerHTML = `
 
@@ -414,178 +281,149 @@ function loadGoals(){
 
                 <p>
                     Create your first savings goal
-                    and begin your financial journey.
+                    and start saving.
                 </p>
 
             </div>
 
         `;
 
-
-        updateSummary(
-            0,
-            0,
-            0
-        );
+        updateSummary(0, 0, 0);
 
         return;
-
     }
 
 
-    currentUser.goals.forEach(
-        goal => {
+    currentUser.goals.forEach(goal => {
 
-            const target =
-                Number(
-                    goal.target
-                ) || 0;
+        const target =
+            Number(goal.target || 0);
 
-
-            const saved =
-                Number(
-                    goal.saved
-                ) || 0;
+        const saved =
+            Number(goal.saved || 0);
 
 
-            const percent =
-                target > 0
-                    ? Math.min(
-                        (saved / target) *
-                        100,
-                        100
-                    )
-                    : 0;
+        const percent =
+            target > 0
+                ? Math.min(
+                    (saved / target) * 100,
+                    100
+                )
+                : 0;
 
 
-            totalSaved += saved;
+        totalSaved += saved;
 
 
-            if(
-                saved >= target &&
-                target > 0
-            ){
+        if (saved >= target && target > 0) {
 
-                completed++;
-
-                goal.completed =
-                    true;
-
-            }
-
-
-            const card =
-                document.createElement(
-                    "div"
-                );
-
-
-            card.className =
-                "goal-card";
-
-
-            card.innerHTML = `
-
-                <div class="goal-card-top">
-
-                    <div>
-
-                        <h3>
-                            🎯
-                            ${escapeHTML(goal.name)}
-                        </h3>
-
-                        <small>
-                            ${
-                                formatDeadline(
-                                    goal.deadline ||
-                                    goal.date
-                                )
-                            }
-                        </small>
-
-                    </div>
-
-                    <strong>
-                        ${percent.toFixed(0)}%
-                    </strong>
-
-                </div>
-
-
-                <div class="goal-money">
-
-                    <span>
-                        ${formatMoney(saved)}
-                    </span>
-
-                    <span>
-                        /
-                        ${formatMoney(target)}
-                    </span>
-
-                </div>
-
-
-                <div class="progress">
-
-                    <div
-                        class="progress-fill"
-                        style="
-                            width:${percent}%
-                        ">
-                    </div>
-
-                </div>
-
-
-                <p class="goal-ai">
-
-                    ${getGoalMessage(percent)}
-
-                </p>
-
-
-                <div class="goal-actions">
-
-                    <button
-                        class="add-money-btn"
-                        onclick="
-                            addMoney(${goal.id})
-                        ">
-
-                        💰 Add Money
-
-                    </button>
-
-
-                    <button
-                        class="delete-goal-btn"
-                        onclick="
-                            deleteGoal(${goal.id})
-                        ">
-
-                        🗑 Delete
-
-                    </button>
-
-                </div>
-
-            `;
-
-
-            goalsContainer.appendChild(
-                card
-            );
+            goal.completed = true;
+            completed++;
 
         }
-    );
 
 
-    updateCurrentUser(
-        currentUser
-    );
+        const card =
+            document.createElement("div");
 
+        card.className = "goal-card";
+
+
+        card.innerHTML = `
+
+            <div class="goal-card-top">
+
+                <div>
+
+                    <h3>
+                        🎯 ${escapeHTML(goal.name)}
+                    </h3>
+
+                    <small>
+                        ${
+                            goal.completed
+                            ? "🎉 Completed"
+                            : "Active Goal"
+                        }
+                    </small>
+
+                </div>
+
+                <strong>
+                    ${percent.toFixed(0)}%
+                </strong>
+
+            </div>
+
+
+            <div class="goal-money">
+
+                <span>
+                    ${formatMoney(saved)}
+                </span>
+
+                <span>
+                    / ${formatMoney(target)}
+                </span>
+
+            </div>
+
+
+            <div class="progress">
+
+                <div
+                    class="progress-fill"
+                    style="width:${percent}%">
+                </div>
+
+            </div>
+
+
+            <p class="goal-ai">
+                ${getGoalMessage(percent)}
+            </p>
+
+
+            <div class="goal-actions">
+
+                ${
+                    !goal.completed
+                    ? `
+                        <button
+                            class="add-money-btn"
+                            onclick="addMoney(${goal.id})">
+                            💰 Add Money
+                        </button>
+                    `
+                    : `
+                        <button
+                            class="add-money-btn"
+                            disabled>
+                            🎉 Completed
+                        </button>
+                    `
+                }
+
+
+                <button
+                    class="delete-goal-btn"
+                    onclick="deleteGoal(${goal.id})">
+
+                    🗑 Delete
+
+                </button>
+
+            </div>
+
+        `;
+
+
+        goalsContainer.appendChild(card);
+
+    });
+
+
+    saveUser();
 
     updateSummary(
         currentUser.goals.length,
@@ -604,35 +442,25 @@ function updateSummary(
     total,
     completed,
     saved
-){
+) {
 
     const totalElement =
-        document.getElementById(
-            "totalGoals"
-        );
+        document.getElementById("totalGoals");
 
     const completedElement =
-        document.getElementById(
-            "completedGoals"
-        );
+        document.getElementById("completedGoals");
 
     const savedElement =
-        document.getElementById(
-            "savedGoals"
-        );
+        document.getElementById("savedGoals");
 
 
-    if(totalElement)
-        totalElement.textContent =
-            total;
+    if (totalElement)
+        totalElement.textContent = total;
 
+    if (completedElement)
+        completedElement.textContent = completed;
 
-    if(completedElement)
-        completedElement.textContent =
-            completed;
-
-
-    if(savedElement)
+    if (savedElement)
         savedElement.textContent =
             formatMoney(saved);
 
@@ -643,10 +471,9 @@ function updateSummary(
    ADD MONEY
 ===================================== */
 
-function addMoney(id){
+function addMoney(id) {
 
     selectedGoal = id;
-
 
     const goal =
         currentUser.goals.find(
@@ -654,135 +481,99 @@ function addMoney(id){
         );
 
 
-    if(!goal){
+    if (!goal) return;
 
-        meloToast(
-            "Goal Not Found",
-            "This goal could not be found.",
-            "error"
-        );
+
+    if (!moneyModal || !moneyInput) {
+
+        const amount =
+            prompt(
+                `How much do you want to add to ${goal.name}?`
+            );
+
+        if (amount) {
+
+            processGoalMoney(
+                Number(amount)
+            );
+
+        }
 
         return;
-
     }
 
 
-    if(
-        !moneyModal ||
-        !moneyInput
-    ){
+    moneyInput.value = "";
 
-        console.error(
-            "Money modal missing."
-        );
+    moneyModal.classList.add("show");
 
-        return;
+    setTimeout(() => {
 
-    }
+        moneyInput.focus();
 
-
-    moneyInput.value =
-        "";
-
-
-    moneyModal.classList.add(
-        "show"
-    );
-
-
-    setTimeout(
-        () => {
-
-            moneyInput.focus();
-
-        },
-        100
-    );
+    }, 100);
 
 }
 
 
 /* =====================================
-   CONFIRM ADD MONEY
+   CONFIRM MONEY
 ===================================== */
 
-function confirmAddMoney(){
+function confirmAddMoney() {
 
-    if(selectedGoal === null)
-        return;
-
+    if (!selectedGoal) return;
 
     const amount =
-        Number(
-            moneyInput.value
-        );
+        Number(moneyInput?.value);
 
 
-    if(
-        !amount ||
-        amount <= 0
-    ){
+    processGoalMoney(amount);
+
+}
+
+
+/* =====================================
+   PROCESS GOAL MONEY
+===================================== */
+
+function processGoalMoney(amount) {
+
+    if (!amount || amount <= 0) {
 
         meloToast(
             "💰 Invalid Amount",
-            "Enter a valid amount to save.",
+            "Enter a valid amount.",
             "error"
         );
 
         return;
-
     }
 
 
     const result =
         addGoalDeposit(
             selectedGoal,
-            amount,
-            "NGN"
+            amount
         );
 
 
-    if(!result.success){
+    if (!result || !result.success) {
 
-        if(
-            result.reason ===
-            "insufficient-balance"
-        ){
-
-            meloToast(
-                "💸 Insufficient Balance",
-                "You don't have enough money in your wallet.",
-                "error"
-            );
-
-        }
-
-        else if(
-            result.reason ===
-            "completed"
-        ){
-
-            meloToast(
-                "🎉 Already Completed!",
-                "This goal has reached its target.",
-                "info"
-            );
-
-        }
-
-        else{
-
-            meloToast(
-                "❌ Something went wrong",
-                "The money could not be added.",
-                "error"
-            );
-
-        }
+        meloToast(
+            "💸 Not Enough Balance",
+            "You don't have enough money in your wallet.",
+            "error"
+        );
 
         return;
-
     }
+
+
+    const goal =
+        currentUser.goals.find(
+            g => g.id === selectedGoal
+        );
 
 
     currentUser =
@@ -791,49 +582,32 @@ function confirmAddMoney(){
 
     closeMoneyModal();
 
-
     loadGoals();
 
 
-    /*
-       Tell other pages that
-       data changed.
-    */
+    if (
+        result.completed &&
+        typeof celebrateGoalConfetti === "function"
+    ) {
 
-    window.dispatchEvent(
-        new Event(
-            "meloDataUpdated"
-        )
-    );
-
-
-    if(result.completed){
-
-        if(
-            typeof celebrateGoalConfetti ===
-            "function"
-        ){
-
-            celebrateGoalConfetti();
-
-        }
-
-
-        meloToast(
-            "🎉 Goal Completed!",
-            "You reached your savings goal!",
-            "success"
-        );
-
-    }else{
-
-        meloToast(
-            "💜 Money Added!",
-            `${formatMoney(result.amount)} added to your goal.`,
-            "success"
-        );
+        celebrateGoalConfetti();
 
     }
+
+
+    meloToast(
+
+        result.completed
+            ? "🎉 Goal Completed!"
+            : "💜 Money Added!",
+
+        result.completed
+            ? `${goal.name} reached its target!`
+            : `${formatMoney(result.amount)} added to ${goal.name}.`,
+
+        "success"
+
+    );
 
 
     selectedGoal = null;
@@ -842,14 +616,28 @@ function confirmAddMoney(){
 
 
 /* =====================================
+   CLOSE MONEY MODAL
+===================================== */
+
+function closeMoneyModal() {
+
+    if (!moneyModal) return;
+
+    moneyModal.classList.remove("show");
+
+    selectedGoal = null;
+
+    if (moneyInput)
+        moneyInput.value = "";
+
+}
+
+
+/* =====================================
    DELETE GOAL
 ===================================== */
 
-function deleteGoal(id){
-
-    currentUser =
-        getCurrentUser();
-
+function deleteGoal(id) {
 
     const goal =
         currentUser.goals.find(
@@ -857,8 +645,7 @@ function deleteGoal(id){
         );
 
 
-    if(!goal)
-        return;
+    if (!goal) return;
 
 
     const confirmed =
@@ -867,8 +654,11 @@ function deleteGoal(id){
         );
 
 
-    if(!confirmed)
-        return;
+    if (!confirmed) return;
+
+
+    const goalNameDeleted =
+        goal.name;
 
 
     currentUser.goals =
@@ -877,20 +667,24 @@ function deleteGoal(id){
         );
 
 
-    updateCurrentUser(
-        currentUser
-    );
+    saveUser();
 
 
-    addTransaction(
-        `Deleted Goal: ${goal.name}`,
-        0,
-        "goal_deleted",
-        {
-            goalId:goal.id,
-            goalName:goal.name
-        }
-    );
+    if (typeof notifyGoalDeleted === "function") {
+
+        notifyGoalDeleted(
+            goalNameDeleted
+        );
+
+    } else {
+
+        addNotification(
+            "🗑 Goal Deleted",
+            `Melo just removed the savings goal "${goalNameDeleted}".`,
+            "goal"
+        );
+
+    }
 
 
     loadGoals();
@@ -906,232 +700,149 @@ function deleteGoal(id){
 
 
 /* =====================================
-   CLOSE MONEY MODAL
-===================================== */
-
-function closeMoneyModal(){
-
-    if(moneyModal){
-
-        moneyModal.classList.remove(
-            "show"
-        );
-
-    }
-
-
-    selectedGoal = null;
-
-
-    if(moneyInput)
-        moneyInput.value = "";
-
-}
-
-
-/* =====================================
-   MODALS
-===================================== */
-
-function setupModals(){
-
-    if(goalModal){
-
-        goalModal.addEventListener(
-            "click",
-            event => {
-
-                if(
-                    event.target ===
-                    goalModal
-                ){
-
-                    closeGoalModal();
-
-                }
-
-            }
-        );
-
-    }
-
-
-    if(moneyModal){
-
-        moneyModal.addEventListener(
-            "click",
-            event => {
-
-                if(
-                    event.target ===
-                    moneyModal
-                ){
-
-                    closeMoneyModal();
-
-                }
-
-            }
-        );
-
-    }
-
-
-    document.addEventListener(
-        "keydown",
-        event => {
-
-            if(
-                event.key !==
-                "Escape"
-            )
-                return;
-
-
-            closeGoalModal();
-
-            closeMoneyModal();
-
-        }
-    );
-
-
-    if(moneyInput){
-
-        moneyInput.addEventListener(
-            "keydown",
-            event => {
-
-                if(
-                    event.key ===
-                    "Enter"
-                ){
-
-                    event.preventDefault();
-
-                    confirmAddMoney();
-
-                }
-
-            }
-        );
-
-    }
-
-}
-
-
-/* =====================================
    HELPERS
 ===================================== */
 
-function formatMoney(amount){
+function formatMoney(amount) {
 
     return "₦" +
         Number(amount || 0)
-            .toLocaleString(
-                "en-NG",
-                {
-                    minimumFractionDigits:2,
-                    maximumFractionDigits:2
-                }
-            );
-
-}
-
-
-function formatDeadline(date){
-
-    if(
-        !date ||
-        date === "No deadline"
-    ){
-
-        return "No withdrawal deadline";
-
-    }
-
-
-    const parsed =
-        new Date(date);
-
-
-    if(
-        isNaN(
-            parsed.getTime()
-        )
-    ){
-
-        return "No withdrawal deadline";
-
-    }
-
-
-    return `
-        🔒 Withdraw after
-        ${parsed.toLocaleDateString(
+        .toLocaleString(
             "en-NG",
             {
-                day:"numeric",
-                month:"short",
-                year:"numeric"
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
             }
-        )}
-    `;
+        );
 
 }
 
 
-function getGoalMessage(percent){
+function getGoalMessage(percent) {
 
-    if(percent >= 100)
+    if (percent >= 100)
         return "🎉 Goal completed! Amazing work!";
 
-
-    if(percent >= 75)
+    if (percent >= 75)
         return "🔥 You're almost there!";
 
-
-    if(percent >= 50)
+    if (percent >= 50)
         return "💜 Halfway there! Keep saving.";
 
-
-    if(percent >= 25)
+    if (percent >= 25)
         return "🚀 Nice progress! Keep going.";
-
 
     return "🌱 Every little step counts.";
 
 }
 
 
-function escapeHTML(value){
+function escapeHTML(value) {
 
     return String(value)
-        .replace(
-            /&/g,
-            "&amp;"
-        )
-        .replace(
-            /</g,
-            "&lt;"
-        )
-        .replace(
-            />/g,
-            "&gt;"
-        )
-        .replace(
-            /"/g,
-            "&quot;"
-        )
-        .replace(
-            /'/g,
-            "&#039;"
-        );
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
 
 }
 
 
-console.log(
-    "✅ MELOSAV Goals V8 Ready"
+/* =====================================
+   MODAL OUTSIDE CLICK
+===================================== */
+
+if (goalModal) {
+
+    goalModal.addEventListener(
+        "click",
+        event => {
+
+            if (event.target === goalModal) {
+
+                closeGoalModal();
+
+            }
+
+        }
+    );
+
+}
+
+
+if (moneyModal) {
+
+    moneyModal.addEventListener(
+        "click",
+        event => {
+
+            if (event.target === moneyModal) {
+
+                closeMoneyModal();
+
+            }
+
+        }
+    );
+
+}
+
+
+/* =====================================
+   ESCAPE KEY
+===================================== */
+
+document.addEventListener(
+    "keydown",
+    event => {
+
+        if (event.key !== "Escape") return;
+
+        if (
+            goalModal &&
+            goalModal.classList.contains("show")
+        ) {
+
+            closeGoalModal();
+
+        }
+
+        if (
+            moneyModal &&
+            moneyModal.classList.contains("show")
+        ) {
+
+            closeMoneyModal();
+
+        }
+
+    }
 );
+
+
+/* =====================================
+   ENTER TO ADD MONEY
+===================================== */
+
+if (moneyInput) {
+
+    moneyInput.addEventListener(
+        "keydown",
+        event => {
+
+            if (event.key === "Enter") {
+
+                event.preventDefault();
+
+                confirmAddMoney();
+
+            }
+
+        }
+    );
+
+}
+
+
+console.log("✅ GOALS V8 READY");

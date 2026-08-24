@@ -1,58 +1,198 @@
 /* =====================================
-   MELOSAV LANDING PAGE
-   TRUE SLOW-MO SCROLL SYSTEM
+   MELOSAV LANDING PAGE V2
+   SLOW-MO SCROLL ENGINE
+===================================== */
+
+console.log("💜 MELOSAV LANDING V2 LOADED");
+
+
+/* =====================================
+   START
 ===================================== */
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    console.log("💜 MELOSAV SLOW-MO V3 LOADED");
+    /*
+       Tell CSS that JavaScript is available.
 
-    const hero = document.querySelector(".hero");
-    const sections = document.querySelectorAll(
-        ".features, footer"
-    );
+       IMPORTANT:
+       Without this class, every section
+       remains visible.
+    */
 
-    /* =====================================
-       HERO
-    ===================================== */
+    document.body.classList.add("js-loaded");
 
-    if (hero) {
-        hero.classList.add("slow-ready");
+
+    setupScrollReveal();
+
+    setupSmoothLinks();
+
+    setupHeaderScroll();
+
+});
+
+
+/* =====================================
+   SLOW-MO SCROLL REVEAL
+===================================== */
+
+function setupScrollReveal() {
+
+    const elements =
+        document.querySelectorAll(".reveal");
+
+
+    /*
+       If browser doesn't support
+       IntersectionObserver, show everything.
+    */
+
+    if (!("IntersectionObserver" in window)) {
+
+        elements.forEach(element => {
+
+            element.classList.add("visible");
+
+        });
+
+        return;
+
     }
 
 
-    /* =====================================
-       PREPARE SECTIONS
-    ===================================== */
+    const observer =
+        new IntersectionObserver(
 
-    sections.forEach(section => {
-        section.classList.add("slow-section");
+            entries => {
+
+                entries.forEach(entry => {
+
+                    if (entry.isIntersecting) {
+
+                        entry.target.classList.add(
+                            "visible"
+                        );
+
+                    }
+
+                });
+
+            },
+
+            {
+                threshold: 0.12,
+
+                rootMargin:
+                    "0px 0px -70px 0px"
+
+            }
+
+        );
+
+
+    elements.forEach(element => {
+
+        observer.observe(element);
+
     });
 
+}
 
-    /* =====================================
-       SCROLL ENGINE
-    ===================================== */
 
-    let currentScroll = window.scrollY;
-    let targetScroll = window.scrollY;
+/* =====================================
+   SMOOTH INTERNAL LINKS
+===================================== */
 
-    let ticking = false;
+function setupSmoothLinks() {
+
+    const links =
+        document.querySelectorAll(
+            'a[href^="#"]'
+        );
+
+
+    links.forEach(link => {
+
+        link.addEventListener(
+            "click",
+            event => {
+
+                const targetId =
+                    link.getAttribute("href");
+
+
+                if (
+                    !targetId ||
+                    targetId === "#"
+                ) {
+
+                    return;
+
+                }
+
+
+                const target =
+                    document.querySelector(
+                        targetId
+                    );
+
+
+                if (!target) {
+
+                    return;
+
+                }
+
+
+                event.preventDefault();
+
+
+                target.scrollIntoView({
+
+                    behavior: "smooth",
+
+                    block: "start"
+
+                });
+
+            }
+        );
+
+    });
+
+}
+
+
+/* =====================================
+   HEADER SCROLL EFFECT
+===================================== */
+
+function setupHeaderScroll() {
+
+    const header =
+        document.querySelector(
+            ".site-header"
+        );
+
+
+    if (!header) return;
 
 
     window.addEventListener(
         "scroll",
         () => {
 
-            targetScroll = window.scrollY;
+            if (window.scrollY > 30) {
 
-            if (!ticking) {
-
-                window.requestAnimationFrame(
-                    smoothScrollEffect
+                header.classList.add(
+                    "scrolled"
                 );
 
-                ticking = true;
+            } else {
+
+                header.classList.remove(
+                    "scrolled"
+                );
 
             }
 
@@ -62,122 +202,13 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     );
 
-
-    function smoothScrollEffect() {
-
-        currentScroll +=
-            (targetScroll - currentScroll) * 0.08;
+}
 
 
-        /* HERO PARALLAX */
+/* =====================================
+   WELCOME
+===================================== */
 
-        if (hero) {
-
-            const movement =
-                currentScroll * 0.18;
-
-            hero.style.transform =
-                `translate3d(0, ${movement}px, 0)`;
-
-        }
-
-
-        /* SECTION MOVEMENT */
-
-        sections.forEach(section => {
-
-            const rect =
-                section.getBoundingClientRect();
-
-            const windowHeight =
-                window.innerHeight;
-
-
-            if (
-                rect.top < windowHeight &&
-                rect.bottom > 0
-            ) {
-
-                const distance =
-                    (windowHeight / 2) -
-                    (rect.top + rect.height / 2);
-
-
-                const movement =
-                    distance * 0.06;
-
-
-                section.style.transform =
-                    `translate3d(0, ${movement}px, 0)`;
-
-            }
-
-        });
-
-
-        ticking = false;
-
-
-        if (
-            Math.abs(
-                targetScroll - currentScroll
-            ) > 0.5
-        ) {
-
-            window.requestAnimationFrame(
-                smoothScrollEffect
-            );
-
-            ticking = true;
-
-        }
-
-    }
-
-
-    /* =====================================
-       REVEAL ANIMATION
-    ===================================== */
-
-    const revealElements =
-        document.querySelectorAll(
-            ".features h2, .feature-card, footer"
-        );
-
-
-    const observer =
-        new IntersectionObserver(
-            entries => {
-
-                entries.forEach(entry => {
-
-                    if (
-                        entry.isIntersecting
-                    ) {
-
-                        entry.target.classList.add(
-                            "slow-visible"
-                        );
-
-                    }
-
-                });
-
-            },
-            {
-                threshold: 0.08
-            }
-        );
-
-
-    revealElements.forEach(element => {
-
-        element.classList.add(
-            "slow-hidden"
-        );
-
-        observer.observe(element);
-
-    });
-
-});
+console.log(
+    "✨ Slow-mo MELOSAV scrolling ready"
+);

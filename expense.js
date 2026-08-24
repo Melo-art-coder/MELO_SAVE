@@ -1,109 +1,269 @@
 /* =====================================
-   MELOSAV EXPENSE
+   MELOSAV — EXPENSE V4
+   Reliable expense saving
 ===================================== */
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    if (typeof loadTheme === "function") {
-        loadTheme();
+    const form = document.getElementById("expenseForm");
+
+    if (!form) {
+        console.error("MELOSAV: expenseForm not found.");
+        return;
     }
 
-    document
-        .getElementById("expenseForm")
-        .addEventListener("submit", saveExpense);
+    form.addEventListener("submit", saveExpense);
 
 });
 
 
-/* =====================================
-   SAVE EXPENSE
-===================================== */
+function saveExpense(event) {
 
-function saveExpense(e){
+    event.preventDefault();
 
-    e.preventDefault();
+    const amountInput =
+        document.getElementById("amount");
 
-    let user = JSON.parse(
-        localStorage.getItem("meloCurrentUser")
-    );
+    const categoryInput =
+        document.getElementById("category");
 
-    if(!user){
+    const descriptionInput =
+        document.getElementById("description");
 
-        location.href = "login.html";
-        return;
 
-    }
+    const amount =
+        Number(amountInput?.value);
 
-    const amount = Number(
-        document.getElementById("amount").value
-    );
 
     const category =
-        document.getElementById("category").value;
+        categoryInput?.value?.trim() ||
+        "Expense";
+
 
     const description =
-        document.getElementById("description").value.trim();
+        descriptionInput?.value?.trim() ||
+        "";
 
 
-    if(amount <= 0){
+    /* =================================
+       VALIDATE AMOUNT
+    ================================= */
 
-        meloToast(
-            "❌ Invalid Amount",
-            "Enter a valid expense amount.",
+    if (!Number.isFinite(amount) || amount <= 0) {
+
+        showExpenseToast(
+            "Invalid Amount",
+            "Please enter an amount greater than ₦0.",
             "error"
         );
 
         return;
+    }
+
+
+    /* =================================
+       GET USER
+    ================================= */
+
+    let user;
+
+    try {
+
+        user = JSON.parse(
+            localStorage.getItem("meloCurrentUser")
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Could not read current user:",
+            error
+        );
 
     }
 
 
-    if(amount > Number(user.balance || 0)){
+    if (!user) {
 
-        meloToast(
-            "💔 Insufficient Balance",
-            "You don't have enough money for this expense.",
+        showExpenseToast(
+            "Not Logged In",
+            "Please log in before recording an expense.",
             "error"
         );
 
+        setTimeout(() => {
+
+            window.location.href =
+                "login.html";
+
+        }, 1000);
+
         return;
+    }
+
+
+    /* =================================
+       PREPARE WALLET
+    ================================= */
+
+    if (!user.wallets) {
+
+        user.wallets = {};
 
     }
 
 
-    /* Update Wallet */
+    /*
+       If this is an older account,
+       take the old balance and use it
+       as the starting NGN wallet.
+    */
 
-    user.balance =
-        Number(user.balance || 0) - amount;
+    if (
+        typeof user.wallets.NGN !== "number"
+    ) {
+
+        user.wallets.NGN =
+            Number(user.balance || 0);
+
+    }
+
+
+    user.wallets.NGN =
+        Number(user.wallets.NGN || 0);
+
 
     user.expenses =
-        Number(user.expenses || 0) + amount;
+        Number(user.expenses || 0);
 
 
-    /* Save Transaction */
+    user.income =
+        Number(user.income || 0);
 
-    if(!user.transactions){
+
+    if (!Array.isArray(user.transactions)) {
 
         user.transactions = [];
 
     }
 
-    user.transactions.push({
 
-        type:"expense",
+    if (!Array.isArray(user.notifications)) {
 
-        title:description || category,
+        user.notifications = [];
 
-        category:category,
+    }
 
-        amount:amount,
 
-        date:new Date().toLocaleString()
+    /* =================================
+       CHECK AVAILABLE MONEY
+    ================================= */
+
+    const available =
+        user.wallets.NGN;
+
+
+    if (amount > available) {
+
+        showExpenseToast(
+            "Insufficient Balance",
+            `You have only ₦${available.toLocaleString("en-NG")} available.`,
+            "error"
+        );
+
+        return;
+    }
+
+
+    /* =================================
+       DEDUCT REAL WALLET
+    ================================= */
+
+    user.wallets.NGN =
+        available - amount;
+
+
+    /*
+       Keep old balance field synced
+       so older MELOSAV files don't break.
+    */
+
+    user.balance =
+        user.wallets.NGN;
+
+
+    /* =================================
+       UPDATE TOTAL EXPENSES
+    ================================= */
+
+    user.expenses += amount;
+
+
+    /* =================================
+       CREATE TRANSACTION
+    ================================= */
+
+    const transaction = {
+
+        id:
+            Date.now(),
+
+        type:
+            "expense",
+
+        title:
+            category,
+
+        amount:
+            amount,
+
+        currency:
+            "NGN",
+
+        description:
+            description,
+
+        date:
+            new Date().toISOString()
+
+    };
+
+
+    user.transactions.unshift(
+        transaction
+    );
+
+
+    /* =================================
+       CREATE NOTIFICATION
+    ================================= */
+
+    user.notifications.unshift({
+
+        id:
+            Date.now() + 1,
+
+        title:
+            "💸 Expense Recorded",
+
+        message:
+            `Melo just spent ₦${amount.toLocaleString("en-NG")} on ${category}.`,
+
+        type:
+            "expense",
+
+        read:
+            false,
+
+        date:
+            new Date().toISOString()
 
     });
 
 
-    /* Save Current User */
+    /* =================================
+       SAVE CURRENT USER
+    ================================= */
 
     localStorage.setItem(
         "meloCurrentUser",
@@ -111,63 +271,102 @@ function saveExpense(e){
     );
 
 
-    /* Update Users List */
+    /* =================================
+       SAVE USERS LIST
+    ================================= */
 
-    let users = JSON.parse(
-        localStorage.getItem("meloUsers")
-    ) || [];
+    let users = [];
 
-    const index = users.findIndex(
-        u => u.email === user.email
-    );
+    try {
 
-    if(index !== -1){
+        users =
+            JSON.parse(
+                localStorage.getItem("meloUsers")
+            ) || [];
 
-        users[index] = user;
+    } catch {
 
-        localStorage.setItem(
-            "meloUsers",
-            JSON.stringify(users)
-        );
+        users = [];
 
     }
 
 
-    /* Beautiful Melo AI Messages */
-
-    const messages = [
-
-        "Expense recorded successfully. Smart tracking leads to smarter saving. 💜",
-
-        "Well done! Every expense tracked helps you understand your finances better. 📊",
-
-        "Great job! Knowing where your money goes is the first step to financial freedom. 🌱",
-
-        "Expense saved successfully. Small habits today build a stronger tomorrow. 🚀",
-
-        "Transaction completed! Keep making thoughtful spending decisions. ✨"
-
-    ];
-
-    const random =
-        Math.floor(Math.random() * messages.length);
+    const userIndex =
+        users.findIndex(
+            existingUser =>
+                existingUser.email === user.email
+        );
 
 
-    meloToast(
+    if (userIndex !== -1) {
 
-        "💸 Expense Added",
+        users[userIndex] = user;
 
-        messages[random],
+    } else {
 
-        "success"
+        users.push(user);
 
+    }
+
+
+    localStorage.setItem(
+        "meloUsers",
+        JSON.stringify(users)
     );
 
 
+    /* =================================
+       SUCCESS
+    ================================= */
+
+    showExpenseToast(
+        "Expense Added 💸",
+        `₦${amount.toLocaleString("en-NG")} was deducted from your wallet.`,
+        "success"
+    );
+
+
+    /* =================================
+       GO HOME
+    ================================= */
+
     setTimeout(() => {
 
-        location.href = "home.html";
+        window.location.href =
+            "home.html";
 
-    },1500);
+    }, 900);
+
+}
+
+
+/* =====================================
+   TOAST
+===================================== */
+
+function showExpenseToast(
+    title,
+    message,
+    type = "info"
+) {
+
+    if (
+        typeof meloToast ===
+        "function"
+    ) {
+
+        meloToast(
+            title,
+            message,
+            type
+        );
+
+        return;
+    }
+
+
+    alert(
+        `${title}\n\n${message}`
+    );
 
 }

@@ -1,173 +1,317 @@
 /* =====================================
-   MELOSAV - ADD INCOME
+   MELOSAV — INCOME V4
+   Reliable income saving
 ===================================== */
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    if (typeof loadTheme === "function") {
-        loadTheme();
+    const form = document.getElementById("incomeForm");
+
+    if (!form) {
+        console.error("MELOSAV: incomeForm not found.");
+        return;
     }
 
-    document
-        .getElementById("incomeForm")
-        .addEventListener("submit", saveIncome);
+    form.addEventListener("submit", saveIncome);
 
 });
 
 
-/* =====================================
-   SAVE INCOME
-===================================== */
+function saveIncome(event) {
 
-function saveIncome(e){
+    event.preventDefault();
 
-    e.preventDefault();
+    const amountInput = document.getElementById("amount");
+    const categoryInput = document.getElementById("category");
+    const descriptionInput = document.getElementById("description");
 
-    const amount =
-        Number(document.getElementById("amount").value);
+    const amount = Number(amountInput?.value);
 
     const category =
-        document.getElementById("category").value;
+        categoryInput?.value?.trim() ||
+        "Income";
 
     const description =
-        document.getElementById("description").value.trim();
+        descriptionInput?.value?.trim() ||
+        "";
 
-    if(amount <= 0){
 
-        meloToast(
+    /* ================================
+       VALIDATE
+    ================================= */
+
+    if (!Number.isFinite(amount) || amount <= 0) {
+
+        showToast(
             "Invalid Amount",
-            "Enter an amount greater than zero.",
+            "Please enter an amount greater than ₦0.",
             "error"
         );
 
         return;
+    }
+
+
+    /* ================================
+       GET USER
+    ================================= */
+
+    let user;
+
+    try {
+
+        user = JSON.parse(
+            localStorage.getItem("meloCurrentUser")
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Could not read current user:",
+            error
+        );
 
     }
 
-    let user = JSON.parse(
-        localStorage.getItem("meloCurrentUser")
-    );
 
-    if(!user){
+    if (!user) {
 
-        location.href="login.html";
+        showToast(
+            "Not Logged In",
+            "Please log in before adding income.",
+            "error"
+        );
+
+        setTimeout(() => {
+            window.location.href = "login.html";
+        }, 1000);
+
         return;
+    }
+
+
+    /* ================================
+       PREPARE USER
+    ================================= */
+
+    if (!user.wallets) {
+        user.wallets = {};
+    }
+
+
+    if (
+        typeof user.wallets.NGN !== "number"
+    ) {
+
+        user.wallets.NGN =
+            Number(user.balance || 0);
 
     }
 
-    /* =====================
-       DEFAULT VALUES
-    ===================== */
 
-    user.balance = Number(user.balance || 0);
+    user.wallets.NGN =
+        Number(user.wallets.NGN || 0);
 
-    user.income = Number(user.income || 0);
 
-    if(!user.transactions){
+    user.income =
+        Number(user.income || 0);
 
+
+    if (!Array.isArray(user.transactions)) {
         user.transactions = [];
-
     }
 
-    /* =====================
-       UPDATE BALANCE
-    ===================== */
 
-    user.balance += amount;
+    if (!Array.isArray(user.notifications)) {
+        user.notifications = [];
+    }
+
+
+    /* ================================
+       ADD MONEY
+    ================================= */
+
+    user.wallets.NGN += amount;
 
     user.income += amount;
 
-    /* =====================
-       SAVE TRANSACTION
-    ===================== */
+
+    /* Keep old balance compatible */
+
+    user.balance =
+        user.wallets.NGN;
+
+
+    /* ================================
+       TRANSACTION
+    ================================= */
 
     const transaction = {
 
-        type:"income",
+        id:
+            Date.now(),
 
-        title:category,
+        type:
+            "income",
 
-        amount:amount,
+        title:
+            category,
 
-        description:description,
+        amount:
+            amount,
 
-        date:new Date().toLocaleString()
+        currency:
+            "NGN",
+
+        description:
+            description,
+
+        date:
+            new Date().toISOString()
 
     };
 
-    user.transactions.push(transaction);
 
-    /* =====================
-       UPDATE USERS LIST
-    ===================== */
+    user.transactions.unshift(
+        transaction
+    );
+
+
+    /* ================================
+       NOTIFICATION
+    ================================= */
+
+    user.notifications.unshift({
+
+        id:
+            Date.now() + 1,
+
+        title:
+            "💰 Income Added",
+
+        message:
+            `Melo just added ₦${amount.toLocaleString("en-NG")} to your wallet.`,
+
+        type:
+            "income",
+
+        read:
+            false,
+
+        date:
+            new Date().toISOString()
+
+    });
+
+
+    /* ================================
+       SAVE CURRENT USER
+    ================================= */
 
     localStorage.setItem(
         "meloCurrentUser",
         JSON.stringify(user)
     );
 
-    let users = JSON.parse(
-        localStorage.getItem("meloUsers")
-    ) || [];
 
-    const index = users.findIndex(u =>
+    /* ================================
+       SAVE TO USERS
+    ================================= */
 
-        u.email === user.email
+    let users = [];
 
-    );
+    try {
 
-    if(index !== -1){
+        users =
+            JSON.parse(
+                localStorage.getItem("meloUsers")
+            ) || [];
 
-        users[index] = user;
+    } catch {
 
-        localStorage.setItem(
-            "meloUsers",
-            JSON.stringify(users)
-        );
+        users = [];
 
     }
 
-    /* =====================
-       SUCCESS
-    ===================== */
 
-    meloToast(
+    const userIndex =
+        users.findIndex(
+            existingUser =>
+                existingUser.email === user.email
+        );
 
-        "Income Added",
 
-        `${formatMoney(amount)} has been added successfully.`,
+    if (userIndex !== -1) {
 
-        "success"
+        users[userIndex] = user;
 
+    } else {
+
+        users.push(user);
+
+    }
+
+
+    localStorage.setItem(
+        "meloUsers",
+        JSON.stringify(users)
     );
 
-    setTimeout(()=>{
 
-        location.href="home.html";
+    /* ================================
+       SUCCESS
+    ================================= */
 
-    },1200);
+    showToast(
+        "Income Added 💰",
+        `₦${amount.toLocaleString("en-NG")} added successfully.`,
+        "success"
+    );
+
+
+    /* ================================
+       REDIRECT
+    ================================= */
+
+    setTimeout(() => {
+
+        window.location.href =
+            "home.html";
+
+    }, 900);
 
 }
 
 
 /* =====================================
-   FORMAT MONEY
+   TOAST
 ===================================== */
 
-function formatMoney(amount){
+function showToast(
+    title,
+    message,
+    type = "info"
+) {
 
-    return "₦" + Number(amount).toLocaleString(
+    if (
+        typeof meloToast ===
+        "function"
+    ) {
 
-        "en-NG",
+        meloToast(
+            title,
+            message,
+            type
+        );
 
-        {
+        return;
+    }
 
-            minimumFractionDigits:2,
 
-            maximumFractionDigits:2
+    /* Fallback */
 
-        }
-
+    alert(
+        `${title}\n\n${message}`
     );
 
 }

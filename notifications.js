@@ -1,51 +1,71 @@
 /* =====================================
-   MELOSAV NOTIFICATIONS PAGE V1
+   MELOSAV NOTIFICATIONS
 ===================================== */
 
-console.log("NOTIFICATIONS PAGE LOADED");
+console.log("🔔 NOTIFICATIONS LOADED");
 
-document.addEventListener("DOMContentLoaded",()=>{
+let notificationUser = null;
 
-    if(typeof loadTheme==="function"){
 
-        loadTheme();
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+
+        notificationUser = getCurrentUser();
+
+        if (!notificationUser) {
+
+            location.href = "login.html";
+
+            return;
+
+        }
+
+        loadNotifications();
+
+        setupNotificationButtons();
 
     }
-
-    loadNotifications();
-
-    document.getElementById("markAllBtn")
-    .addEventListener("click",markAll);
-
-    document.getElementById("clearBtn")
-    .addEventListener("click",clearAll);
-
-});
+);
 
 
 /* =====================================
-   LOAD NOTIFICATIONS
+   LOAD
 ===================================== */
 
-function loadNotifications(){
+function loadNotifications() {
 
-    const container=
-    document.getElementById("notificationList");
+    const container =
+        document.getElementById(
+            "notificationList"
+        );
 
-    const notifications=
-    getNotifications();
+    if (!container) return;
 
-    if(notifications.length===0){
 
-        container.innerHTML=`
+    const notifications =
+        Array.isArray(
+            notificationUser.notifications
+        )
+            ? notificationUser.notifications
+            : [];
 
-        <div class="empty">
 
-            <h2>🔔</h2>
+    if (notifications.length === 0) {
 
-            <p>No notifications yet.</p>
+        container.innerHTML = `
 
-        </div>
+            <div class="empty-notifications">
+
+                <div>🔔</div>
+
+                <h2>No notifications</h2>
+
+                <p>
+                    Melo will let you know when something happens.
+                </p>
+
+            </div>
 
         `;
 
@@ -53,118 +73,278 @@ function loadNotifications(){
 
     }
 
-    container.innerHTML="";
 
-    notifications.forEach(notification=>{
-
-        const card=document.createElement("div");
-
-        card.className=
-        notification.read
-        ? "notification-card"
-        : "notification-card unread";
-
-        card.innerHTML=`
-
-            <h3>${notification.title}</h3>
-
-            <p>${notification.message}</p>
-
-            <small>${notification.time}</small>
-
-            <button onclick="deleteOne(${notification.id})">
-
-                Delete
-
-            </button>
-
-        `;
-
-        card.onclick=()=>{
-
-            markNotificationRead(notification.id);
-
-            loadNotifications();
-
-        };
-
-        container.appendChild(card);
-
-    });
-
-}
+    container.innerHTML = "";
 
 
-/* =====================================
-   DELETE ONE
-===================================== */
+    notifications.forEach(
+        notification => {
 
-function deleteOne(id){
+            const card =
+                document.createElement("div");
 
-    deleteNotification(id);
+            card.className =
+                "notification-card" +
+                (
+                    notification.read
+                    ? ""
+                    : " unread"
+                );
 
-    loadNotifications();
 
-    meloToast(
+            card.innerHTML = `
 
-        "Deleted",
+                <div class="notification-icon">
 
-        "Notification removed.",
+                    ${getNotificationIcon(
+                        notification.type
+                    )}
 
-        "info"
+                </div>
 
+
+                <div class="notification-content">
+
+                    <h3>
+                        ${escapeHTML(
+                            notification.title
+                        )}
+                    </h3>
+
+                    <p>
+                        ${escapeHTML(
+                            notification.message
+                        )}
+                    </p>
+
+                    <div class="notification-time">
+
+                        ${formatNotificationDate(
+                            notification.date
+                        )}
+
+                    </div>
+
+                </div>
+
+            `;
+
+
+            card.addEventListener(
+                "click",
+                () => {
+
+                    markAsRead(
+                        notification.id
+                    );
+
+                }
+            );
+
+
+            container.appendChild(card);
+
+        }
     );
 
 }
 
 
 /* =====================================
-   MARK ALL
+   READ
 ===================================== */
 
-function markAll(){
+function markAsRead(id) {
 
-    markAllNotificationsRead();
+    const user = getCurrentUser();
+
+    if (!user) return;
+
+
+    const notification =
+        (user.notifications || [])
+        .find(
+            item => item.id === id
+        );
+
+
+    if (!notification) return;
+
+
+    notification.read = true;
+
+
+    updateCurrentUser(user);
+
+    notificationUser = user;
 
     loadNotifications();
 
-    meloToast(
+}
 
-        "Done",
 
-        "All notifications marked as read.",
+/* =====================================
+   BUTTONS
+===================================== */
 
-        "success"
+function setupNotificationButtons() {
 
+    const markAll =
+        document.getElementById(
+            "markAllRead"
+        );
+
+    const clear =
+        document.getElementById(
+            "clearNotifications"
+        );
+
+
+    if (markAll) {
+
+        markAll.addEventListener(
+            "click",
+            () => {
+
+                markAllNotificationsRead();
+
+                notificationUser =
+                    getCurrentUser();
+
+                loadNotifications();
+
+                meloToast(
+                    "✓ All Read",
+                    "All notifications marked as read.",
+                    "success"
+                );
+
+            }
+        );
+
+    }
+
+
+    if (clear) {
+
+        clear.addEventListener(
+            "click",
+            () => {
+
+                if (
+                    !confirm(
+                        "Clear all notifications?"
+                    )
+                ) return;
+
+
+                const user =
+                    getCurrentUser();
+
+                if (!user) return;
+
+
+                user.notifications = [];
+
+                updateCurrentUser(user);
+
+                notificationUser = user;
+
+                loadNotifications();
+
+
+                meloToast(
+                    "🗑 Notifications Cleared",
+                    "Your notification history was cleared.",
+                    "info"
+                );
+
+            }
+        );
+
+    }
+
+}
+
+
+/* =====================================
+   ICONS
+===================================== */
+
+function getNotificationIcon(type) {
+
+    const icons = {
+
+        income:"💰",
+
+        expense:"💸",
+
+        savings:"🏦",
+
+        goal:"🎯",
+
+        success:"🎉",
+
+        info:"💜",
+
+        warning:"⚠️",
+
+        error:"❌"
+
+    };
+
+
+    return icons[type] || "🔔";
+
+}
+
+
+/* =====================================
+   DATE
+===================================== */
+
+function formatNotificationDate(date) {
+
+    const parsed =
+        new Date(date);
+
+    if (
+        !date ||
+        isNaN(parsed.getTime())
+    ) {
+
+        return "Recently";
+
+    }
+
+
+    return parsed.toLocaleString(
+        "en-NG",
+        {
+            day:"numeric",
+            month:"short",
+            hour:"numeric",
+            minute:"2-digit"
+        }
     );
 
 }
 
 
 /* =====================================
-   CLEAR ALL
+   ESCAPE
 ===================================== */
 
-function clearAll(){
+function escapeHTML(value) {
 
-    if(!confirm(
-
-        "Delete all notifications?"
-
-    )) return;
-
-    clearNotifications();
-
-    loadNotifications();
-
-    meloToast(
-
-        "Cleared",
-
-        "All notifications removed.",
-
-        "success"
-
-    );
+    return String(value || "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
 
 }
+
+
+console.log("✅ NOTIFICATIONS READY");

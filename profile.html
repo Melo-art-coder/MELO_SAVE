@@ -3,237 +3,778 @@
 
 <head>
 
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
 
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-<title>Profile | MELOSAV</title>
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#7B2CFF">
+    <title>Profile | MELOSAV</title>
 
-<link rel="stylesheet" href="theme.css">
-<link rel="stylesheet" href="profile.css">
-<link rel="stylesheet" href="melo-toast.css">
+    <link
+        rel="manifest"
+        href="manifest.json"
+    >
 
-<link rel="preconnect"
-href="https://fonts.googleapis.com">
+    <meta
+        name="theme-color"
+        content="#7B2CFF"
+    >
 
-<link rel="preconnect"
-href="https://fonts.gstatic.com"
-crossorigin>
+    <link
+        rel="stylesheet"
+        href="theme.css"
+    >
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
-rel="stylesheet">
+    <link
+        rel="stylesheet"
+        href="profile.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="melo-toast.css"
+    >
 
 </head>
 
+
 <body>
 
-<!-- HEADER -->
 
-<header class="page-header">
+<!-- =========================================
+     HEADER
+========================================= -->
 
-<a href="home.html"
-class="back-btn">
+<header class="profile-header">
 
-←
+    <a
+        href="home.html"
+        class="back-btn"
+    >
+        ←
+    </a>
 
-</a>
+    <div>
 
-<h1>My Profile</h1>
+        <small>
+            MELOSAV
+        </small>
+
+        <h1>
+            Profile
+        </h1>
+
+    </div>
 
 </header>
 
-<!-- PROFILE CARD -->
 
-<section class="profile-card">
 
-<div class="avatar"
-id="avatar">
+<main class="profile-container">
 
-M
 
-</div>
+<!-- =========================================
+     PROFILE HERO
+========================================= -->
 
-<h2 id="profileName">
+<section class="profile-hero">
 
-Loading...
 
-</h2>
+    <div class="profile-photo-wrapper">
 
-<p id="profileEmail">
+        <img
+            id="profilePhoto"
+            src=""
+            alt="Profile photo"
+        >
 
-Loading...
+        <button
+            type="button"
+            id="changePhotoBtn"
+            class="photo-edit-btn"
+        >
+            ✎
+        </button>
 
-</p>
+    </div>
 
-</section>
 
-<!-- BALANCE -->
+    <div class="profile-main-info">
 
-<section class="balance-card">
+        <h2 id="displayName">
+            MELO User
+        </h2>
 
-<h3>Total Balance</h3>
+        <p id="displayEmail">
+            user@example.com
+        </p>
 
-<h1 id="profileBalance">
+        <span
+            class="melo-id"
+            id="meloId"
+        >
+            MELO-000000
+        </span>
 
-₦0.00
+    </div>
 
-</h1>
 
-</section>
-
-<!-- STATS -->
-
-<section class="stats-grid">
-
-<div class="stat-card">
-
-<h2 id="incomeStat">
-
-₦0
-
-</h2>
-
-<span>Income</span>
-
-</div>
-
-<div class="stat-card">
-
-<h2 id="expenseStat">
-
-₦0
-
-</h2>
-
-<span>Expenses</span>
-
-</div>
-
-<div class="stat-card">
-
-<h2 id="savingStat">
-
-₦0
-
-</h2>
-
-<span>Savings</span>
-
-</div>
-
-<div class="stat-card">
-
-<h2 id="goalStat">
-
-0
-
-</h2>
-
-<span>Goals</span>
-
-</div>
+    <input
+        type="file"
+        id="photoInput"
+        accept="image/*"
+        hidden
+    >
 
 </section>
 
-<!-- ACHIEVEMENTS -->
+
+
+<!-- =========================================
+     EDIT PROFILE
+========================================= -->
 
 <section class="profile-section">
 
-<h2>
+    <div class="section-heading">
 
-🏆 Achievements
+        <span>
+            PERSONAL
+        </span>
 
-</h2>
+        <h2>
+            Edit Profile
+        </h2>
 
-<div class="achievement-grid">
+    </div>
 
-<div class="achievement">
 
-🥇
+    <form id="profileForm">
 
-<span>Starter</span>
 
-</div>
+        <label for="nameInput">
+            Full Name
+        </label>
 
-<div class="achievement">
+        <input
+            type="text"
+            id="nameInput"
+            placeholder="Enter your name"
+            autocomplete="name"
+        >
 
-🎯
 
-<span>Goal Crusher</span>
+        <label for="emailInput">
+            Email
+        </label>
 
-</div>
+        <input
+            type="email"
+            id="emailInput"
+            placeholder="Enter your email"
+            autocomplete="email"
+        >
 
-<div class="achievement">
 
-🔥
+        <button
+            type="submit"
+            class="primary-btn"
+        >
+            Save Changes
+        </button>
 
-<span>Streak</span>
-
-</div>
-
-<div class="achievement">
-
-💎
-
-<span>Saver</span>
-
-</div>
-
-</div>
+    </form>
 
 </section>
 
-<!-- SETTINGS -->
+
+
+<!-- =========================================
+     ACCOUNT INFORMATION
+========================================= -->
 
 <section class="profile-section">
 
-<h2>
+    <div class="section-heading">
 
-⚙️ Account
+        <span>
+            ACCOUNT
+        </span>
 
-</h2>
+        <h2>
+            Account Information
+        </h2>
 
-<button id="editBtn">
+    </div>
 
-✏️ Edit Profile
 
-</button>
+    <div class="info-list">
 
-<button id="themeBtn">
 
-🎨 Change Theme
+        <div class="info-row">
 
-</button>
+            <div>
 
-<button id="pinBtn">
+                <small>
+                    MELO ID
+                </small>
 
-🔒 Change PIN
+                <strong id="accountMeloId">
+                    MELO-000000
+                </strong>
 
-</button>
+            </div>
 
-<button id="shareBtn">
+            <button
+                type="button"
+                class="copy-btn"
+                id="copyMeloId"
+            >
+                Copy
+            </button>
 
-📤 Share MELOSAV
+        </div>
 
-</button>
 
-<button id="logoutBtn"
-class="logout">
+        <div class="info-row">
 
-🚪 Logout
+            <div>
 
-</button>
+                <small>
+                    Email
+                </small>
+
+                <strong id="accountEmail">
+                    -
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="info-row">
+
+            <div>
+
+                <small>
+                    Account
+                </small>
+
+                <strong>
+                    MELOSAV Wallet
+                </strong>
+
+            </div>
+
+        </div>
+
+
+    </div>
 
 </section>
 
-<script src="storage.js"></script>
+
+
+<!-- =========================================
+     ACCOUNTS
+========================================= -->
+
+<section class="profile-section">
+
+    <div class="section-heading">
+
+        <span>
+            ACCOUNTS
+        </span>
+
+        <h2>
+            Manage Accounts
+        </h2>
+
+    </div>
+
+
+    <div
+        id="accountList"
+        class="account-list"
+    >
+    </div>
+
+
+    <button
+        type="button"
+        id="addAccountBtn"
+        class="secondary-btn"
+    >
+        ＋ Add Another Account
+    </button>
+
+</section>
+
+
+
+<!-- =========================================
+     APPEARANCE
+========================================= -->
+
+<section class="profile-section">
+
+    <div class="section-heading">
+
+        <span>
+            APPEARANCE
+        </span>
+
+        <h2>
+            MELO Color
+        </h2>
+
+    </div>
+
+
+    <p class="theme-description">
+
+        Choose a color to personalize your
+        MELOSAV experience.
+
+        <br>
+
+        Your wallet cards and bottom navigation
+        remain unchanged.
+
+    </p>
+
+
+    <div
+        class="color-grid"
+        id="colorGrid"
+    >
+
+
+        <button
+            type="button"
+            class="color-choice"
+            data-color="purple"
+            style="--choice-color:#7B2CFF;"
+        >
+            <span></span>
+            Purple
+        </button>
+
+
+        <button
+            type="button"
+            class="color-choice"
+            data-color="blue"
+            style="--choice-color:#2878FF;"
+        >
+            <span></span>
+            Ocean Blue
+        </button>
+
+
+        <button
+            type="button"
+            class="color-choice"
+            data-color="green"
+            style="--choice-color:#16A36A;"
+        >
+            <span></span>
+            Emerald
+        </button>
+
+
+        <button
+            type="button"
+            class="color-choice"
+            data-color="pink"
+            style="--choice-color:#E94D91;"
+        >
+            <span></span>
+            Pink
+        </button>
+
+
+        <button
+            type="button"
+            class="color-choice"
+            data-color="orange"
+            style="--choice-color:#F07824;"
+        >
+            <span></span>
+            Orange
+        </button>
+
+
+        <button
+            type="button"
+            class="color-choice"
+            data-color="red"
+            style="--choice-color:#D9415D;"
+        >
+            <span></span>
+            Ruby
+        </button>
+
+
+        <button
+            type="button"
+            class="color-choice"
+            data-color="cyan"
+            style="--choice-color:#159EBD;"
+        >
+            <span></span>
+            Cyan
+        </button>
+
+
+        <button
+            type="button"
+            class="color-choice"
+            data-color="gold"
+            style="--choice-color:#C49318;"
+        >
+            <span></span>
+            Gold
+        </button>
+
+
+        <button
+            type="button"
+            class="color-choice"
+            data-color="espresso"
+            style="--choice-color:#754936;"
+        >
+            <span></span>
+            Espresso
+        </button>
+
+
+        <button
+            type="button"
+            class="color-choice"
+            data-color="midnight"
+            style="--choice-color:#252A36;"
+        >
+            <span></span>
+            Midnight
+        </button>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================
+     SECURITY
+========================================= -->
+
+<section class="profile-section">
+
+    <div class="section-heading">
+
+        <span>
+            SECURITY
+        </span>
+
+        <h2>
+            Security
+        </h2>
+
+    </div>
+
+
+    <button
+        type="button"
+        class="settings-row"
+        id="changePinBtn"
+    >
+
+        <span class="settings-icon">
+            🔐
+        </span>
+
+        <div>
+
+            <strong>
+                Security PIN
+            </strong>
+
+            <small>
+                Manage your account PIN
+            </small>
+
+        </div>
+
+        <span>
+            →
+        </span>
+
+    </button>
+
+
+    <button
+        type="button"
+        class="settings-row"
+        id="biometricBtn"
+    >
+
+        <span class="settings-icon">
+            🛡️
+        </span>
+
+        <div>
+
+            <strong>
+                Biometric Login
+            </strong>
+
+            <small>
+                Manage biometric security
+            </small>
+
+        </div>
+
+        <span>
+            →
+        </span>
+
+    </button>
+
+</section>
+
+
+
+<!-- =========================================
+     NOTIFICATIONS
+========================================= -->
+
+<section class="profile-section">
+
+    <div class="section-heading">
+
+        <span>
+            PREFERENCES
+        </span>
+
+        <h2>
+            Notifications
+        </h2>
+
+    </div>
+
+
+    <div class="settings-row">
+
+        <span class="settings-icon">
+            🔔
+        </span>
+
+        <div>
+
+            <strong>
+                Transaction Alerts
+            </strong>
+
+            <small>
+                Get notified about money activity
+            </small>
+
+        </div>
+
+        <label class="switch">
+
+            <input
+                type="checkbox"
+                id="transactionNotifications"
+            >
+
+            <span class="slider"></span>
+
+        </label>
+
+    </div>
+
+
+    <div class="settings-row">
+
+        <span class="settings-icon">
+            🎯
+        </span>
+
+        <div>
+
+            <strong>
+                Budget Alerts
+            </strong>
+
+            <small>
+                Get notified about your budget
+            </small>
+
+        </div>
+
+        <label class="switch">
+
+            <input
+                type="checkbox"
+                id="budgetNotifications"
+            >
+
+            <span class="slider"></span>
+
+        </label>
+
+    </div>
+
+
+    <div class="settings-row">
+
+        <span class="settings-icon">
+            💰
+        </span>
+
+        <div>
+
+            <strong>
+                Savings Updates
+            </strong>
+
+            <small>
+                Receive savings progress alerts
+            </small>
+
+        </div>
+
+        <label class="switch">
+
+            <input
+                type="checkbox"
+                id="savingsNotifications"
+            >
+
+            <span class="slider"></span>
+
+        </label>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================
+     LOG OUT
+========================================= -->
+
+<section class="logout-section">
+
+    <button
+        type="button"
+        id="logoutBtn"
+        class="logout-btn"
+    >
+        Log Out
+    </button>
+
+</section>
+
+
+</main>
+
+
+
+<!-- =========================================
+     BOTTOM NAV
+========================================= -->
+
+<nav class="bottom-nav">
+
+    <a href="home.html">
+
+        <span>
+            🏠
+        </span>
+
+        <small>
+            Home
+        </small>
+
+    </a>
+
+
+    <a href="transactions.html">
+
+        <span>
+            💳
+        </span>
+
+        <small>
+            Activity
+        </small>
+
+    </a>
+
+
+    <a href="budget.html">
+
+        <span>
+            📊
+        </span>
+
+        <small>
+            Budget
+        </small>
+
+    </a>
+
+
+    <a href="analytics.html">
+
+        <span>
+            📈
+        </span>
+
+        <small>
+            Insights
+        </small>
+
+    </a>
+
+
+    <a
+        href="profile.html"
+        class="active"
+    >
+
+        <span>
+            👤
+        </span>
+
+        <small>
+            Profile
+        </small>
+
+    </a>
+
+</nav>
+
+
+
 <script src="theme.js"></script>
+
 <script src="melo-toast.js"></script>
+
 <script src="profile.js"></script>
+
 <script src="pwa.js"></script>
 
+
 </body>
+
 </html>

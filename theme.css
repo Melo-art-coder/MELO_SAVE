@@ -1,215 +1,318 @@
-/* =====================================
-   MELOSAV THEME ENGINE
-===================================== */
+/* =====================================================
+   MELOSAV — GLOBAL THEME
+===================================================== */
+
+:root {
+
+    --melo-accent: #7B2CFF;
+
+    --melo-accent-dark: #5D20D1;
+
+    --melo-accent-soft: rgba(
+        123,
+        44,
+        255,
+        0.10
+    );
+
+    --melo-accent-rgb:
+        123,
+        44,
+        255;
 
 
-/* =========================
-   PURPLE LIGHT
-========================= */
+    --melo-bg: #F7F5F2;
 
-body.theme-purple-light{
+    --melo-surface: #FFFFFF;
 
-    --primary:#7B2CFF;
-    --secondary:#B794FF;
-    --background:#F8F5FF;
-    --card:#FFFFFF;
-    --text:#222222;
-    --muted:#777777;
-    --border:#E7D9FF;
+    --melo-surface-2: #F1EFEC;
 
-}
+    --melo-text: #191719;
 
+    --melo-muted: #777277;
 
-/* =========================
-   PURPLE DARK
-========================= */
+    --melo-border: #E7E2DE;
 
-body.theme-purple-dark{
+    --melo-success: #16835B;
 
-    --primary:#A855F7;
-    --secondary:#7B2CFF;
-    --background:#120A1F;
-    --card:#211336;
-    --text:#FFFFFF;
-    --muted:#B8A8CC;
-    --border:#392052;
+    --melo-danger: #D34242;
 
-}
+    --melo-warning: #C58A20;
 
 
+    --melo-wallet:
+        #191719;
 
-/* =========================
-   EMERALD LIGHT
-========================= */
-
-body.theme-emerald-light{
-
-    --primary:#10B981;
-    --secondary:#6EE7B7;
-    --background:#F2FFFA;
-    --card:#FFFFFF;
-    --text:#10251D;
-    --muted:#6B8178;
-    --border:#C7F5E3;
-
-}
+    --melo-nav:
+        #FFFFFF;
 
 
-/* =========================
-   EMERALD DARK
-========================= */
+    --melo-radius-sm: 10px;
 
-body.theme-emerald-dark{
+    --melo-radius-md: 16px;
 
-    --primary:#34D399;
-    --secondary:#059669;
-    --background:#061A13;
-    --card:#102B22;
-    --text:#FFFFFF;
-    --muted:#A7CFC0;
-    --border:#21483B;
+    --melo-radius-lg: 22px;
+
+    --melo-radius-xl: 28px;
+
+
+    --melo-shadow:
+        0 8px 30px
+        rgba(
+            0,
+            0,
+            0,
+            0.06
+        );
 
 }
 
 
+/* =====================================================
+   RESET
+===================================================== */
 
-/* =========================
-   OCEAN LIGHT
-========================= */
+* {
 
-body.theme-ocean-light{
-
-    --primary:#2563EB;
-    --secondary:#93C5FD;
-    --background:#F3F8FF;
-    --card:#FFFFFF;
-    --text:#172033;
-    --muted:#718096;
-    --border:#D5E5FF;
+    box-sizing: border-box;
 
 }
 
 
-/* =========================
-   OCEAN DARK
-========================= */
+html {
 
-body.theme-ocean-dark{
-
-    --primary:#60A5FA;
-    --secondary:#2563EB;
-    --background:#061426;
-    --card:#10243D;
-    --text:#FFFFFF;
-    --muted:#A9C4E8;
-    --border:#203B61;
+    scroll-behavior: smooth;
 
 }
 
 
+body {
 
-/* =========================
-   ROSE LIGHT
-========================= */
+    margin: 0;
 
-body.theme-rose-light{
+    background:
+        var(--melo-bg);
 
-    --primary:#EC4899;
-    --secondary:#F9A8D4;
-    --background:#FFF5FA;
-    --card:#FFFFFF;
-    --text:#241521;
-    --muted:#806575;
-    --border:#F8D3E5;
+    color:
+        var(--melo-text);
 
-}
+    font-family:
+        "Poppins",
+        Arial,
+        sans-serif;
 
-
-/* =========================
-   ROSE DARK
-========================= */
-
-body.theme-rose-dark{
-
-    --primary:#F472B6;
-    --secondary:#DB2777;
-    --background:#220A18;
-    --card:#351126;
-    --text:#FFFFFF;
-    --muted:#D7A8C0;
-    --border:#54213F;
+    min-height: 100vh;
 
 }
 
 
+/* =====================================================
+   LINKS
+===================================================== */
 
-/* =========================
-   GOLD LIGHT
-========================= */
+a {
 
-body.theme-gold-light{
+    color: inherit;
 
-    --primary:#D97706;
-    --secondary:#FCD34D;
-    --background:#FFFBEB;
-    --card:#FFFFFF;
-    --text:#241A05;
-    --muted:#7C6A3A;
-    --border:#FDE68A;
+    text-decoration: none;
 
 }
 
 
-/* =========================
-   GOLD DARK
-========================= */
-
-body.theme-gold-dark{
-
-    --primary:#FBBF24;
-    --secondary:#D97706;
-    --background:#1C1404;
-    --card:#30240A;
-    --text:#FFFFFF;
-    --muted:#D8C58A;
-    --border:#5A4715;
-
-}
-
-
-
-/* =========================
-   GLOBAL VARIABLES USAGE
-========================= */
-
-
-body{
-
-    background:var(--background);
-    color:var(--text);
-
-    transition:
-    background .3s ease,
-    color .3s ease;
-
-}
-
-
-.card,
-.money-card,
-.goal-card,
-.modal{
-
-    background:var(--card);
-    border-color:var(--border);
-
-}
-
+/* =====================================================
+   BUTTONS
+===================================================== */
 
 button,
-.primary-btn{
+input,
+textarea,
+select {
 
-    background:var(--primary);
-    color:white;
+    font: inherit;
+
+}
+
+
+/* =====================================================
+   INPUTS
+===================================================== */
+
+input,
+textarea,
+select {
+
+    color:
+        var(--melo-text);
+
+    background:
+        var(--melo-surface);
+
+    border:
+        1px solid
+        var(--melo-border);
+
+}
+
+
+/* =====================================================
+   GLOBAL ACCENT
+===================================================== */
+
+.accent {
+
+    color:
+        var(--melo-accent);
+
+}
+
+
+.accent-bg {
+
+    background:
+        var(--melo-accent);
+
+}
+
+
+/* =====================================================
+   IMPORTANT WALLET
+   DOES NOT CHANGE WITH USER THEME
+===================================================== */
+
+.wallet-card {
+
+    background:
+        var(--melo-wallet);
+
+    color:
+        #FFFFFF;
+
+}
+
+
+/* =====================================================
+   BOTTOM NAV
+   DOES NOT CHANGE WITH USER THEME
+===================================================== */
+
+.bottom-nav {
+
+    background:
+        var(--melo-nav);
+
+}
+
+
+/* =====================================================
+   COMMON ICON CONTAINER
+===================================================== */
+
+.melo-icon {
+
+    width: 40px;
+
+    height: 40px;
+
+    display: grid;
+
+    place-items: center;
+
+    border-radius:
+        var(--melo-radius-sm);
+
+    background:
+        var(--melo-accent-soft);
+
+    color:
+        var(--melo-accent);
+
+}
+
+
+/* =====================================================
+   COMMON BUTTON
+===================================================== */
+
+.melo-primary {
+
+    border: none;
+
+    border-radius:
+        var(--melo-radius-sm);
+
+    background:
+        var(--melo-accent);
+
+    color:
+        #FFFFFF;
+
+    padding:
+        13px 18px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        transform .18s ease,
+        background .18s ease;
+
+}
+
+
+.melo-primary:hover {
+
+    background:
+        var(--melo-accent-dark);
+
+}
+
+
+.melo-primary:active {
+
+    transform:
+        scale(.98);
+
+}
+
+
+/* =====================================================
+   CARD
+===================================================== */
+
+.melo-card {
+
+    background:
+        var(--melo-surface);
+
+    border:
+        1px solid
+        var(--melo-border);
+
+    border-radius:
+        var(--melo-radius-lg);
+
+    box-shadow:
+        var(--melo-shadow);
+
+}
+
+
+/* =====================================================
+   COLOR TRANSITION
+===================================================== */
+
+body,
+.melo-card,
+button,
+input,
+textarea,
+select,
+.settings-row {
+
+    transition:
+        background-color .2s ease,
+        border-color .2s ease,
+        color .2s ease;
 
 }

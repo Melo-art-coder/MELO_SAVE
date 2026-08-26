@@ -1,261 +1,500 @@
-// =====================================
-// MELOSAV SIGN UP
-// =====================================
+/* =====================================================
+   MELOSAV — CREATE ACCOUNT
+===================================================== */
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", function () {
 
-    const signupBtn = document.getElementById("signupBtn");
+    const signupButton =
+        document.getElementById("signupBtn");
 
-    if (signupBtn) {
-        signupBtn.addEventListener("click", createAccount);
+    if (!signupButton) {
+
+        console.error(
+            "MELOSAV: signupBtn was not found."
+        );
+
+        return;
+
     }
+
+
+    signupButton.addEventListener(
+        "click",
+        createAccount
+    );
 
 });
 
 
-// =====================================
-// CREATE ACCOUNT
-// =====================================
+/* =====================================================
+   CREATE ACCOUNT
+===================================================== */
 
-function createAccount() {
+function createAccount(event) {
 
-    const nameInput = document.getElementById("name");
-    const emailInput = document.getElementById("email");
-    const pinInput = document.getElementById("pin");
-    const confirmPinInput = document.getElementById("confirmPin");
-    const termsInput = document.getElementById("terms");
-
-
-    const name = nameInput.value.trim();
-    const email = emailInput.value.trim().toLowerCase();
-    const pin = pinInput.value.trim();
-    const confirmPin = confirmPinInput.value.trim();
-    const agreed = termsInput.checked;
-
-
-    // =====================================
-    // VALIDATION
-    // =====================================
-
-    if (!name || !email || !pin || !confirmPin) {
-
-        meloToast(
-            "📝 A Few Details Missing",
-            "Please fill in all the required fields before continuing.",
-            "warning"
-        );
-
-        return;
+    if (event) {
+        event.preventDefault();
     }
 
 
-    if (pin.length < 4 || pin.length > 6) {
+    /* =========================
+       GET INPUTS
+    ========================= */
 
-        meloToast(
-            "🔐 Invalid PIN",
-            "Your PIN must be between 4 and 6 digits.",
+    const name =
+        document
+            .getElementById("name")
+            .value
+            .trim();
+
+
+    const email =
+        document
+            .getElementById("email")
+            .value
+            .trim()
+            .toLowerCase();
+
+
+    const pin =
+        document
+            .getElementById("pin")
+            .value
+            .trim();
+
+
+    const confirmPin =
+        document
+            .getElementById("confirmPin")
+            .value
+            .trim();
+
+
+    const terms =
+        document
+            .getElementById("terms")
+            .checked;
+
+
+    /* =========================
+       VALIDATION
+    ========================= */
+
+    if (!name) {
+
+        showSignupMessage(
+            "Please enter your full name.",
             "error"
         );
 
         return;
+
     }
 
 
-    if (!/^\d+$/.test(pin)) {
+    if (!email) {
 
-        meloToast(
-            "🔐 Invalid PIN",
-            "Your PIN must contain numbers only.",
+        showSignupMessage(
+            "Please enter your email address.",
             "error"
         );
 
         return;
+
+    }
+
+
+    if (!validEmail(email)) {
+
+        showSignupMessage(
+            "Please enter a valid email address.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    if (!pin) {
+
+        showSignupMessage(
+            "Please create a PIN.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    if (!/^\d{4,6}$/.test(pin)) {
+
+        showSignupMessage(
+            "Your PIN must contain 4 to 6 numbers.",
+            "error"
+        );
+
+        return;
+
     }
 
 
     if (pin !== confirmPin) {
 
-        meloToast(
-            "🔒 PINs Don't Match",
-            "Double-check both PINs and try again.",
+        showSignupMessage(
+            "Your PINs do not match.",
             "error"
         );
 
         return;
+
     }
 
 
-    if (!agreed) {
+    if (!terms) {
 
-        meloToast(
-            "📜 One Last Step",
-            "Please accept the Terms & Conditions to continue.",
-            "warning"
+        showSignupMessage(
+            "Please accept the Terms & Conditions.",
+            "error"
         );
 
         return;
+
     }
 
 
-    // =====================================
-    // GET EXISTING USERS
-    // =====================================
+    /* =========================
+       GET USERS
+    ========================= */
 
     let users = [];
 
+
     try {
 
-        users = JSON.parse(
-            localStorage.getItem("meloUsers")
-        ) || [];
+        users =
+            JSON.parse(
+                localStorage.getItem(
+                    "meloUsers"
+                )
+            ) || [];
 
     } catch (error) {
+
+        console.error(
+            "MELOSAV: Could not read users.",
+            error
+        );
 
         users = [];
 
     }
 
 
-    // =====================================
-    // CHECK EXISTING EMAIL
-    // =====================================
+    if (!Array.isArray(users)) {
 
-    const exists = users.find(
-        user => user.email === email
-    );
+        users = [];
 
-
-    if (exists) {
-
-        meloToast(
-            "💜 Account Already Exists",
-            "This email is already registered. Try logging in or use another email.",
-            "warning"
-        );
-
-        return;
     }
 
 
-    // =====================================
-    // CREATE USER
-    // =====================================
+    /* =========================
+       CHECK EMAIL
+    ========================= */
 
-    const newUser = {
+    const existingUser =
+        users.find(function (user) {
 
-        id: Date.now(),
+            return (
+                String(
+                    user.email || ""
+                )
+                    .toLowerCase() ===
+                email
+            );
 
-        name: name,
+        });
 
-        email: email,
 
-        pin: pin,
+    if (existingUser) {
 
-        data: {
+        showSignupMessage(
+            "An account with this email already exists.",
+            "error"
+        );
 
-            income: [],
+        return;
 
-            expenses: [],
+    }
 
-            savings: [],
 
-            goals: [],
+    /* =========================
+       CREATE MELO ID
+    ========================= */
 
-            transactions: [],
+    const meloId =
+        generateMeloId();
 
-            notifications: [],
 
-            streak: {
+    /* =========================
+       CREATE USER
+    ========================= */
 
-                count: 1,
+    const user = {
 
-                lastActive: new Date().toDateString()
+        id:
+            generateUserId(),
+
+        name:
+            name,
+
+        email:
+            email,
+
+        pin:
+            pin,
+
+        meloId:
+            meloId,
+
+        profilePhoto:
+            "",
+
+
+        /* FINANCIAL DATA */
+
+        balance:
+            0,
+
+        income:
+            0,
+
+        expenses:
+            0,
+
+
+        /* TRANSACTIONS */
+
+        transactions:
+            [],
+
+
+        /* WALLET */
+
+        wallets: [
+
+            {
+
+                id:
+                    "NGN",
+
+                name:
+                    "Naira",
+
+                currency:
+                    "₦",
+
+                balance:
+                    0
 
             }
 
-        }
+        ],
+
+
+        /* BUDGET */
+
+        budget: {
+
+            amount:
+                0,
+
+            period:
+                "monthly"
+
+        },
+
+
+        /* SETTINGS */
+
+        themeColor:
+            "purple",
+
+
+        notifications: {
+
+            transactions:
+                true,
+
+            budget:
+                true,
+
+            savings:
+                true
+
+        },
+
+
+        /* ACCOUNT */
+
+        createdAt:
+            new Date()
+                .toISOString()
 
     };
 
 
-    // =====================================
-    // SAVE USER
-    // =====================================
+    /* =========================
+       SAVE USER
+    ========================= */
 
-    users.push(newUser);
-
-    localStorage.setItem(
-        "meloUsers",
-        JSON.stringify(users)
-    );
-
-    localStorage.setItem(
-        "meloCurrentUser",
-        JSON.stringify(newUser)
-    );
+    users.push(user);
 
 
-    // =====================================
-    // DEFAULT THEME
-    // =====================================
-
-    if (!localStorage.getItem("meloTheme")) {
+    try {
 
         localStorage.setItem(
-            "meloTheme",
-            "purple-light"
+
+            "meloUsers",
+
+            JSON.stringify(users)
+
         );
 
+
+        localStorage.setItem(
+
+            "meloCurrentUser",
+
+            JSON.stringify(user)
+
+        );
+
+
+        localStorage.setItem(
+
+            "meloTheme",
+
+            "purple"
+
+        );
+
+    } catch (error) {
+
+        console.error(
+            "MELOSAV: Failed to save account.",
+            error
+        );
+
+        showSignupMessage(
+            "Your account could not be saved. Please try again.",
+            "error"
+        );
+
+        return;
+
     }
 
 
-    if (typeof loadTheme === "function") {
+    /* =========================
+       SUCCESS
+    ========================= */
 
-        loadTheme();
-
-    }
-
-
-    // =====================================
-    // WELCOME MESSAGE
-    // =====================================
-
-    meloToast(
-        "🎉 Welcome, " + name.split(" ")[0] + "!",
-        "Your MELOSAV account is ready. Let's turn your goals into achievements, one save at a time. 💜",
+    showSignupMessage(
+        "Your MELOSAV account has been created.",
         "success"
     );
 
 
-    // =====================================
-    // MELO AI VOICE
-    // =====================================
+    setTimeout(function () {
 
-    if ("speechSynthesis" in window) {
+        window.location.href =
+            "home.html";
 
-        speechSynthesis.cancel();
+    }, 1000);
 
-        const speech = new SpeechSynthesisUtterance(
-            `Welcome to MELOSAV, ${name}. I'm Melo AI. I'll help you save smarter and manage better.`
+}
+
+
+/* =====================================================
+   EMAIL VALIDATION
+===================================================== */
+
+function validEmail(email) {
+
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+        .test(email);
+
+}
+
+
+/* =====================================================
+   USER ID
+===================================================== */
+
+function generateUserId() {
+
+    return (
+        "USER-" +
+        Date.now() +
+        "-" +
+        Math.random()
+            .toString(36)
+            .substring(2, 8)
+            .toUpperCase()
+    );
+
+}
+
+
+/* =====================================================
+   MELO ID
+===================================================== */
+
+function generateMeloId() {
+
+    return (
+        "MELO-" +
+        Math.floor(
+            100000 +
+            Math.random() * 900000
+        )
+    );
+
+}
+
+
+/* =====================================================
+   MESSAGE
+===================================================== */
+
+function showSignupMessage(
+    message,
+    type
+) {
+
+    if (
+        typeof meloToast ===
+        "function"
+    ) {
+
+        meloToast(
+
+            type === "success"
+                ? "Success"
+                : "MELOSAV",
+
+            message,
+
+            type
+
         );
 
-        speech.rate = 1;
-        speech.pitch = 1;
-        speech.volume = 1;
+    } else {
 
-        speechSynthesis.speak(speech);
+        alert(message);
 
     }
-
-
-    // =====================================
-    // GO TO HOME
-    // =====================================
-
-    setTimeout(() => {
-
-        window.location.href = "home.html";
-
-    }, 4500);
 
 }

@@ -1,890 +1,736 @@
-/* =====================================
-   MELOSAV HOME V17
-   REAL WALLET SYSTEM
-===================================== */
+/* =====================================================
+   MELOSAV — HOME DASHBOARD
+===================================================== */
 
 document.addEventListener(
     "DOMContentLoaded",
-    () => {
+    function () {
 
-        let user =
-            MELO_STORAGE.currentUser();
+        const user =
+            requireUser();
 
+        if (!user) return;
 
-        if (!user) {
 
-            location.href =
-                "login.html";
-
-            return;
-
-        }
-
-
-        /* ===============================
-           FORMAT
-        =============================== */
-
-        function money(
-            amount,
-            currency = "NGN"
-        ) {
-
-            const symbols = {
-
-                NGN: "₦",
-                USD: "$",
-                EUR: "€",
-                GBP: "£"
-
-            };
-
-
-            return (
-
-                symbols[currency] +
-
-                Number(
-                    amount || 0
-                ).toLocaleString(
-                    "en-US",
-                    {
-
-                        minimumFractionDigits: 2,
-
-                        maximumFractionDigits: 2
-
-                    }
-
-                )
-
-            );
-
-        }
-
-
-        /* ===============================
-           CURRENCY EQUIVALENTS
-        =============================== */
-
-        const rates = {
-
-            USD: 0.00067,
-            EUR: 0.00057,
-            GBP: 0.00049
-
-        };
-
-
-        /* ===============================
-           HIDE
-        =============================== */
-
-        let hidden =
-            localStorage.getItem(
-                "meloBalancesHidden"
-            ) === "true";
-
-
-        /* ===============================
-           ANIMATE
-        =============================== */
-
-        function animate(
-            element,
-            target,
-            currency
-        ) {
-
-            if (!element) return;
-
-
-            if (hidden) {
-
-                element.textContent =
-                    "••••••";
-
-                return;
-
-            }
-
-
-            const startValue =
-                Number(
-                    element.dataset.value || 0
-                );
-
-
-            const start =
-                performance.now();
-
-
-            const duration =
-                1000;
-
-
-            function frame(now) {
-
-                const progress =
-                    Math.min(
-                        (
-                            now - start
-                        ) / duration,
-                        1
-                    );
-
-
-                const ease =
-                    1 -
-                    Math.pow(
-                        1 - progress,
-                        3
-                    );
-
-
-                const value =
-                    startValue +
-                    (
-                        target -
-                        startValue
-                    ) * ease;
-
-
-                element.textContent =
-                    money(
-                        value,
-                        currency
-                    );
-
-
-                element.dataset.value =
-                    value;
-
-
-                if (
-                    progress < 1
-                ) {
-
-                    requestAnimationFrame(
-                        frame
-                    );
-
-                }
-
-            }
-
-
-            requestAnimationFrame(
-                frame
-            );
-
-        }
-
-
-        /* ===============================
-           WALLET
-        =============================== */
-
-        function updateWallet() {
-
-            user =
-                MELO_STORAGE.currentUser();
-
-
-            if (!user) return;
-
-
-            const balance =
-                Number(
-                    user.wallets.NGN || 0
-                );
-
-
-            const expenses =
-                Number(
-                    user.expenses || 0
-                );
-
-
-            const savings =
-                Number(
-                    user.savings || 0
-                );
-
-
-            const income =
-                Number(
-                    user.income || 0
-                );
-
-
-            /* MAIN BALANCE */
-
-            animate(
-                document.getElementById(
-                    "balance"
-                ),
-                balance,
-                "NGN"
-            );
-
-
-            /* FOREIGN */
-
-            animate(
-                document.getElementById(
-                    "usdBalance"
-                ),
-                balance * rates.USD,
-                "USD"
-            );
-
-
-            animate(
-                document.getElementById(
-                    "eurBalance"
-                ),
-                balance * rates.EUR,
-                "EUR"
-            );
-
-
-            animate(
-                document.getElementById(
-                    "gbpBalance"
-                ),
-                balance * rates.GBP,
-                "GBP"
-            );
-
-
-            /* EXPENSE */
-
-            const expenseElement =
-                document.getElementById(
-                    "expenses"
-                );
-
-
-            if (expenseElement) {
-
-                expenseElement.textContent =
-                    hidden
-                        ? "••••••"
-                        : money(
-                            expenses
-                        );
-
-            }
-
-
-            /* SAVINGS */
-
-            const savingsElement =
-                document.getElementById(
-                    "savings"
-                );
-
-
-            if (savingsElement) {
-
-                savingsElement.textContent =
-                    hidden
-                        ? "••••••"
-                        : money(
-                            savings
-                        );
-
-            }
-
-
-            /* =========================
-               SPENDING
-            ========================= */
-
-            const spent =
-                expenses;
-
-
-            const remaining =
-                Math.max(
-                    income - spent,
-                    0
-                );
-
-
-            const percentage =
-                income > 0
-                    ? Math.min(
-                        (
-                            spent /
-                            income
-                        ) * 100,
-                        100
-                    )
-                    : 0;
-
-
-            const percentElement =
-                document.getElementById(
-                    "budgetPercent"
-                );
-
-
-            const fill =
-                document.getElementById(
-                    "budgetFill"
-                );
-
-
-            const spentElement =
-                document.getElementById(
-                    "spentIncomeText"
-                );
-
-
-            const remainingElement =
-                document.getElementById(
-                    "remainingIncomeText"
-                );
-
-
-            if (percentElement) {
-
-                percentElement.textContent =
-                    Math.round(
-                        percentage
-                    ) + "%";
-
-            }
-
-
-            if (fill) {
-
-                fill.style.width =
-                    percentage + "%";
-
-            }
-
-
-            if (spentElement) {
-
-                spentElement.textContent =
-                    hidden
-                        ? "••••••"
-                        : money(spent);
-
-            }
-
-
-            if (remainingElement) {
-
-                remainingElement.textContent =
-                    hidden
-                        ? "••••••"
-                        : money(remaining);
-
-            }
-
-
-            /* EYE */
-
-            const eye =
-                document.getElementById(
-                    "toggleBalance"
-                );
-
-
-            if (eye) {
-
-                eye.textContent =
-                    hidden
-                        ? "🙈"
-                        : "👁️";
-
-            }
-
-
-            updateTransactions();
-
-        }
-
-
-        /* ===============================
-           TRANSACTIONS
-        =============================== */
-
-        function updateTransactions() {
-
-            const container =
-                document.getElementById(
-                    "transactionList"
-                );
-
-
-            if (!container) return;
-
-
-            const transactions =
-                user.transactions || [];
-
-
-            if (!transactions.length) {
-
-                container.innerHTML = `
-                    <p class="empty">
-                        No transactions yet.
-                    </p>
-                `;
-
-                return;
-
-            }
-
-
-            container.innerHTML =
-                transactions
-                    .slice(0, 5)
-                    .map(
-                        transaction => {
-
-                            const income =
-                                transaction.type ===
-                                "income";
-
-
-                            return `
-
-                                <div class="home-transaction">
-
-                                    <div class="transaction-icon">
-
-                                        ${
-                                            income
-                                                ? "💰"
-                                                : "💸"
-                                        }
-
-                                    </div>
-
-
-                                    <div class="transaction-info">
-
-                                        <strong>
-                                            ${
-                                                transaction.title ||
-                                                transaction.type
-                                            }
-                                        </strong>
-
-                                        <small>
-                                            ${
-                                                transaction.description ||
-                                                "Money transaction"
-                                            }
-                                        </small>
-
-                                    </div>
-
-
-                                    <strong
-                                        class="${
-                                            income
-                                                ? "money-in"
-                                                : "money-out"
-                                        }"
-                                    >
-
-                                        ${
-                                            income
-                                                ? "+"
-                                                : "-"
-                                        }
-
-                                        ${money(
-                                            transaction.amount
-                                        )}
-
-                                    </strong>
-
-                                </div>
-
-                            `;
-
-                        }
-                    )
-                    .join("");
-
-        }
-
-
-        /* ===============================
-           HIDE / SHOW
-        =============================== */
-
-        const toggle =
-            document.getElementById(
-                "toggleBalance"
-            );
-
-
-        if (toggle) {
-
-            toggle.addEventListener(
-                "click",
-                () => {
-
-                    hidden =
-                        !hidden;
-
-
-                    localStorage.setItem(
-                        "meloBalancesHidden",
-                        String(hidden)
-                    );
-
-
-                    [
-                        "balance",
-                        "usdBalance",
-                        "eurBalance",
-                        "gbpBalance"
-                    ].forEach(
-                        id => {
-
-                            const element =
-                                document.getElementById(
-                                    id
-                                );
-
-
-                            if (element) {
-
-                                element.dataset.value =
-                                    "0";
-
-                            }
-
-                        }
-                    );
-
-
-                    updateWallet();
-
-                }
-            );
-
-        }
-
-
-        /* ===============================
-           USER
-        =============================== */
-
-        const username =
-            document.getElementById(
-                "username"
-            );
-
-
-        if (username) {
-
-            username.textContent =
-                user.name ||
-                user.username ||
-                "Melody";
-
-        }
-
-
-        /* ===============================
-           GREETING
-        =============================== */
-
-        const greeting =
-            document.getElementById(
-                "greeting"
-            );
-
-
-        if (greeting) {
-
-            const hour =
-                new Date().getHours();
-
-
-            greeting.textContent =
-                hour < 12
-                    ? "Good Morning ☀️"
-                    : hour < 18
-                        ? "Good Afternoon 🌤️"
-                        : "Good Evening 🌙";
-
-        }
-
-
-        /* ===============================
-           QUICK ACTIONS
-        =============================== */
-
-        const pages = {
-
-            incomeBtn:
-                "income.html",
-
-            expenseBtn:
-                "expense.html",
-
-            saveBtn:
-                "savings.html",
-
-            goalBtn:
-                "goals.html",
-
-            transferBtn:
-                "transfer.html",
-
-            budgetBtn:
-                "budget.html"
-
-        };
-
-
-        Object.entries(
-            pages
-        ).forEach(
-            ([id, page]) => {
-
-                const button =
-                    document.getElementById(
-                        id
-                    );
-
-
-                if (button) {
-
-                    button.addEventListener(
-                        "click",
-                        () => {
-
-                            location.href =
-                                page;
-
-                        }
-                    );
-
-                }
-
-            }
-        );
-
-
-        /* ===============================
-           HEADER BUTTONS
-        =============================== */
-
-        document
-            .getElementById(
-                "notificationBtn"
-            )
-            ?.addEventListener(
-                "click",
-                () => {
-
-                    location.href =
-                        "notifications.html";
-
-                }
-            );
-
-
-        document
-            .getElementById(
-                "settingsBtn"
-            )
-            ?.addEventListener(
-                "click",
-                () => {
-
-                    location.href =
-                        "settings.html";
-
-                }
-            );
-
-
-        /* ===============================
-           ADD MENU
-        =============================== */
-
-        const addButton =
-            document.getElementById(
-                "navAdd"
-            );
-
-
-        const addMenu =
-            document.getElementById(
-                "addMenu"
-            );
-
-
-        if (
-            addButton &&
-            addMenu
-        ) {
-
-            addButton.addEventListener(
-                "click",
-                () => {
-
-                    addMenu.classList.toggle(
-                        "show"
-                    );
-
-                    addButton.classList.toggle(
-                        "open"
-                    );
-
-                }
-            );
-
-
-            addMenu
-                .querySelectorAll(
-                    "[data-page]"
-                )
-                .forEach(
-                    button => {
-
-                        button.addEventListener(
-                            "click",
-                            () => {
-
-                                location.href =
-                                    button.dataset.page;
-
-                            }
-                        );
-
-                    }
-                );
-
-        }
-
-
-        /* ===============================
-           PROFILE PHOTO
-        =============================== */
-
-        const profile =
-            document.getElementById(
-                "homeProfilePic"
-            );
-
-
-        if (
-            profile &&
-            user.profilePhoto
-        ) {
-
-            profile.src =
-                user.profilePhoto;
-
-        }
-
-
-        /* ===============================
-           SLIDER
-        =============================== */
-
-        const slider =
-            document.getElementById(
-                "walletSlider"
-            );
-
-
-        if (slider) {
-
-            const dots =
-                document.querySelectorAll(
-                    ".wallet-dots span"
-                );
-
-
-            slider.addEventListener(
-                "scroll",
-                () => {
-
-                    const cards =
-                        slider.querySelectorAll(
-                            ".wallet-card"
-                        );
-
-
-                    let closest =
-                        0;
-
-                    let distance =
-                        Infinity;
-
-
-                    cards.forEach(
-                        (
-                            card,
-                            index
-                        ) => {
-
-                            const difference =
-                                Math.abs(
-                                    slider.scrollLeft -
-                                    card.offsetLeft
-                                );
-
-
-                            if (
-                                difference <
-                                distance
-                            ) {
-
-                                distance =
-                                    difference;
-
-                                closest =
-                                    index;
-
-                            }
-
-                        }
-                    );
-
-
-                    dots.forEach(
-                        (
-                            dot,
-                            index
-                        ) => {
-
-                            dot.classList.toggle(
-                                "active",
-                                index === closest
-                            );
-
-                        }
-                    );
-
-                },
-                {
-                    passive: true
-                }
-            );
-
-        }
-
-
-        /* INITIAL */
-
-        updateWallet();
+        loadHome(user);
 
     }
 );
+
+
+/* =====================================================
+   LOAD HOME
+===================================================== */
+
+function loadHome(user) {
+
+    updateGreeting(user);
+
+    updateProfilePhoto(user);
+
+    updateWallet(user);
+
+    updateSpending(user);
+
+    updateBudget(user);
+
+    updateRecentTransactions(user);
+
+    updateInsight(user);
+
+}
+
+
+/* =====================================================
+   GREETING
+===================================================== */
+
+function updateGreeting(user) {
+
+    const greeting =
+        document.getElementById(
+            "greeting"
+        );
+
+    const userName =
+        document.getElementById(
+            "userName"
+        );
+
+
+    const hour =
+        new Date()
+            .getHours();
+
+
+    let text =
+        "Good morning";
+
+
+    if (hour >= 12 && hour < 17) {
+
+        text =
+            "Good afternoon";
+
+    }
+
+
+    if (hour >= 17) {
+
+        text =
+            "Good evening";
+
+    }
+
+
+    if (greeting) {
+
+        greeting.textContent =
+            text;
+
+    }
+
+
+    if (userName) {
+
+        userName.textContent =
+            `${user.name || "MELO User"}, let's check your money.`;
+
+    }
+
+}
+
+
+/* =====================================================
+   PROFILE PHOTO
+===================================================== */
+
+function updateProfilePhoto(user) {
+
+    const image =
+        document.getElementById(
+            "profilePhoto"
+        );
+
+
+    if (!image) return;
+
+
+    if (user.profilePhoto) {
+
+        image.src =
+            user.profilePhoto;
+
+    } else {
+
+        image.src =
+            "logo.png";
+
+    }
+
+}
+
+
+/* =====================================================
+   WALLET
+===================================================== */
+
+function updateWallet(user) {
+
+    const balance =
+        Number(
+            user.balance
+        ) || 0;
+
+
+    const income =
+        Number(
+            user.income
+        ) || 0;
+
+
+    const expenses =
+        Number(
+            user.expenses
+        ) || 0;
+
+
+    setText(
+        "balance",
+        formatMoney(balance)
+    );
+
+
+    setText(
+        "totalIncome",
+        formatMoney(income)
+    );
+
+
+    setText(
+        "totalExpenses",
+        formatMoney(expenses)
+    );
+
+}
+
+
+/* =====================================================
+   SPENDING
+===================================================== */
+
+function updateSpending(user) {
+
+    const income =
+        Number(
+            user.income
+        ) || 0;
+
+
+    const expenses =
+        Number(
+            user.expenses
+        ) || 0;
+
+
+    let percentage =
+        0;
+
+
+    if (income > 0) {
+
+        percentage =
+            (expenses / income) *
+            100;
+
+    }
+
+
+    percentage =
+        Math.max(
+            0,
+            Math.min(
+                100,
+                percentage
+            )
+        );
+
+
+    const remaining =
+        Math.max(
+            0,
+            income - expenses
+        );
+
+
+    setText(
+        "usagePercentage",
+        `${Math.round(percentage)}%`
+    );
+
+
+    setText(
+        "spentAmount",
+        formatMoney(expenses)
+    );
+
+
+    setText(
+        "remainingAmount",
+        formatMoney(remaining)
+    );
+
+
+    const bar =
+        document.getElementById(
+            "usageBar"
+        );
+
+
+    if (bar) {
+
+        bar.style.width =
+            `${percentage}%`;
+
+    }
+
+}
+
+
+/* =====================================================
+   BUDGET
+===================================================== */
+
+function updateBudget(user) {
+
+    const budget =
+        user.budget || {};
+
+
+    const limit =
+        Number(
+            budget.amount
+        ) || 0;
+
+
+    const spent =
+        Number(
+            user.expenses
+        ) || 0;
+
+
+    const percentage =
+        limit > 0
+            ? Math.min(
+                100,
+                (spent / limit) *
+                100
+            )
+            : 0;
+
+
+    setText(
+        "budgetSpent",
+        formatMoney(spent)
+    );
+
+
+    setText(
+        "budgetLimit",
+        `of ${formatMoney(limit)}`
+    );
+
+
+    const title =
+        document.getElementById(
+            "budgetTitle"
+        );
+
+
+    const message =
+        document.getElementById(
+            "budgetMessage"
+        );
+
+
+    if (limit <= 0) {
+
+        if (title) {
+
+            title.textContent =
+                "No budget set";
+
+        }
+
+
+        if (message) {
+
+            message.textContent =
+                "Set a budget to start tracking your spending.";
+
+        }
+
+    } else {
+
+        if (title) {
+
+            title.textContent =
+                budget.period === "weekly"
+                    ? "Weekly budget"
+                    : "Monthly budget";
+
+        }
+
+
+        if (message) {
+
+            const remaining =
+                Math.max(
+                    0,
+                    limit - spent
+                );
+
+
+            message.textContent =
+                `${formatMoney(remaining)} remaining in your budget.`;
+
+        }
+
+    }
+
+
+    const bar =
+        document.getElementById(
+            "budgetBar"
+        );
+
+
+    if (bar) {
+
+        bar.style.width =
+            `${percentage}%`;
+
+    }
+
+}
+
+
+/* =====================================================
+   RECENT TRANSACTIONS
+===================================================== */
+
+function updateRecentTransactions(user) {
+
+    const container =
+        document.getElementById(
+            "recentTransactions"
+        );
+
+
+    if (!container) return;
+
+
+    container.innerHTML =
+        "";
+
+
+    const transactions =
+        Array.isArray(
+            user.transactions
+        )
+            ? user.transactions
+            : [];
+
+
+    const recent =
+        transactions.slice(
+            0,
+            5
+        );
+
+
+    if (!recent.length) {
+
+        container.innerHTML = `
+
+            <div class="empty-state">
+
+                No transactions yet.
+
+                <br>
+
+                Add money or make a payment
+                to see your activity here.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    recent.forEach(
+        transaction => {
+
+            const item =
+                document.createElement(
+                    "div"
+                );
+
+
+            item.className =
+                "transaction-item";
+
+
+            const isIncome =
+                transaction.type ===
+                "income";
+
+
+            const sign =
+                isIncome
+                    ? "+"
+                    : "-";
+
+
+            const icon =
+                getTransactionIcon(
+                    transaction.category
+                );
+
+
+            item.innerHTML = `
+
+                <div class="transaction-icon">
+
+                    ${icon}
+
+                </div>
+
+
+                <div class="transaction-info">
+
+                    <strong>
+
+                        ${escapeHTML(
+                            transaction.title ||
+                            transaction.category ||
+                            "Transaction"
+                        )}
+
+                    </strong>
+
+
+                    <small>
+
+                        ${formatTransactionDate(
+                            transaction.date
+                        )}
+
+                    </small>
+
+                </div>
+
+
+                <div class="transaction-amount ${
+
+                    isIncome
+                        ? "income"
+                        : "expense"
+
+                }">
+
+                    ${sign}${formatMoney(
+                        transaction.amount
+                    )}
+
+                </div>
+
+            `;
+
+
+            container.appendChild(
+                item
+            );
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   INSIGHT
+===================================================== */
+
+function updateInsight(user) {
+
+    const title =
+        document.getElementById(
+            "insightTitle"
+        );
+
+
+    const text =
+        document.getElementById(
+            "insightText"
+        );
+
+
+    const income =
+        Number(
+            user.income
+        ) || 0;
+
+
+    const expenses =
+        Number(
+            user.expenses
+        ) || 0;
+
+
+    if (
+        income === 0 &&
+        expenses === 0
+    ) {
+
+        title.textContent =
+            "Start your money journey";
+
+
+        text.textContent =
+            "Once you add your first transaction, MELOSAV will start showing useful information about your spending.";
+
+        return;
+
+    }
+
+
+    if (expenses > income) {
+
+        title.textContent =
+            "Your spending is above your income";
+
+
+        text.textContent =
+            "You've spent more than you've recorded as income. Review your recent activity and check your budget.";
+
+        return;
+
+    }
+
+
+    if (income > 0) {
+
+        const percentage =
+            Math.round(
+                (
+                    expenses /
+                    income
+                ) *
+                100
+            );
+
+
+        title.textContent =
+            `${percentage}% of your income has been used`;
+
+
+        text.textContent =
+            `You've received ${formatMoney(income)} and spent ${formatMoney(expenses)} so far.`;
+
+    }
+
+}
+
+
+/* =====================================================
+   TRANSACTION ICON
+===================================================== */
+
+function getTransactionIcon(
+    category
+) {
+
+    const value =
+        String(
+            category || ""
+        )
+            .toLowerCase();
+
+
+    if (
+        value.includes("airtime")
+    ) {
+
+        return "A";
+
+    }
+
+
+    if (
+        value.includes("data")
+    ) {
+
+        return "D";
+
+    }
+
+
+    if (
+        value.includes("bill")
+    ) {
+
+        return "B";
+
+    }
+
+
+    if (
+        value.includes("transfer")
+    ) {
+
+        return "T";
+
+    }
+
+
+    if (
+        value.includes("food")
+    ) {
+
+        return "F";
+
+    }
+
+
+    if (
+        value.includes("income")
+    ) {
+
+        return "+";
+
+    }
+
+
+    return "•";
+
+}
+
+
+/* =====================================================
+   SAFE TEXT
+===================================================== */
+
+function setText(
+    id,
+    value
+) {
+
+    const element =
+        document.getElementById(id);
+
+
+    if (element) {
+
+        element.textContent =
+            value;
+
+    }
+
+}
+
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
+
+function escapeHTML(
+    value
+) {
+
+    return String(value)
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}

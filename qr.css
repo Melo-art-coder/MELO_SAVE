@@ -1,0 +1,1174 @@
+/* =====================================
+   MELOSAV — QR PAY
+===================================== */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+
+body {
+
+    min-height: 100vh;
+
+    font-family:
+        Poppins,
+        sans-serif;
+
+    background:
+        #f7f5fb;
+
+    color:
+        #211b2b;
+
+    padding-bottom:
+        110px;
+
+}
+
+
+.qr-header {
+
+    width:
+        min(
+            700px,
+            calc(100% - 24px)
+        );
+
+    margin:
+        auto;
+
+    padding:
+        22px 0;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        13px;
+
+}
+
+
+.back-btn {
+
+    width:
+        42px;
+
+    height:
+        42px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    border-radius:
+        13px;
+
+    background:
+        white;
+
+    color:
+        #211b2b;
+
+    text-decoration:
+        none;
+
+    box-shadow:
+        0 6px 20px
+        rgba(0,0,0,.06);
+
+}
+
+
+.qr-header small {
+
+    color:
+        #7b2cff;
+
+    font-size:
+        8px;
+
+    font-weight:
+        800;
+
+    letter-spacing:
+        1px;
+
+}
+
+
+.qr-header h1 {
+
+    font-size:
+        23px;
+
+}
+
+
+/* =====================================
+   CONTAINER
+===================================== */
+
+.qr-container {
+
+    width:
+        min(
+            600px,
+            calc(100% - 24px)
+        );
+
+    margin:
+        auto;
+
+}
+
+
+/* =====================================
+   HERO
+===================================== */
+
+.qr-hero {
+
+    text-align:
+        center;
+
+    padding:
+        25px;
+
+    border-radius:
+        25px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #6424d8,
+            #8d4cff
+        );
+
+    color:
+        white;
+
+    box-shadow:
+        0 16px 40px
+        rgba(
+            102,
+            37,
+            216,
+            .2
+        );
+
+}
+
+
+.qr-hero-icon {
+
+    width:
+        58px;
+
+    height:
+        58px;
+
+    margin:
+        auto auto 10px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    border-radius:
+        18px;
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            .15
+        );
+
+    font-size:
+        30px;
+
+}
+
+
+.qr-hero h2 {
+
+    font-size:
+        20px;
+
+}
+
+
+.qr-hero p {
+
+    margin-top:
+        5px;
+
+    font-size:
+        10px;
+
+    opacity:
+        .75;
+
+}
+
+
+/* =====================================
+   ACTIONS
+===================================== */
+
+.qr-actions {
+
+    display:
+        grid;
+
+    gap:
+        10px;
+
+    margin-top:
+        17px;
+
+}
+
+
+.qr-action {
+
+    width:
+        100%;
+
+    display:
+        grid;
+
+    grid-template-columns:
+        45px 1fr auto;
+
+    align-items:
+        center;
+
+    gap:
+        12px;
+
+    border:
+        none;
+
+    text-align:
+        left;
+
+    padding:
+        15px;
+
+    border-radius:
+        19px;
+
+    background:
+        white;
+
+    font-family:
+        inherit;
+
+    cursor:
+        pointer;
+
+    box-shadow:
+        0 6px 20px
+        rgba(
+            35,
+            25,
+            50,
+            .05
+        );
+
+}
+
+
+.action-icon {
+
+    width:
+        45px;
+
+    height:
+        45px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    border-radius:
+        14px;
+
+    background:
+        #f0eaff;
+
+    font-size:
+        20px;
+
+}
+
+
+.qr-action strong {
+
+    display:
+        block;
+
+    font-size:
+        12px;
+
+}
+
+
+.qr-action small {
+
+    display:
+        block;
+
+    margin-top:
+        2px;
+
+    color:
+        #928b99;
+
+    font-size:
+        9px;
+
+}
+
+
+.qr-action > span {
+
+    color:
+        #7b2cff;
+
+    font-size:
+        20px;
+
+}
+
+
+/* =====================================
+   CARDS
+===================================== */
+
+.scanner-card,
+.my-qr-card,
+.request-card,
+.generated-card {
+
+    margin-top:
+        17px;
+
+    padding:
+        22px;
+
+    border-radius:
+        23px;
+
+    background:
+        white;
+
+    box-shadow:
+        0 7px 25px
+        rgba(
+            35,
+            25,
+            50,
+            .05
+        );
+
+    text-align:
+        center;
+
+}
+
+
+.scanner-card h3,
+.my-qr-card h3,
+.generated-card h3 {
+
+    font-size:
+        15px;
+
+    margin-top:
+        12px;
+
+}
+
+
+.scanner-card p,
+.my-qr-card p,
+.generated-card p {
+
+    color:
+        #918a98;
+
+    font-size:
+        9px;
+
+    margin-top:
+        4px;
+
+}
+
+
+/* =====================================
+   SCANNER
+===================================== */
+
+.scanner-box {
+
+    position:
+        relative;
+
+    width:
+        210px;
+
+    height:
+        210px;
+
+    margin:
+        auto;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    border-radius:
+        20px;
+
+    background:
+        #16121d;
+
+    overflow:
+        hidden;
+
+}
+
+
+.scanner-box span {
+
+    color:
+        white;
+
+    font-size:
+        80px;
+
+    opacity:
+        .15;
+
+}
+
+
+.scanner-line {
+
+    position:
+        absolute;
+
+    left:
+        15px;
+
+    right:
+        15px;
+
+    top:
+        50%;
+
+    height:
+        2px;
+
+    background:
+        #a878ff;
+
+    box-shadow:
+        0 0 15px
+        #7b2cff;
+
+    animation:
+        scan 2s
+        infinite
+        ease-in-out;
+
+}
+
+
+@keyframes scan {
+
+    0% {
+        transform:
+            translateY(-70px);
+    }
+
+    50% {
+        transform:
+            translateY(70px);
+    }
+
+    100% {
+        transform:
+            translateY(-70px);
+    }
+
+}
+
+
+/* =====================================
+   QR
+===================================== */
+
+.qr-label {
+
+    display:
+        block;
+
+    color:
+        #7b2cff;
+
+    font-size:
+        8px;
+
+    font-weight:
+        800;
+
+    letter-spacing:
+        1px;
+
+    margin-bottom:
+        12px;
+
+}
+
+
+.qr-placeholder,
+.generated-qr {
+
+    width:
+        210px;
+
+    height:
+        210px;
+
+    margin:
+        auto;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    border-radius:
+        18px;
+
+    background:
+        #111;
+
+}
+
+
+.qr-pattern {
+
+    color:
+        white;
+
+    font-size:
+        100px;
+
+}
+
+
+.my-qr-card h3 {
+
+    margin-top:
+        14px;
+
+}
+
+
+/* =====================================
+   FORM
+===================================== */
+
+.request-card {
+
+    text-align:
+        left;
+
+}
+
+
+.request-card h2 {
+
+    font-size:
+        18px;
+
+    margin-bottom:
+        18px;
+
+}
+
+
+.request-card label {
+
+    display:
+        block;
+
+    margin:
+        12px 0 6px;
+
+    font-size:
+        10px;
+
+    font-weight:
+        600;
+
+}
+
+
+.money-input {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    border:
+        1px solid #e5e0eb;
+
+    border-radius:
+        14px;
+
+}
+
+
+.money-input span {
+
+    padding-left:
+        13px;
+
+    color:
+        #7b2cff;
+
+    font-weight:
+        700;
+
+}
+
+
+.money-input input,
+.request-card input {
+
+    width:
+        100%;
+
+    border:
+        none;
+
+    outline:
+        none;
+
+    padding:
+        13px;
+
+    background:
+        transparent;
+
+    font-family:
+        inherit;
+
+}
+
+
+.request-card > form > input {
+
+    border:
+        1px solid #e5e0eb;
+
+    border-radius:
+        14px;
+
+}
+
+
+/* =====================================
+   BUTTONS
+===================================== */
+
+.primary-btn,
+.secondary-btn {
+
+    width:
+        100%;
+
+    margin-top:
+        16px;
+
+    padding:
+        13px;
+
+    border:
+        none;
+
+    border-radius:
+        14px;
+
+    font-family:
+        inherit;
+
+    font-weight:
+        600;
+
+    cursor:
+        pointer;
+
+}
+
+
+.primary-btn {
+
+    background:
+        #7b2cff;
+
+    color:
+        white;
+
+}
+
+
+.secondary-btn {
+
+    background:
+        #f0eaff;
+
+    color:
+        #7b2cff;
+
+}
+
+
+/* =====================================
+   NAV
+===================================== */
+
+.bottom-nav {
+
+    position:
+        fixed;
+
+    left:
+        50%;
+
+    bottom:
+        12px;
+
+    transform:
+        translateX(-50%);
+
+    width:
+        min(
+            540px,
+            calc(100% - 18px)
+        );
+
+    height:
+        68px;
+
+    padding:
+        7px 9px;
+
+    display:
+        grid;
+
+    grid-template-columns:
+        repeat(5, 1fr);
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            .97
+        );
+
+    border-radius:
+        23px;
+
+    box-shadow:
+        0 16px 45px
+        rgba(
+            27,
+            19,
+            40,
+            .14
+        );
+
+    z-index:
+        999;
+
+}
+
+
+.bottom-nav a {
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    gap:
+        3px;
+
+    text-decoration:
+        none;
+
+    color:
+        #8b8493;
+
+}
+
+
+.bottom-nav a span {
+
+    font-size:
+        18px;
+
+}
+
+
+.bottom-nav a small {
+
+    font-size:
+        8px;
+
+    font-weight:
+        600;
+
+}
+
+
+/* =====================================
+   MOBILE
+===================================== */
+
+@media (max-width: 480px) {
+
+    .qr-container {
+
+        width:
+            calc(100% - 18px);
+
+    }
+
+
+    .qr-header {
+
+        width:
+            calc(100% - 18px);
+
+    }
+
+
+    .qr-placeholder,
+    .generated-qr,
+    .scanner-box {
+
+        width:
+            180px;
+
+        height:
+            180px;
+
+    }
+
+
+    .qr-action {
+
+        grid-template-columns:
+            42px 1fr auto;
+
+    }
+
+
+    .action-icon {
+
+        width:
+            42px;
+
+        height:
+            42px;
+
+    }
+
+}
+/* =====================================
+   REAL QR DISPLAY
+===================================== */
+
+.qr-display {
+
+    width: 230px;
+    height: 230px;
+
+    margin: 10px auto 15px;
+
+    padding: 14px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    background: #ffffff;
+
+    border-radius: 20px;
+
+    border: 1px solid #eee8f5;
+
+    box-shadow:
+        0 12px 30px
+        rgba(30, 20, 50, .08);
+
+}
+
+
+.qr-display img,
+.qr-display canvas {
+
+    width: 100% !important;
+    height: 100% !important;
+
+    display: block;
+
+}
+
+
+/* =====================================
+   SCANNER CORNERS
+===================================== */
+
+.scanner-box {
+
+    position: relative;
+
+}
+
+
+.scan-corners {
+
+    position: absolute;
+
+    inset: 24px;
+
+    pointer-events: none;
+
+}
+
+
+.scan-corners i {
+
+    position: absolute;
+
+    width: 32px;
+    height: 32px;
+
+    border-color: #ffffff;
+
+    border-style: solid;
+
+}
+
+
+.scan-corners i:nth-child(1) {
+
+    top: 0;
+    left: 0;
+
+    border-width:
+        4px 0 0 4px;
+
+}
+
+
+.scan-corners i:nth-child(2) {
+
+    top: 0;
+    right: 0;
+
+    border-width:
+        4px 4px 0 0;
+
+}
+
+
+.scan-corners i:nth-child(3) {
+
+    bottom: 0;
+    left: 0;
+
+    border-width:
+        0 0 4px 4px;
+
+}
+
+
+.scan-corners i:nth-child(4) {
+
+    bottom: 0;
+    right: 0;
+
+    border-width:
+        0 4px 4px 0;
+
+}
+
+
+/* =====================================
+   CAMERA
+===================================== */
+
+.qr-video {
+
+    width: 100%;
+
+    max-width: 360px;
+
+    margin: 18px auto 0;
+
+    display: block;
+
+    border-radius: 20px;
+
+    background: #111;
+
+}
+
+
+/* =====================================
+   INFO
+===================================== */
+
+.qr-info {
+
+    margin-top: 17px;
+
+    padding: 15px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    background: #ffffff;
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 6px 20px
+        rgba(30, 20, 50, .05);
+
+}
+
+
+.qr-info > div {
+
+    width: 40px;
+    height: 40px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 13px;
+
+    background: #f0eaff;
+
+}
+
+
+.qr-info p {
+
+    font-size: 9px;
+
+    line-height: 1.6;
+
+    color: #81798c;
+
+}
+
+
+/* =====================================
+   SECONDARY BUTTON
+===================================== */
+
+.scanner-card .secondary-btn {
+
+    margin-top: 9px;
+
+}
+
+
+/* =====================================
+   SMALL SCREEN
+===================================== */
+
+@media (max-width: 420px) {
+
+    .qr-display {
+
+        width: 200px;
+        height: 200px;
+
+    }
+
+}
+
+
+@media (max-width: 340px) {
+
+    .qr-display {
+
+        width: 175px;
+        height: 175px;
+
+    }
+
+}

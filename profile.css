@@ -1,242 +1,1060 @@
-/* =====================================
-   MELOSAV PROFILE V5
-===================================== */
+/* =====================================================
+   MELOSAV — PROFILE
+===================================================== */
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:"Poppins",sans-serif;
+* {
+    box-sizing: border-box;
 }
 
-body{
-    background:var(--background);
-    color:var(--text);
-    padding:20px;
-    padding-bottom:120px;
+
+body {
+
+    margin: 0;
+
+    padding-bottom: 95px;
+
+    background: var(--melo-bg);
+
+    color: var(--melo-text);
+
+    font-family:
+        Arial,
+        sans-serif;
+
 }
 
-/* ================= HEADER ================= */
 
-.page-header{
-    display:flex;
-    align-items:center;
-    gap:15px;
-    margin-bottom:25px;
+/* =====================================================
+   HEADER
+===================================================== */
+
+.profile-header {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    padding: 20px;
+
 }
 
-.back-btn{
-    width:45px;
-    height:45px;
-    border-radius:50%;
-    background:var(--card);
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    text-decoration:none;
-    color:var(--text);
-    font-size:22px;
-    box-shadow:0 10px 20px rgba(0,0,0,.08);
+
+.profile-header small {
+
+    color: var(--melo-accent);
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    letter-spacing: 1px;
+
 }
 
-.page-header h1{
-    font-size:24px;
-    font-weight:700;
+
+.profile-header h1 {
+
+    margin: 3px 0 0;
+
+    font-size: 23px;
+
 }
 
-/* ================= PROFILE CARD ================= */
 
-.profile-card{
-    background:var(--card);
-    border-radius:28px;
-    padding:35px 25px;
-    text-align:center;
-    box-shadow:0 15px 30px rgba(0,0,0,.08);
-    margin-bottom:25px;
+.back-btn {
+
+    width: 40px;
+
+    height: 40px;
+
+    display: grid;
+
+    place-items: center;
+
+    border-radius: 13px;
+
+    background: var(--melo-surface);
+
+    color: var(--melo-text);
+
+    text-decoration: none;
+
+    border: 1px solid var(--melo-border);
+
+    font-size: 20px;
+
 }
 
-.avatar{
-    width:110px;
-    height:110px;
-    margin:auto;
-    border-radius:50%;
-    background:linear-gradient(135deg,#7B2CFF,#A855F7);
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    color:#fff;
-    font-size:42px;
-    font-weight:700;
-    margin-bottom:18px;
-    box-shadow:0 15px 30px rgba(123,44,255,.35);
+
+/* =====================================================
+   CONTAINER
+===================================================== */
+
+.profile-container {
+
+    width: min(
+        100% - 30px,
+        620px
+    );
+
+    margin: auto;
+
 }
 
-.profile-card h2{
-    font-size:26px;
-    margin-bottom:8px;
+
+/* =====================================================
+   PROFILE HERO
+===================================================== */
+
+.profile-hero {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 16px;
+
+    padding: 20px;
+
+    margin-bottom: 16px;
+
+    border-radius: 24px;
+
+    background: var(--melo-surface);
+
+    border: 1px solid var(--melo-border);
+
 }
 
-.profile-card p{
-    color:var(--muted);
-    font-size:15px;
+
+.profile-photo-wrapper {
+
+    position: relative;
+
+    width: 78px;
+
+    height: 78px;
+
+    flex-shrink: 0;
+
 }
 
-/* ================= BALANCE ================= */
 
-.balance-card{
-    background:linear-gradient(135deg,#7B2CFF,#A855F7);
-    color:#fff;
-    border-radius:25px;
-    padding:25px;
-    text-align:center;
-    margin-bottom:25px;
-    box-shadow:0 15px 30px rgba(123,44,255,.30);
+.profile-photo-wrapper img {
+
+    width: 78px;
+
+    height: 78px;
+
+    border-radius: 50%;
+
+    object-fit: cover;
+
+    background: var(--melo-accent-soft);
+
+    border: 3px solid var(--melo-accent);
+
 }
 
-.balance-card h3{
-    opacity:.9;
-    font-weight:500;
+
+.photo-edit-btn {
+
+    position: absolute;
+
+    right: -2px;
+
+    bottom: -2px;
+
+    width: 28px;
+
+    height: 28px;
+
+    border: 3px solid var(--melo-surface);
+
+    border-radius: 50%;
+
+    background: var(--melo-accent);
+
+    color: white;
+
+    cursor: pointer;
+
 }
 
-.balance-card h1{
-    font-size:36px;
-    margin-top:12px;
+
+.profile-main-info {
+
+    min-width: 0;
+
 }
 
-/* ================= STATS ================= */
 
-.stats-grid{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:15px;
-    margin-bottom:25px;
+.profile-main-info h2 {
+
+    margin: 0;
+
+    font-size: 18px;
+
 }
 
-.stat-card{
-    background:var(--card);
-    border-radius:22px;
-    padding:20px;
-    text-align:center;
-    box-shadow:0 10px 20px rgba(0,0,0,.08);
+
+.profile-main-info p {
+
+    margin: 4px 0;
+
+    color: var(--melo-muted);
+
+    font-size: 11px;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
 }
 
-.stat-card h2{
-    color:var(--primary);
-    margin-bottom:8px;
-    font-size:22px;
+
+.melo-id {
+
+    display: inline-block;
+
+    margin-top: 5px;
+
+    color: var(--melo-accent);
+
+    font-size: 10px;
+
+    font-weight: 700;
+
 }
 
-.stat-card span{
-    color:var(--muted);
-    font-size:14px;
+
+/* =====================================================
+   SECTIONS
+===================================================== */
+
+.profile-section {
+
+    margin-bottom: 16px;
+
+    padding: 18px;
+
+    border-radius: 22px;
+
+    background: var(--melo-surface);
+
+    border: 1px solid var(--melo-border);
+
 }
 
-/* ================= SECTION ================= */
 
-.profile-section{
-    background:var(--card);
-    border-radius:25px;
-    padding:22px;
-    margin-bottom:25px;
-    box-shadow:0 10px 20px rgba(0,0,0,.08);
+.section-heading {
+
+    margin-bottom: 16px;
+
 }
 
-.profile-section h2{
-    margin-bottom:20px;
-    font-size:20px;
+
+.section-heading span {
+
+    display: block;
+
+    margin-bottom: 4px;
+
+    color: var(--melo-accent);
+
+    font-size: 8px;
+
+    font-weight: 800;
+
+    letter-spacing: 1.3px;
+
 }
 
-/* ================= ACHIEVEMENTS ================= */
 
-.achievement-grid{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:15px;
+.section-heading h2 {
+
+    margin: 0;
+
+    font-size: 16px;
+
 }
 
-.achievement{
-    background:var(--background);
-    border-radius:20px;
-    padding:18px;
-    text-align:center;
-    font-size:30px;
-    transition:.3s;
+
+/* =====================================================
+   FORM
+===================================================== */
+
+.profile-section form {
+
+    display: flex;
+
+    flex-direction: column;
+
 }
 
-.achievement:hover{
-    transform:translateY(-5px);
+
+.profile-section label {
+
+    margin: 10px 0 6px;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
 }
 
-.achievement span{
-    display:block;
-    margin-top:10px;
-    font-size:13px;
-    color:var(--muted);
+
+.profile-section input[type="text"],
+.profile-section input[type="email"] {
+
+    width: 100%;
+
+    padding: 13px;
+
+    border-radius: 13px;
+
+    border: 1px solid var(--melo-border);
+
+    background: var(--melo-bg);
+
+    color: var(--melo-text);
+
+    font-family: inherit;
+
 }
 
-/* ================= BUTTONS ================= */
 
-.profile-section button{
-    width:100%;
-    border:none;
-    background:var(--background);
-    color:var(--text);
-    padding:18px;
-    border-radius:18px;
-    font-size:16px;
-    font-weight:600;
-    margin-bottom:14px;
-    cursor:pointer;
-    transition:.3s;
+.profile-section input:focus {
+
+    outline: none;
+
+    border-color: var(--melo-accent);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(
+            var(--melo-accent-rgb),
+            .10
+        );
+
 }
 
-.profile-section button:hover{
-    transform:translateY(-3px);
+
+/* =====================================================
+   BUTTONS
+===================================================== */
+
+.primary-btn,
+.secondary-btn {
+
+    width: 100%;
+
+    margin-top: 14px;
+
+    padding: 13px;
+
+    border-radius: 13px;
+
+    font-family: inherit;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
 }
 
-#editBtn{
-    background:#EDE3FF;
-    color:#7B2CFF;
+
+.primary-btn {
+
+    border: none;
+
+    background: var(--melo-accent);
+
+    color: white;
+
 }
 
-#themeBtn{
-    background:#E3F2FF;
-    color:#2563EB;
+
+.primary-btn:hover {
+
+    background: var(--melo-accent-dark);
+
 }
 
-#pinBtn{
-    background:#E8FFF3;
-    color:#10B981;
+
+.secondary-btn {
+
+    border: 1px solid var(--melo-accent);
+
+    background: var(--melo-accent-soft);
+
+    color: var(--melo-accent);
+
 }
 
-#shareBtn{
-    background:#FFF4DD;
-    color:#F59E0B;
+
+/* =====================================================
+   ACCOUNT INFORMATION
+===================================================== */
+
+.info-list {
+
+    display: flex;
+
+    flex-direction: column;
+
 }
 
-.logout{
-    background:#FFE5E5 !important;
-    color:#E53935 !important;
+
+.info-row {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 12px;
+
+    padding: 13px 0;
+
+    border-bottom:
+        1px solid
+        var(--melo-border);
+
 }
 
-/* ================= RESPONSIVE ================= */
 
-@media(max-width:600px){
+.info-row:last-child {
 
-.stats-grid{
-    grid-template-columns:1fr;
+    border-bottom: none;
+
 }
 
-.achievement-grid{
-    grid-template-columns:1fr;
+
+.info-row small {
+
+    display: block;
+
+    margin-bottom: 4px;
+
+    color: var(--melo-muted);
+
+    font-size: 8px;
+
 }
 
-.profile-card{
-    padding:30px 20px;
+
+.info-row strong {
+
+    font-size: 11px;
+
 }
 
-.balance-card h1{
-    font-size:30px;
+
+.copy-btn {
+
+    padding: 7px 11px;
+
+    border-radius: 9px;
+
+    border: 1px solid var(--melo-accent);
+
+    background: transparent;
+
+    color: var(--melo-accent);
+
+    font-size: 9px;
+
+    cursor: pointer;
+
 }
+
+
+/* =====================================================
+   ACCOUNTS
+===================================================== */
+
+.account-list {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 8px;
+
+}
+
+
+.account-item {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 10px;
+
+    padding: 12px;
+
+    border-radius: 14px;
+
+    background: var(--melo-bg);
+
+    border: 1px solid var(--melo-border);
+
+}
+
+
+.account-item.current {
+
+    border-color: var(--melo-accent);
+
+    background: var(--melo-accent-soft);
+
+}
+
+
+.account-item-info {
+
+    min-width: 0;
+
+}
+
+
+.account-item-info strong {
+
+    display: block;
+
+    font-size: 11px;
+
+}
+
+
+.account-item-info small {
+
+    display: block;
+
+    margin-top: 3px;
+
+    color: var(--melo-muted);
+
+    font-size: 8px;
+
+}
+
+
+.switch-account-btn {
+
+    padding: 7px 10px;
+
+    border: none;
+
+    border-radius: 9px;
+
+    background: var(--melo-accent);
+
+    color: white;
+
+    font-size: 8px;
+
+    cursor: pointer;
+
+}
+
+
+/* =====================================================
+   COLOR PICKER
+===================================================== */
+
+.theme-description {
+
+    margin: 0 0 15px;
+
+    color: var(--melo-muted);
+
+    font-size: 10px;
+
+    line-height: 1.6;
+
+}
+
+
+.color-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            2,
+            1fr
+        );
+
+    gap: 9px;
+
+}
+
+
+.color-choice {
+
+    position: relative;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    min-height: 48px;
+
+    padding: 9px;
+
+    border: 1px solid var(--melo-border);
+
+    border-radius: 14px;
+
+    background: var(--melo-surface);
+
+    color: var(--melo-text);
+
+    font-family: inherit;
+
+    font-size: 9px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: .18s ease;
+
+}
+
+
+.color-choice span {
+
+    width: 24px;
+
+    height: 24px;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background: var(--choice-color);
+
+}
+
+
+.color-choice.selected {
+
+    border:
+        2px solid
+        var(--choice-color);
+
+    background:
+        var(--melo-bg);
+
+}
+
+
+.color-choice.selected::after {
+
+    content: "✓";
+
+    position: absolute;
+
+    right: 8px;
+
+    color: var(--choice-color);
+
+    font-size: 12px;
+
+    font-weight: 800;
+
+}
+
+
+/* =====================================================
+   SETTINGS ROW
+===================================================== */
+
+.settings-row {
+
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 11px;
+
+    padding: 13px 0;
+
+    border: none;
+
+    border-bottom:
+        1px solid
+        var(--melo-border);
+
+    background: transparent;
+
+    color: var(--melo-text);
+
+    font-family: inherit;
+
+    text-align: left;
+
+}
+
+
+.settings-row:last-child {
+
+    border-bottom: none;
+
+}
+
+
+.settings-icon {
+
+    width: 35px;
+
+    height: 35px;
+
+    display: grid;
+
+    place-items: center;
+
+    flex-shrink: 0;
+
+    border-radius: 11px;
+
+    background: var(--melo-accent-soft);
+
+}
+
+
+.settings-row div {
+
+    flex: 1;
+
+}
+
+
+.settings-row strong {
+
+    display: block;
+
+    font-size: 10px;
+
+}
+
+
+.settings-row small {
+
+    display: block;
+
+    margin-top: 3px;
+
+    color: var(--melo-muted);
+
+    font-size: 8px;
+
+}
+
+
+/* =====================================================
+   TOGGLE
+===================================================== */
+
+.switch {
+
+    position: relative;
+
+    width: 38px;
+
+    height: 21px;
+
+    margin: 0 !important;
+
+}
+
+
+.switch input {
+
+    opacity: 0;
+
+    width: 0;
+
+    height: 0;
+
+}
+
+
+.slider {
+
+    position: absolute;
+
+    inset: 0;
+
+    border-radius: 20px;
+
+    background: #D5D0D8;
+
+    cursor: pointer;
+
+    transition: .2s;
+
+}
+
+
+.slider::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 17px;
+
+    height: 17px;
+
+    left: 2px;
+
+    top: 2px;
+
+    border-radius: 50%;
+
+    background: white;
+
+    transition: .2s;
+
+}
+
+
+.switch input:checked + .slider {
+
+    background: var(--melo-accent);
+
+}
+
+
+.switch input:checked + .slider::before {
+
+    transform:
+        translateX(17px);
+
+}
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+.logout-section {
+
+    margin: 22px 0;
+
+}
+
+
+.logout-btn {
+
+    width: 100%;
+
+    padding: 14px;
+
+    border-radius: 14px;
+
+    border: 1px solid var(--melo-danger);
+
+    background: transparent;
+
+    color: var(--melo-danger);
+
+    font-family: inherit;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+}
+
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (
+    max-width: 400px
+) {
+
+    .profile-container {
+
+        width:
+            calc(
+                100% - 22px
+            );
+
+    }
+
+
+    .color-grid {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+}
+/* =========================================
+   MELOSAV — BOTTOM NAV
+========================================= */
+
+.bottom-nav {
+    position: fixed;
+    left: 50%;
+    bottom: 14px;
+    transform: translateX(-50%);
+
+    width: min(94%, 680px);
+
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+
+    padding: 7px;
+
+    background: #ffffff;
+
+    border: 1px solid #e8e3df;
+    border-radius: 22px;
+
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.10);
+
+    z-index: 9999;
+}
+
+
+/* NAV ITEMS */
+
+.bottom-nav a {
+    text-decoration: none;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 4px;
+
+    min-height: 48px;
+
+    border-radius: 16px;
+
+    color: #817b82;
+
+    transition:
+        .2s ease;
+}
+
+
+/* NUMBER */
+
+.bottom-nav .nav-icon {
+    font-size: 8px;
+
+    font-weight: 700;
+
+    letter-spacing: .08em;
+}
+
+
+/* LABEL */
+
+.bottom-nav small {
+    font-family:
+        "Poppins",
+        sans-serif;
+
+    font-size: 8px;
+
+    font-weight: 600;
+}
+
+
+/* ACTIVE PAGE */
+
+.bottom-nav a.active {
+    background:
+        var(--melo-accent-soft);
+
+    color:
+        var(--melo-accent);
+}
+
+
+/* HOVER */
+
+.bottom-nav a:hover {
+    color:
+        var(--melo-accent);
+
+    transform:
+        translateY(-1px);
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 480px) {
+
+    .bottom-nav {
+        width: calc(100% - 18px);
+
+        bottom: 9px;
+
+        padding: 6px;
+
+        border-radius: 20px;
+    }
+
+
+    .bottom-nav a {
+        min-height: 45px;
+
+        border-radius: 14px;
+    }
+
+
+    .bottom-nav small {
+        font-size: 7px;
+    }
+
+}
+
+
+/* =========================================
+   EXTRA SMALL SCREENS
+========================================= */
+
+@media (max-width: 360px) {
+
+    .bottom-nav {
+        width: calc(100% - 12px);
+    }
+
+    .bottom-nav small {
+        font-size: 6px;
+    }
 
 }

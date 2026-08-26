@@ -3,29 +3,52 @@
 
 <head>
 
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
 
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
->
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-<title>MELOSAV | Home</title>
+    <meta
+        name="theme-color"
+        content="#7B2CFF"
+    >
 
-<link
-    rel="stylesheet"
-    href="theme.css"
->
+    <title>Home | MELOSAV</title>
 
-<link
-    rel="stylesheet"
-    href="home.css"
->
+    <link rel="manifest" href="manifest.json">
 
-<link
-    rel="stylesheet"
-    href="melo-toast.css"
->
+    <link
+        rel="stylesheet"
+        href="theme.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="home.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="melo-toast.css"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
 
 </head>
 
@@ -33,368 +56,380 @@
 <body>
 
 
-<header class="top-header">
+<main class="home-container">
 
-    <div class="user-info">
 
-        <img
-            src="logo.png"
-            id="homeProfilePic"
-            class="profile-pic"
-            alt="MELOSAV"
-        >
+    <!-- HEADER -->
+
+    <header class="home-header">
 
         <div>
 
-            <p id="greeting">
-                Good Morning ☀️
-            </p>
+            <span class="eyebrow">
+                MELOSAV
+            </span>
 
-            <h2 id="username">
-                Loading...
-            </h2>
+            <h1 id="greeting">
+                Welcome back
+            </h1>
+
+            <p id="userName">
+                Let's check your money.
+            </p>
 
         </div>
 
-    </div>
 
+        <a
+            href="profile.html"
+            class="profile-button"
+        >
 
-    <div class="header-actions">
+            <img
+                id="profilePhoto"
+                src="logo.png"
+                alt="Profile"
+            >
 
-        <button id="notificationBtn">
-            🔔
-        </button>
-
-        <button id="settingsBtn">
-            ⚙️
-        </button>
-
-    </div>
-
-</header>
-
-
-<main>
-
-
-<!-- WALLET -->
-
-<section class="balance-card">
-
-    <div
-        class="wallet-slider"
-        id="walletSlider"
-    >
-
-
-        <article class="wallet-card naira">
-
-            <div class="wallet-top">
-
-                <div>
-
-                    <p class="wallet-title">
-                        Available Balance
-                    </p>
-
-                    <h1 id="balance">
-                        ₦0.00
-                    </h1>
-
-                </div>
-
-
-                <button id="toggleBalance">
-                    👁️
-                </button>
-
-            </div>
-
-
-            <div class="wallet-stats">
-
-                <div>
-
-                    <small>
-                        Expenses
-                    </small>
-
-                    <h3 id="expenses">
-                        ₦0.00
-                    </h3>
-
-                </div>
-
-
-                <div>
-
-                    <small>
-                        Savings
-                    </small>
-
-                    <h3 id="savings">
-                        ₦0.00
-                    </h3>
-
-                </div>
-
-            </div>
-
-
-            <div class="budget-box">
-
-                <div class="budget-top">
-
-                    <span>
-                        Spending
-                    </span>
-
-                    <strong
-                        id="budgetPercent"
-                    >
-                        0%
-                    </strong>
-
-                </div>
-
-
-                <div class="budget-bar">
-
-                    <div
-                        id="budgetFill"
-                        class="budget-fill"
-                    ></div>
-
-                </div>
-
-
-                <div class="spending-details">
-
-                    <div>
-
-                        <small>
-                            Spent
-                        </small>
-
-                        <strong
-                            id="spentIncomeText"
-                        >
-                            ₦0.00
-                        </strong>
-
-                    </div>
-
-
-                    <div>
-
-                        <small>
-                            Remaining
-                        </small>
-
-                        <strong
-                            id="remainingIncomeText"
-                        >
-                            ₦0.00
-                        </strong>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </article>
-
-
-        <article class="wallet-card dollar">
-
-            <p class="wallet-title">
-                US Wallet 🇺🇸
-            </p>
-
-            <h1 id="usdBalance">
-                $0.00
-            </h1>
-
-            <small>
-                NGN equivalent
-            </small>
-
-        </article>
-
-
-        <article class="wallet-card euro">
-
-            <p class="wallet-title">
-                Euro Wallet 🇪🇺
-            </p>
-
-            <h1 id="eurBalance">
-                €0.00
-            </h1>
-
-            <small>
-                NGN equivalent
-            </small>
-
-        </article>
-
-
-        <article class="wallet-card pound">
-
-            <p class="wallet-title">
-                UK Wallet 🇬🇧
-            </p>
-
-            <h1 id="gbpBalance">
-                £0.00
-            </h1>
-
-            <small>
-                NGN equivalent
-            </small>
-
-        </article>
-
-    </div>
-
-
-    <div class="wallet-dots">
-
-        <span class="active"></span>
-        <span></span>
-        <span></span>
-        <span></span>
-
-    </div>
-
-</section>
-
-
-<!-- QUICK ACTIONS -->
-
-<section class="quick-actions">
-
-    <button id="incomeBtn">
-        <span>💰</span>
-        Income
-    </button>
-
-    <button id="expenseBtn">
-        <span>💸</span>
-        Expense
-    </button>
-
-    <button id="saveBtn">
-        <span>🏦</span>
-        Save
-    </button>
-
-    <button id="goalBtn">
-        <span>🎯</span>
-        Goals
-    </button>
-
-    <button id="transferBtn">
-        <span>💳</span>
-        Transfer
-    </button>
-
-    <button id="budgetBtn">
-        <span>📊</span>
-        Budget
-    </button>
-
-</section>
-
-
-<!-- MELO AI -->
-
-<section class="melo-ai">
-
-    <div class="ai-icon">
-        ✦
-    </div>
-
-    <div>
-
-        <h3>
-            Melo AI
-        </h3>
-
-        <p id="aiMessage">
-            Welcome back. Let's make your money work smarter.
-        </p>
-
-    </div>
-
-</section>
-
-
-<!-- RECENT -->
-
-<section class="dashboard-card">
-
-    <div class="section-title">
-
-        <h2>
-            Recent Activity
-        </h2>
-
-        <a href="transactions.html">
-            See all
         </a>
 
-    </div>
+    </header>
 
 
-    <div id="transactionList">
+    <!-- WALLET -->
 
-        <p class="empty">
-            No transactions yet.
+    <section class="wallet-card">
+
+        <div class="wallet-top">
+
+            <div>
+
+                <span>
+                    Available balance
+                </span>
+
+                <h2 id="balance">
+                    ₦0.00
+                </h2>
+
+            </div>
+
+
+            <button
+                class="wallet-menu"
+                type="button"
+            >
+                NGN
+            </button>
+
+        </div>
+
+
+        <div class="wallet-bottom">
+
+            <div>
+
+                <small>
+                    Money in
+                </small>
+
+                <strong id="totalIncome">
+                    ₦0.00
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <small>
+                    Money out
+                </small>
+
+                <strong id="totalExpenses">
+                    ₦0.00
+                </strong>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- MONEY STATUS -->
+
+    <section class="money-status melo-card">
+
+        <div class="section-heading">
+
+            <div>
+
+                <span class="eyebrow">
+                    Spending
+                </span>
+
+                <h2>
+                    Money usage
+                </h2>
+
+            </div>
+
+            <strong id="usagePercentage">
+                0%
+            </strong>
+
+        </div>
+
+
+        <div class="progress-track">
+
+            <div
+                class="progress-fill"
+                id="usageBar"
+            ></div>
+
+        </div>
+
+
+        <div class="money-summary">
+
+            <div>
+
+                <span>
+                    Spent
+                </span>
+
+                <strong id="spentAmount">
+                    ₦0.00
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <span>
+                    Remaining
+                </span>
+
+                <strong id="remainingAmount">
+                    ₦0.00
+                </strong>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- QUICK ACTIONS -->
+
+    <section class="quick-section">
+
+        <div class="section-heading">
+
+            <div>
+
+                <span class="eyebrow">
+                    Quick actions
+                </span>
+
+                <h2>
+                    Move money
+                </h2>
+
+            </div>
+
+        </div>
+
+
+        <div class="quick-actions">
+
+            <a
+                href="transfer.html"
+                class="quick-action"
+            >
+
+                <span class="action-icon">
+                    ↑
+                </span>
+
+                <span>
+                    Transfer
+                </span>
+
+            </a>
+
+
+            <a
+                href="transfer.html?type=airtime"
+                class="quick-action"
+            >
+
+                <span class="action-icon">
+                    A
+                </span>
+
+                <span>
+                    Airtime
+                </span>
+
+            </a>
+
+
+            <a
+                href="transfer.html?type=data"
+                class="quick-action"
+            >
+
+                <span class="action-icon">
+                    D
+                </span>
+
+                <span>
+                    Data
+                </span>
+
+            </a>
+
+
+            <a
+                href="transfer.html?type=bills"
+                class="quick-action"
+            >
+
+                <span class="action-icon">
+                    B
+                </span>
+
+                <span>
+                    Bills
+                </span>
+
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- BUDGET -->
+
+    <section class="budget-card melo-card">
+
+        <div class="section-heading">
+
+            <div>
+
+                <span class="eyebrow">
+                    Monthly budget
+                </span>
+
+                <h2 id="budgetTitle">
+                    No budget set
+                </h2>
+
+            </div>
+
+
+            <a href="budget.html">
+                Manage
+            </a>
+
+        </div>
+
+
+        <div class="budget-numbers">
+
+            <strong id="budgetSpent">
+                ₦0.00
+            </strong>
+
+            <span id="budgetLimit">
+                of ₦0.00
+            </span>
+
+        </div>
+
+
+        <div class="progress-track">
+
+            <div
+                class="progress-fill"
+                id="budgetBar"
+            ></div>
+
+        </div>
+
+
+        <p id="budgetMessage">
+            Set a budget to start tracking your spending.
         </p>
 
-    </div>
-
-</section>
+    </section>
 
 
-<!-- GOALS -->
+    <!-- RECENT ACTIVITY -->
 
-<section class="dashboard-card">
+    <section class="activity-section">
 
-    <div class="section-title">
+        <div class="section-heading">
 
-        <h2>
-            Goals
+            <div>
+
+                <span class="eyebrow">
+                    Activity
+                </span>
+
+                <h2>
+                    Recent transactions
+                </h2>
+
+            </div>
+
+
+            <a href="transactions.html">
+                View all
+            </a>
+
+        </div>
+
+
+        <div
+            class="transaction-list"
+            id="recentTransactions"
+        ></div>
+
+    </section>
+
+
+    <!-- INSIGHT -->
+
+    <section class="insight-card">
+
+        <span class="eyebrow">
+            MELO insight
+        </span>
+
+        <h2 id="insightTitle">
+            Your financial overview
         </h2>
 
-        <a href="goals.html">
-            Open
-        </a>
-
-    </div>
-
-
-    <div id="goalPreview">
-
-        <p class="empty">
-            No goals created yet.
+        <p id="insightText">
+            Add some transactions and MELO will start analysing your activity.
         </p>
 
-    </div>
+    </section>
 
-</section>
 
 </main>
 
 
-<!-- =================================
-     NEW BOTTOM NAV
-================================= -->
+<!-- BOTTOM NAV -->
 
 <nav class="bottom-nav">
-
 
     <a
         href="home.html"
@@ -402,12 +437,12 @@
     >
 
         <span class="nav-icon">
-            🏠
-        </span>
-
-        <span>
             Home
         </span>
+
+        <small>
+            Home
+        </small>
 
     </a>
 
@@ -418,26 +453,30 @@
     >
 
         <span class="nav-icon">
-            💳
-        </span>
-
-        <span>
             Activity
         </span>
+
+        <small>
+            Activity
+        </small>
 
     </a>
 
 
-    <button
-        class="nav-add"
-        id="navAdd"
+    <a
+        href="budget.html"
+        class="nav-item"
     >
 
-        <span>
-            +
+        <span class="nav-icon">
+            Budget
         </span>
 
-    </button>
+        <small>
+            Budget
+        </small>
+
+    </a>
 
 
     <a
@@ -446,12 +485,12 @@
     >
 
         <span class="nav-icon">
-            📊
-        </span>
-
-        <span>
             Insights
         </span>
+
+        <small>
+            Insights
+        </small>
 
     </a>
 
@@ -462,55 +501,21 @@
     >
 
         <span class="nav-icon">
-            👤
-        </span>
-
-        <span>
             Profile
         </span>
+
+        <small>
+            Profile
+        </small>
 
     </a>
 
 </nav>
 
 
-<!-- ADD MENU -->
-
-<div
-    class="add-menu"
-    id="addMenu"
->
-
-    <button
-        data-page="income.html"
-    >
-        💰 Income
-    </button>
-
-    <button
-        data-page="expense.html"
-    >
-        💸 Expense
-    </button>
-
-    <button
-        data-page="savings.html"
-    >
-        🏦 Savings
-    </button>
-
-    <button
-        data-page="transfer.html"
-    >
-        💳 Transfer
-    </button>
-
-</div>
-
-
+<script src="storage.js"></script>
 <script src="theme.js"></script>
 <script src="melo-toast.js"></script>
-<script src="storage.js"></script>
 <script src="home.js"></script>
 <script src="pwa.js"></script>
 

@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Budget | MELOSAV</title>
+
+    <link rel="manifest" href="manifest.json">
+
+    <link rel="stylesheet" href="theme.css">
+    <link rel="stylesheet" href="budget.css">
+    <link rel="stylesheet" href="melo-toast.css">
+
+</head>
+
+<body>
+
+<main class="budget-page">
+
+    <!-- HEADER -->
+
+    <header class="page-header">
+
+        <div>
+
+            <span class="eyebrow">
+                MELOSAV
+            </span>
+
+            <h1>
+                Budget
+            </h1>
+
+            <p>
+                Know where your money is going.
+            </p>
+
+        </div>
+
+        <button
+            class="settings-button"
+            id="openBudgetSettings"
+        >
+            Edit
+        </button>
+
+    </header>
+
+
+    <!-- =================================================
+         MAIN BUDGET CARD
+    ================================================== -->
+
+    <section class="budget-card">
+
+        <div class="budget-card-top">
+
+            <div>
+
+                <span>
+                    Monthly budget
+                </span>
+
+                <strong id="totalBudget">
+                    ₦0.00
+                </strong>
+
+            </div>
+
+            <div class="budget-status">
+                <span id="budgetStatus">
+                    Not set
+                </span>
+            </div>
+
+        </div>
+
+
+        <div class="progress-track">
+
+            <div
+                class="progress-fill"
+                id="mainProgress"
+            ></div>
+
+        </div>
+
+
+        <div class="budget-stats">
+
+            <div>
+
+                <span>
+                    Spent
+                </span>
+
+                <strong id="budgetSpent">
+                    ₦0.00
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <span>
+                    Remaining
+                </span>
+
+                <strong id="budgetRemaining">
+                    ₦0.00
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <span>
+                    Used
+                </span>
+
+                <strong id="budgetPercentage">
+                    0%
+                </strong>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         ALERT
+    ================================================== -->
+
+    <section
+        class="budget-alert"
+        id="budgetAlert"
+        hidden
+    >
+
+        <div class="alert-line"></div>
+
+        <div>
+
+            <strong id="alertTitle">
+                Budget notice
+            </strong>
+
+            <p id="alertMessage">
+                Keep an eye on your spending.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         CATEGORY HEADER
+    ================================================== -->
+
+    <section class="category-section">
+
+        <div class="section-heading">
+
+            <div>
+
+                <span class="eyebrow">
+                    BREAKDOWN
+                </span>
+
+                <h2>
+                    Spending categories
+                </h2>
+
+            </div>
+
+            <button
+                class="small-button"
+                id="openCategoryModal"
+            >
+                + Add
+            </button>
+
+        </div>
+
+
+        <div
+            class="category-list"
+            id="categoryList"
+        ></div>
+
+    </section>
+
+
+    <!-- =================================================
+         QUICK INFO
+    ================================================== -->
+
+    <section class="budget-info">
+
+        <div>
+
+            <span>
+                Daily guide
+            </span>
+
+            <strong id="dailyGuide">
+                ₦0.00
+            </strong>
+
+            <p>
+                Approximate amount available per day.
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <span>
+                This month
+            </span>
+
+            <strong id="daysRemaining">
+                0 days
+            </strong>
+
+            <p>
+                Days remaining in the current month.
+            </p>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- =====================================================
+     BUDGET SETTINGS MODAL
+===================================================== -->
+
+<div
+    class="modal"
+    id="budgetSettingsModal"
+    hidden
+>
+
+    <div class="modal-card">
+
+        <div class="modal-header">
+
+            <div>
+
+                <span class="eyebrow">
+                    BUDGET SETTINGS
+                </span>
+
+                <h2>
+                    Monthly budget
+                </h2>
+
+            </div>
+
+            <button
+                class="close-button"
+                id="closeBudgetSettings"
+                type="button"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <label for="monthlyBudgetInput">
+            Budget amount
+        </label>
+
+        <div class="amount-field">
+
+            <span>₦</span>
+
+            <input
+                type="number"
+                id="monthlyBudgetInput"
+                min="1"
+                placeholder="100000"
+            >
+
+        </div>
+
+
+        <p class="form-help">
+            This amount will be used to calculate your
+            monthly spending progress.
+        </p>
+
+
+        <button
+            class="save-button"
+            id="saveBudget"
+            type="button"
+        >
+            Save budget
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     CATEGORY MODAL
+===================================================== -->
+
+<div
+    class="modal"
+    id="categoryModal"
+    hidden
+>
+
+    <div class="modal-card">
+
+        <div class="modal-header">
+
+            <div>
+
+                <span class="eyebrow">
+                    CATEGORY
+                </span>
+
+                <h2>
+                    Add category budget
+                </h2>
+
+            </div>
+
+            <button
+                class="close-button"
+                id="closeCategoryModal"
+                type="button"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <label for="categoryName">
+            Category
+        </label>
+
+        <select id="categoryName">
+
+            <option value="food">
+                Food
+            </option>
+
+            <option value="transport">
+                Transport
+            </option>
+
+            <option value="airtime">
+                Airtime
+            </option>
+
+            <option value="data">
+                Data
+            </option>
+
+            <option value="bills">
+                Bills
+            </option>
+
+            <option value="shopping">
+                Shopping
+            </option>
+
+            <option value="education">
+                Education
+            </option>
+
+            <option value="transfer">
+                Transfers
+            </option>
+
+            <option value="other">
+                Other
+            </option>
+
+        </select>
+
+
+        <label for="categoryAmount">
+            Category budget
+        </label>
+
+        <div class="amount-field">
+
+            <span>₦</span>
+
+            <input
+                type="number"
+                id="categoryAmount"
+                min="1"
+                placeholder="20000"
+            >
+
+        </div>
+
+
+        <button
+            class="save-button"
+            id="saveCategory"
+            type="button"
+        >
+            Save category
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     BOTTOM NAV
+===================================================== -->
+
+<nav class="bottom-nav">
+
+    <a
+        href="home.html"
+        class="nav-item"
+    >
+        <span class="nav-icon">01</span>
+        <small>Home</small>
+    </a>
+
+
+    <a
+        href="transactions.html"
+        class="nav-item"
+    >
+        <span class="nav-icon">02</span>
+        <small>Activity</small>
+    </a>
+
+
+    <a
+        href="budget.html"
+        class="nav-item active"
+    >
+        <span class="nav-icon">03</span>
+        <small>Budget</small>
+    </a>
+
+
+    <a
+        href="analytics.html"
+        class="nav-item"
+    >
+        <span class="nav-icon">04</span>
+        <small>Insights</small>
+    </a>
+
+
+    <a
+        href="profile.html"
+        class="nav-item"
+    >
+        <span class="nav-icon">05</span>
+        <small>Profile</small>
+    </a>
+
+</nav>
+
+
+<script src="storage.js"></script>
+<script src="theme.js"></script>
+<script src="melo-toast.js"></script>
+<script src="budget.js"></script>
+<script src="pwa.js"></script>
+
+</body>
+
+</html>

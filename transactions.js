@@ -1,264 +1,364 @@
-/* =====================================
-   MELOSAV TRANSACTIONS V2
-   COMPLETE MONEY HISTORY
-===================================== */
+/* =====================================================
+   MELOSAV — ACTIVITY
+===================================================== */
 
-console.log(
-    "📄 MELOSAV TRANSACTIONS V2 LOADED"
-);
+let currentTypeFilter = "all";
+let currentCategory = "all";
+let searchTerm = "";
 
-let currentUser = null;
-let transactions = [];
-let currentFilter = "all";
-let searchText = "";
+let selectedType = "expense";
+let selectedTransactionId = null;
 
 
-/* =====================================
+/* =====================================================
    START
-===================================== */
+===================================================== */
 
-document.addEventListener(
-    "DOMContentLoaded",
-    () => {
+document.addEventListener("DOMContentLoaded", () => {
 
-        if (
-            typeof loadTheme ===
-            "function"
-        ) {
+    const user = getCurrentUser();
 
-            loadTheme();
-
-        }
-
-        loadUser();
-
-        setupSearch();
-
-        setupFilters();
-
-        setupButtons();
-
+    if (!user) {
+        window.location.href = "login.html";
+        return;
     }
-);
+
+    setupEvents();
+
+    renderPage(user);
+
+});
 
 
-/* =====================================
-   LOAD USER
-===================================== */
+/* =====================================================
+   EVENTS
+===================================================== */
 
-function loadUser() {
+function setupEvents() {
 
-    currentUser =
-        typeof getCurrentUser ===
-        "function"
-            ? getCurrentUser()
-            : JSON.parse(
-                localStorage.getItem(
-                    "meloCurrentUser"
-                )
+    document
+        .getElementById("openTransaction")
+        ?.addEventListener(
+            "click",
+            openTransactionModal
+        );
+
+
+    document
+        .getElementById("closeTransaction")
+        ?.addEventListener(
+            "click",
+            closeTransactionModal
+        );
+
+
+    document
+        .getElementById("saveTransaction")
+        ?.addEventListener(
+            "click",
+            saveTransaction
+        );
+
+
+    document
+        .getElementById("closeDetails")
+        ?.addEventListener(
+            "click",
+            closeDetailsModal
+        );
+
+
+    document
+        .getElementById("deleteTransaction")
+        ?.addEventListener(
+            "click",
+            deleteSelectedTransaction
+        );
+
+
+    document
+        .getElementById("transactionSearch")
+        ?.addEventListener(
+            "input",
+            event => {
+
+                searchTerm =
+                    event.target.value
+                        .trim()
+                        .toLowerCase();
+
+                renderPage(
+                    getCurrentUser()
+                );
+
+            }
+        );
+
+
+    document
+        .querySelectorAll(".filter")
+        .forEach(button => {
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    currentTypeFilter =
+                        button.dataset.filter;
+
+                    setActive(
+                        ".filter",
+                        button
+                    );
+
+                    renderPage(
+                        getCurrentUser()
+                    );
+
+                }
             );
 
-    if (!currentUser) {
+        });
 
-        location.href =
-            "login.html";
 
-        return;
+    document
+        .querySelectorAll(".category-filter")
+        .forEach(button => {
 
-    }
+            button.addEventListener(
+                "click",
+                () => {
 
-    transactions =
-        Array.isArray(
-            currentUser.transactions
-        )
-            ? currentUser.transactions
-            : [];
+                    currentCategory =
+                        button.dataset.category;
 
-    updateSummary();
+                    setActive(
+                        ".category-filter",
+                        button
+                    );
 
-    renderTransactions();
+                    renderPage(
+                        getCurrentUser()
+                    );
+
+                }
+            );
+
+        });
+
+
+    document
+        .querySelectorAll(".type-button")
+        .forEach(button => {
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    selectedType =
+                        button.dataset.type;
+
+                    setActive(
+                        ".type-button",
+                        button
+                    );
+
+                }
+            );
+
+        });
+
+
+    document
+        .getElementById("transactionModal")
+        ?.addEventListener(
+            "click",
+            event => {
+
+                if (
+                    event.target.id ===
+                    "transactionModal"
+                ) {
+
+                    closeTransactionModal();
+
+                }
+
+            }
+        );
+
+
+    document
+        .getElementById("detailsModal")
+        ?.addEventListener(
+            "click",
+            event => {
+
+                if (
+                    event.target.id ===
+                    "detailsModal"
+                ) {
+
+                    closeDetailsModal();
+
+                }
+
+            }
+        );
 
 }
 
 
-/* =====================================
+/* =====================================================
+   RENDER PAGE
+===================================================== */
+
+function renderPage(user) {
+
+    if (!user) return;
+
+    updateSummary(user);
+
+    renderTransactions(user);
+
+}
+
+
+/* =====================================================
    SUMMARY
-===================================== */
+===================================================== */
 
-function updateSummary() {
+function updateSummary(user) {
 
-    let income = 0;
-    let expense = 0;
-    let savings = 0;
+    const income =
+        Number(user.income) || 0;
 
-    transactions.forEach(
-        item => {
-
-            const amount =
-                Number(item.amount || 0);
-
-            if (
-                item.type ===
-                "income"
-            ) {
-
-                income += amount;
-
-            }
-
-            else if (
-                item.type ===
-                "expense"
-            ) {
-
-                expense += amount;
-
-            }
-
-            else if (
-                item.type ===
-                "savings"
-            ) {
-
-                savings += amount;
-
-            }
-
-        }
-    );
+    const expenses =
+        Number(user.expenses) || 0;
 
 
     const incomeElement =
         document.getElementById(
-            "incomeTotal"
+            "summaryIncome"
         );
 
     const expenseElement =
         document.getElementById(
-            "expenseTotal"
-        );
-
-    const savingsElement =
-        document.getElementById(
-            "savingsTotal"
+            "summaryExpenses"
         );
 
 
-    if (incomeElement)
+    if (incomeElement) {
+
         incomeElement.textContent =
-            formatMoney(income);
+            money(income);
 
-    if (expenseElement)
+    }
+
+
+    if (expenseElement) {
+
         expenseElement.textContent =
-            formatMoney(expense);
+            money(expenses);
 
-    if (savingsElement)
-        savingsElement.textContent =
-            formatMoney(savings);
+    }
 
 }
 
 
-/* =====================================
-   FILTER + SEARCH
-===================================== */
+/* =====================================================
+   TRANSACTIONS
+===================================================== */
 
-function getFilteredTransactions() {
-
-    return transactions.filter(
-        item => {
-
-            const matchesFilter =
-                currentFilter === "all" ||
-                item.type === currentFilter;
-
-
-            const search =
-                searchText.trim();
-
-            if (!search) {
-
-                return matchesFilter;
-
-            }
-
-
-            const searchableText = [
-
-                item.title,
-
-                item.type,
-
-                item.category,
-
-                item.goalName,
-
-                item.date
-
-            ]
-                .filter(Boolean)
-                .join(" ")
-                .toLowerCase();
-
-
-            return (
-                matchesFilter &&
-                searchableText.includes(
-                    search
-                )
-            );
-
-        }
-    );
-
-}
-
-
-/* =====================================
-   RENDER
-===================================== */
-
-function renderTransactions() {
+function renderTransactions(user) {
 
     const list =
-        getFilteredTransactions();
-
-    displayTransactions(list);
-
-}
-
-
-/* =====================================
-   DISPLAY
-===================================== */
-
-function displayTransactions(list) {
-
-    const container =
         document.getElementById(
             "transactionList"
         );
 
-    if (!container) return;
+
+    if (!list) return;
 
 
-    if (!list.length) {
+    const transactions =
+        Array.isArray(user.transactions)
+            ? user.transactions
+            : [];
 
-        container.innerHTML = `
+
+    const filtered =
+        transactions.filter(
+            transaction => {
+
+                const matchesType =
+                    currentTypeFilter ===
+                    "all" ||
+                    transaction.type ===
+                    currentTypeFilter;
+
+
+                const matchesCategory =
+                    currentCategory ===
+                    "all" ||
+                    transaction.category ===
+                    currentCategory;
+
+
+                const searchableText = [
+
+                    transaction.title,
+
+                    transaction.description,
+
+                    transaction.category,
+
+                    transaction.type
+
+                ]
+                    .filter(Boolean)
+                    .join(" ")
+                    .toLowerCase();
+
+
+                const matchesSearch =
+                    !searchTerm ||
+                    searchableText.includes(
+                        searchTerm
+                    );
+
+
+                return (
+                    matchesType &&
+                    matchesCategory &&
+                    matchesSearch
+                );
+
+            }
+        );
+
+
+    updateCount(
+        filtered.length
+    );
+
+
+    list.innerHTML = "";
+
+
+    if (!filtered.length) {
+
+        list.innerHTML = `
 
             <div class="empty-state">
 
-                <div class="emoji">
-                    📄
-                </div>
-
-                <h2>
-                    No Transactions Found
-                </h2>
+                <strong>
+                    Nothing here yet.
+                </strong>
 
                 <p>
-                    Your money activity will
-                    appear here.
+                    Your matching transactions
+                    will appear here.
                 </p>
 
             </div>
@@ -270,178 +370,13 @@ function displayTransactions(list) {
     }
 
 
-    container.innerHTML = "";
+    filtered.forEach(
+        transaction => {
 
-
-    list.forEach(item => {
-
-        let icon = "💰";
-        let color = "icon-income";
-
-
-        if (
-            item.type ===
-            "expense"
-        ) {
-
-            icon = "💸";
-            color = "icon-expense";
-
-        }
-
-        else if (
-            item.type ===
-            "savings"
-        ) {
-
-            icon = "🏦";
-            color = "icon-savings";
-
-        }
-
-        else if (
-            item.type ===
-            "goal"
-        ) {
-
-            icon = "🎯";
-            color = "icon-savings";
-
-        }
-
-
-        const card =
-            document.createElement(
-                "div"
-            );
-
-        card.className =
-            "transaction-card";
-
-
-        card.innerHTML = `
-
-            <div class="transaction-left">
-
-                <div
-                    class="transaction-icon ${color}">
-                    ${icon}
-                </div>
-
-                <div
-                    class="transaction-info">
-
-                    <h3>
-                        ${escapeHTML(
-                            item.title ||
-                            "Transaction"
-                        )}
-                    </h3>
-
-                    <p>
-                        ${formatDateTime(
-                            item.date
-                        )}
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            <div class="transaction-amount">
-
-                <h2>
-                    ${formatMoney(
-                        item.amount
-                    )}
-                </h2>
-
-                <small>
-                    ${escapeHTML(
-                        item.type ||
-                        "other"
-                    )}
-                </small>
-
-            </div>
-
-        `;
-
-
-        container.appendChild(card);
-
-    });
-
-}
-
-
-/* =====================================
-   SEARCH
-===================================== */
-
-function setupSearch() {
-
-    const search =
-        document.getElementById(
-            "searchTransaction"
-        );
-
-    if (!search) return;
-
-
-    search.addEventListener(
-        "input",
-        () => {
-
-            searchText =
-                search.value.toLowerCase();
-
-            renderTransactions();
-
-        }
-    );
-
-}
-
-
-/* =====================================
-   FILTERS
-===================================== */
-
-function setupFilters() {
-
-    const buttons =
-        document.querySelectorAll(
-            ".filter-row button"
-        );
-
-
-    buttons.forEach(
-        button => {
-
-            button.addEventListener(
-                "click",
-                () => {
-
-                    buttons.forEach(
-                        btn =>
-                            btn.classList.remove(
-                                "active"
-                            )
-                    );
-
-                    button.classList.add(
-                        "active"
-                    );
-
-                    currentFilter =
-                        button.dataset.filter ||
-                        "all";
-
-                    renderTransactions();
-
-                }
+            list.appendChild(
+                createTransactionElement(
+                    transaction
+                )
             );
 
         }
@@ -450,57 +385,655 @@ function setupFilters() {
 }
 
 
-/* =====================================
-   REFRESH WHEN RETURNING TO PAGE
-===================================== */
+/* =====================================================
+   CREATE ITEM
+===================================================== */
 
-window.addEventListener(
-    "pageshow",
-    () => {
+function createTransactionElement(
+    transaction
+) {
 
-        loadUser();
-
-    }
-);
-
-
-/* =====================================
-   BUTTON
-===================================== */
-
-function setupButtons() {
-
-    const button =
-        document.getElementById(
-            "addTransaction"
+    const item =
+        document.createElement(
+            "button"
         );
 
-    if (!button) return;
+
+    item.type = "button";
+
+    item.className =
+        "transaction-item";
 
 
-    button.addEventListener(
+    const isIncome =
+        transaction.type ===
+        "income";
+
+
+    const title =
+        transaction.title ||
+        categoryName(
+            transaction.category
+        );
+
+
+    const category =
+        categoryName(
+            transaction.category
+        );
+
+
+    item.innerHTML = `
+
+        <span class="transaction-icon">
+
+            ${categoryLetter(
+                transaction.category
+            )}
+
+        </span>
+
+
+        <span class="transaction-info">
+
+            <strong>
+                ${escapeHTML(title)}
+            </strong>
+
+            <small>
+
+                ${escapeHTML(category)}
+
+                ·
+
+                ${formatDate(
+                    transaction.date
+                )}
+
+            </small>
+
+        </span>
+
+
+        <span
+            class="transaction-amount ${
+                isIncome
+                    ? "income"
+                    : "expense"
+            }"
+        >
+
+            ${isIncome ? "+" : "-"}
+            ${money(transaction.amount)}
+
+        </span>
+
+
+        <span class="transaction-arrow">
+            ›
+        </span>
+
+    `;
+
+
+    item.addEventListener(
         "click",
         () => {
 
-            meloToast(
-                "➕ Add Transaction",
-                "Use the Income, Expense or Savings pages to record money.",
-                "info"
+            showTransactionDetails(
+                transaction
             );
 
         }
     );
 
+
+    return item;
+
 }
 
 
-/* =====================================
-   MONEY
-===================================== */
+/* =====================================================
+   DETAILS
+===================================================== */
 
-function formatMoney(amount) {
+function showTransactionDetails(
+    transaction
+) {
 
-    return "₦" +
+    selectedTransactionId =
+        transaction.id;
+
+
+    document.getElementById(
+        "detailsIcon"
+    ).textContent =
+        categoryLetter(
+            transaction.category
+        );
+
+
+    document.getElementById(
+        "detailsTitle"
+    ).textContent =
+        transaction.title ||
+        categoryName(
+            transaction.category
+        );
+
+
+    const amountElement =
+        document.getElementById(
+            "detailsAmount"
+        );
+
+
+    amountElement.textContent =
+        (
+            transaction.type ===
+            "income"
+                ? "+"
+                : "-"
+        ) +
+        money(
+            transaction.amount
+        );
+
+
+    amountElement.className =
+        "details-amount " +
+        (
+            transaction.type ===
+            "income"
+                ? "income"
+                : "expense"
+        );
+
+
+    document.getElementById(
+        "detailsCategory"
+    ).textContent =
+        categoryName(
+            transaction.category
+        );
+
+
+    document.getElementById(
+        "detailsDate"
+    ).textContent =
+        formatDate(
+            transaction.date
+        );
+
+
+    document.getElementById(
+        "detailsDescription"
+    ).textContent =
+        transaction.description ||
+        "No description";
+
+
+    document.getElementById(
+        "detailsModal"
+    ).hidden =
+        false;
+
+}
+
+
+/* =====================================================
+   DELETE
+===================================================== */
+
+function deleteSelectedTransaction() {
+
+    if (!selectedTransactionId) {
+        return;
+    }
+
+
+    const user =
+        getCurrentUser();
+
+
+    if (!user) return;
+
+
+    const transactions =
+        Array.isArray(user.transactions)
+            ? user.transactions
+            : [];
+
+
+    const index =
+        transactions.findIndex(
+            transaction =>
+                transaction.id ===
+                selectedTransactionId
+        );
+
+
+    if (index === -1) {
+
+        closeDetailsModal();
+
+        return;
+
+    }
+
+
+    const transaction =
+        transactions[index];
+
+
+    /*
+       Reverse the transaction
+       before deleting it.
+    */
+
+    if (
+        transaction.type ===
+        "income"
+    ) {
+
+        user.income =
+            Math.max(
+                0,
+                (Number(user.income) || 0) -
+                Number(transaction.amount || 0)
+            );
+
+    } else {
+
+        user.expenses =
+            Math.max(
+                0,
+                (Number(user.expenses) || 0) -
+                Number(transaction.amount || 0)
+            );
+
+    }
+
+
+    user.balance =
+        (Number(user.income) || 0) -
+        (Number(user.expenses) || 0);
+
+
+    transactions.splice(
+        index,
+        1
+    );
+
+
+    user.transactions =
+        transactions;
+
+
+    saveUser(user);
+
+
+    closeDetailsModal();
+
+
+    showToast(
+        "Transaction deleted.",
+        "success"
+    );
+
+
+    renderPage(user);
+
+}
+
+
+/* =====================================================
+   MODALS
+===================================================== */
+
+function openTransactionModal() {
+
+    document.getElementById(
+        "transactionModal"
+    ).hidden =
+        false;
+
+}
+
+
+function closeTransactionModal() {
+
+    document.getElementById(
+        "transactionModal"
+    ).hidden =
+        true;
+
+}
+
+
+function closeDetailsModal() {
+
+    document.getElementById(
+        "detailsModal"
+    ).hidden =
+        true;
+
+    selectedTransactionId =
+        null;
+
+}
+
+
+/* =====================================================
+   SAVE TRANSACTION
+===================================================== */
+
+function saveTransaction() {
+
+    const user =
+        getCurrentUser();
+
+
+    if (!user) return;
+
+
+    const amount =
+        Number(
+            document.getElementById(
+                "transactionAmount"
+            ).value
+        );
+
+
+    const category =
+        document.getElementById(
+            "transactionCategory"
+        ).value;
+
+
+    const description =
+        document.getElementById(
+            "transactionDescription"
+        ).value
+        .trim();
+
+
+    if (
+        !Number.isFinite(amount) ||
+        amount <= 0
+    ) {
+
+        showToast(
+            "Enter a valid amount.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    if (!Array.isArray(user.transactions)) {
+
+        user.transactions = [];
+
+    }
+
+
+    if (selectedType === "income") {
+
+        user.income =
+            (Number(user.income) || 0) +
+            amount;
+
+    } else {
+
+        user.expenses =
+            (Number(user.expenses) || 0) +
+            amount;
+
+    }
+
+
+    user.balance =
+        (Number(user.income) || 0) -
+        (Number(user.expenses) || 0);
+
+
+    const transaction = {
+
+        id:
+            generateId(),
+
+        type:
+            selectedType,
+
+        category:
+            category,
+
+        title:
+            description ||
+            categoryName(category),
+
+        description:
+            description,
+
+        amount:
+            amount,
+
+        date:
+            new Date().toISOString()
+
+    };
+
+
+    user.transactions.unshift(
+        transaction
+    );
+
+
+    saveUser(user);
+
+
+    resetForm();
+
+    closeTransactionModal();
+
+
+    showToast(
+        "Transaction saved.",
+        "success"
+    );
+
+
+    renderPage(user);
+
+}
+
+
+/* =====================================================
+   STORAGE
+===================================================== */
+
+function getCurrentUser() {
+
+    try {
+
+        return JSON.parse(
+            localStorage.getItem(
+                "meloCurrentUser"
+            )
+        );
+
+    } catch {
+
+        return null;
+
+    }
+
+}
+
+
+function saveUser(user) {
+
+    localStorage.setItem(
+        "meloCurrentUser",
+        JSON.stringify(user)
+    );
+
+
+    let users = [];
+
+    try {
+
+        users =
+            JSON.parse(
+                localStorage.getItem(
+                    "meloUsers"
+                )
+            ) || [];
+
+    } catch {
+
+        users = [];
+
+    }
+
+
+    if (!Array.isArray(users)) {
+
+        users = [];
+
+    }
+
+
+    const index =
+        users.findIndex(
+            account => {
+
+                if (
+                    user.id &&
+                    account.id
+                ) {
+
+                    return (
+                        account.id ===
+                        user.id
+                    );
+
+                }
+
+
+                return (
+                    account.email ===
+                    user.email
+                );
+
+            }
+        );
+
+
+    if (index >= 0) {
+
+        users[index] =
+            user;
+
+    } else {
+
+        users.push(user);
+
+    }
+
+
+    localStorage.setItem(
+        "meloUsers",
+        JSON.stringify(users)
+    );
+
+}
+
+
+/* =====================================================
+   HELPERS
+===================================================== */
+
+function setActive(
+    selector,
+    selected
+) {
+
+    document
+        .querySelectorAll(selector)
+        .forEach(button => {
+
+            button.classList.remove(
+                "active"
+            );
+
+        });
+
+
+    selected.classList.add(
+        "active"
+    );
+
+}
+
+
+function categoryName(category) {
+
+    const names = {
+
+        transfer: "Transfer",
+        airtime: "Airtime",
+        data: "Data",
+        bills: "Bills",
+        food: "Food",
+        shopping: "Shopping",
+        transport: "Transport",
+        education: "Education",
+        other: "Other"
+
+    };
+
+
+    return (
+        names[category] ||
+        "Other"
+    );
+
+}
+
+
+function categoryLetter(category) {
+
+    const letters = {
+
+        transfer: "TR",
+        airtime: "AT",
+        data: "DT",
+        bills: "BL",
+        food: "FD",
+        shopping: "SH",
+        transport: "TP",
+        education: "ED",
+        other: "OT"
+
+    };
+
+
+    return (
+        letters[category] ||
+        "OT"
+    );
+
+}
+
+
+function money(amount) {
+
+    return (
+        "₦" +
         Number(amount || 0)
             .toLocaleString(
                 "en-NG",
@@ -508,28 +1041,25 @@ function formatMoney(amount) {
                     minimumFractionDigits: 2,
                     maximumFractionDigits: 2
                 }
-            );
+            )
+    );
 
 }
 
 
-/* =====================================
-   DATE
-===================================== */
-
-function formatDateTime(date) {
+function formatDate(date) {
 
     if (!date) {
-
-        return "Today";
-
+        return "Unknown date";
     }
+
 
     const parsed =
         new Date(date);
 
+
     if (
-        isNaN(
+        Number.isNaN(
             parsed.getTime()
         )
     ) {
@@ -538,27 +1068,76 @@ function formatDateTime(date) {
 
     }
 
-    return parsed.toLocaleString(
+
+    return parsed.toLocaleDateString(
         "en-NG",
         {
             day: "numeric",
             month: "short",
-            year: "numeric",
-            hour: "numeric",
-            minute: "2-digit"
+            year: "numeric"
         }
     );
 
 }
 
 
-/* =====================================
-   ESCAPE
-===================================== */
+function generateId() {
+
+    return (
+        "TX-" +
+        Date.now() +
+        "-" +
+        Math.random()
+            .toString(36)
+            .substring(2, 7)
+            .toUpperCase()
+    );
+
+}
+
+
+function resetForm() {
+
+    document.getElementById(
+        "transactionAmount"
+    ).value = "";
+
+
+    document.getElementById(
+        "transactionDescription"
+    ).value = "";
+
+
+    selectedType =
+        "expense";
+
+
+    document
+        .querySelectorAll(
+            ".type-button"
+        )
+        .forEach(
+            button =>
+                button.classList.remove(
+                    "active"
+                )
+        );
+
+
+    document
+        .querySelector(
+            '.type-button[data-type="expense"]'
+        )
+        ?.classList.add(
+            "active"
+        );
+
+}
+
 
 function escapeHTML(value) {
 
-    return String(value)
+    return String(value || "")
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
         .replace(/>/g, "&gt;")
@@ -568,6 +1147,45 @@ function escapeHTML(value) {
 }
 
 
-console.log(
-    "✅ MELOSAV Transactions V2 Ready"
-);
+function updateCount(count) {
+
+    const element =
+        document.getElementById(
+            "transactionCount"
+        );
+
+
+    if (!element) return;
+
+
+    element.textContent =
+        count === 1
+            ? "1 transaction"
+            : `${count} transactions`;
+
+}
+
+
+function showToast(
+    message,
+    type = "success"
+) {
+
+    if (
+        typeof meloToast ===
+        "function"
+    ) {
+
+        meloToast(
+            "MELOSAV",
+            message,
+            type
+        );
+
+    } else {
+
+        alert(message);
+
+    }
+
+}

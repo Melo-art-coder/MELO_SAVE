@@ -3,94 +3,916 @@
 
 <head>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
 
-<title>Transfer | MELOSAV</title>
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#7B2CFF">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-<link rel="stylesheet" href="theme.css">
-<link rel="stylesheet" href="transfer.css">
-<link rel="stylesheet" href="melo-toast.css">
+    <title>Payments | MELOSAV</title>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="manifest" href="manifest.json">
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="theme.css">
+    <link rel="stylesheet" href="transfer.css">
+    <link rel="stylesheet" href="melo-toast.css">
 
 </head>
 
 <body>
 
-<header class="page-header">
+<main class="payments-page">
 
-<a href="home.html" class="back-btn">
-←
-</a>
+    <!-- HEADER -->
 
-<h2>Transfer Money</h2>
+    <header class="payments-header">
 
-</header>
+        <a
+            href="home.html"
+            class="back-btn"
+        >
+            ←
+        </a>
 
+        <div>
 
-<section class="transfer-card">
+            <span class="eyebrow">
+                MELOSAV
+            </span>
 
-<div class="transfer-icon">
-💳
-</div>
+            <h1>
+                Payments
+            </h1>
 
-<h1>Send Money</h1>
+            <p>
+                Send, pay and request money.
+            </p>
 
-<p>
-Transfer money securely between your wallets or to another MELOSAV user.
-</p>
+        </div>
 
-</section>
-
-
-<form id="transferForm" class="transfer-form">
-
-<label>Recipient</label>
-
-<input
-type="text"
-id="recipient"
-placeholder="Enter recipient name">
-
-<label>Amount (₦)</label>
-
-<input
-type="number"
-id="amount"
-placeholder="0.00">
-
-<label>Description</label>
-
-<textarea
-id="note"
-placeholder="What's this transfer for?"></textarea>
-
-<button type="submit">
-
-Transfer Now
-
-</button>
-
-</form>
+    </header>
 
 
-<section class="tips-card">
+    <!-- =================================================
+         PAYMENT BALANCE
+    ================================================== -->
 
-<h3>💜 Melo Tip</h3>
+    <section class="payment-balance">
 
-<p id="transferTip">
+        <div>
 
-Always double-check the recipient before sending money.
+            <span>
+                AVAILABLE BALANCE
+            </span>
 
-</p>
+            <strong id="availableBalance">
+                ₦0.00
+            </strong>
 
-</section>
+        </div>
+
+        <a href="transactions.html">
+            View activity →
+        </a>
+
+    </section>
+
+
+    <!-- =================================================
+         PAYMENT OPTIONS
+    ================================================== -->
+
+    <section class="payment-section">
+
+        <div class="section-heading">
+
+            <span class="eyebrow">
+                PAYMENTS
+            </span>
+
+            <h2>
+                What would you like to do?
+            </h2>
+
+        </div>
+
+
+        <div class="payment-grid">
+
+
+            <!-- SEND MONEY -->
+
+            <button
+                class="payment-option featured-option"
+                data-section="send"
+            >
+
+                <span class="option-number">
+                    01
+                </span>
+
+                <strong>
+                    Send Money
+                </strong>
+
+                <small>
+                    Transfer to another MELO user
+                </small>
+
+            </button>
+
+
+            <!-- BILLS -->
+
+            <button
+                class="payment-option"
+                data-section="bills"
+            >
+
+                <span class="option-number">
+                    02
+                </span>
+
+                <strong>
+                    Bills
+                </strong>
+
+                <small>
+                    Pay your regular bills
+                </small>
+
+            </button>
+
+
+            <!-- AIRTIME -->
+
+            <button
+                class="payment-option"
+                data-section="airtime"
+            >
+
+                <span class="option-number">
+                    03
+                </span>
+
+                <strong>
+                    Airtime
+                </strong>
+
+                <small>
+                    Recharge a phone number
+                </small>
+
+            </button>
+
+
+            <!-- DATA -->
+
+            <button
+                class="payment-option"
+                data-section="data"
+            >
+
+                <span class="option-number">
+                    04
+                </span>
+
+                <strong>
+                    Data
+                </strong>
+
+                <small>
+                    Purchase a data plan
+                </small>
+
+            </button>
+
+
+            <!-- QR -->
+
+            <button
+                class="payment-option"
+                data-section="qr"
+            >
+
+                <span class="option-number">
+                    05
+                </span>
+
+                <strong>
+                    QR Pay
+                </strong>
+
+                <small>
+                    Pay using a QR code
+                </small>
+
+            </button>
+
+
+            <!-- REQUEST -->
+
+            <button
+                class="payment-option"
+                data-section="request"
+            >
+
+                <span class="option-number">
+                    06
+                </span>
+
+                <strong>
+                    Request Money
+                </strong>
+
+                <small>
+                    Ask someone to pay you
+                </small>
+
+            </button>
+
+
+            <!-- OTHER -->
+
+            <button
+                class="payment-option"
+                data-section="other"
+            >
+
+                <span class="option-number">
+                    07
+                </span>
+
+                <strong>
+                    Other Payments
+                </strong>
+
+                <small>
+                    More payment options
+                </small>
+
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         PAYMENT PANEL
+    ================================================== -->
+
+    <section
+        class="payment-panel"
+        id="paymentPanel"
+        hidden
+    >
+
+        <div class="panel-header">
+
+            <button
+                id="closePanel"
+                class="close-panel"
+            >
+                ×
+            </button>
+
+            <span
+                class="eyebrow"
+                id="panelEyebrow"
+            >
+                PAYMENT
+            </span>
+
+            <h2 id="panelTitle">
+                Send Money
+            </h2>
+
+            <p id="panelDescription">
+                Transfer money securely.
+            </p>
+
+        </div>
+
+
+        <!-- =================================================
+             SEND MONEY
+        ================================================== -->
+
+        <form
+            id="sendForm"
+            class="payment-form"
+            hidden
+        >
+
+            <label>
+                Recipient
+            </label>
+
+            <input
+                type="text"
+                id="recipient"
+                placeholder="MELO ID or account name"
+                autocomplete="off"
+                required
+            >
+
+
+            <label>
+                Amount
+            </label>
+
+            <div class="money-input">
+
+                <span>
+                    ₦
+                </span>
+
+                <input
+                    type="number"
+                    id="sendAmount"
+                    min="1"
+                    placeholder="0.00"
+                    required
+                >
+
+            </div>
+
+
+            <label>
+                Note
+            </label>
+
+            <input
+                type="text"
+                id="sendNote"
+                placeholder="What's this for?"
+            >
+
+
+            <button
+                type="submit"
+                class="primary-btn"
+            >
+                Send Money
+            </button>
+
+        </form>
+
+
+        <!-- =================================================
+             BILLS
+        ================================================== -->
+
+        <form
+            id="billsForm"
+            class="payment-form"
+            hidden
+        >
+
+            <label>
+                Bill Type
+            </label>
+
+            <select id="billType">
+
+                <option value="">
+                    Select a bill
+                </option>
+
+                <option value="electricity">
+                    Electricity
+                </option>
+
+                <option value="internet">
+                    Internet
+                </option>
+
+                <option value="cable">
+                    Cable TV
+                </option>
+
+                <option value="education">
+                    Education
+                </option>
+
+                <option value="other">
+                    Other
+                </option>
+
+            </select>
+
+
+            <label>
+                Customer / Reference
+            </label>
+
+            <input
+                type="text"
+                id="billReference"
+                placeholder="Enter reference"
+                required
+            >
+
+
+            <label>
+                Amount
+            </label>
+
+            <div class="money-input">
+
+                <span>
+                    ₦
+                </span>
+
+                <input
+                    type="number"
+                    id="billAmount"
+                    min="1"
+                    placeholder="0.00"
+                    required
+                >
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="primary-btn"
+            >
+                Continue Payment
+            </button>
+
+        </form>
+
+
+        <!-- =================================================
+             AIRTIME
+        ================================================== -->
+
+        <form
+            id="airtimeForm"
+            class="payment-form"
+            hidden
+        >
+
+            <label>
+                Network
+            </label>
+
+            <select id="airtimeNetwork">
+
+                <option value="">
+                    Select network
+                </option>
+
+                <option value="MTN">
+                    MTN
+                </option>
+
+                <option value="Airtel">
+                    Airtel
+                </option>
+
+                <option value="Glo">
+                    Glo
+                </option>
+
+                <option value="9mobile">
+                    9mobile
+                </option>
+
+            </select>
+
+
+            <label>
+                Phone Number
+            </label>
+
+            <input
+                type="tel"
+                id="airtimePhone"
+                placeholder="08012345678"
+                required
+            >
+
+
+            <label>
+                Amount
+            </label>
+
+            <div class="money-input">
+
+                <span>
+                    ₦
+                </span>
+
+                <input
+                    type="number"
+                    id="airtimeAmount"
+                    min="50"
+                    placeholder="1000"
+                    required
+                >
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="primary-btn"
+            >
+                Buy Airtime
+            </button>
+
+        </form>
+
+
+        <!-- =================================================
+             DATA
+        ================================================== -->
+
+        <form
+            id="dataForm"
+            class="payment-form"
+            hidden
+        >
+
+            <label>
+                Network
+            </label>
+
+            <select id="dataNetwork">
+
+                <option value="">
+                    Select network
+                </option>
+
+                <option value="MTN">
+                    MTN
+                </option>
+
+                <option value="Airtel">
+                    Airtel
+                </option>
+
+                <option value="Glo">
+                    Glo
+                </option>
+
+                <option value="9mobile">
+                    9mobile
+                </option>
+
+            </select>
+
+
+            <label>
+                Phone Number
+            </label>
+
+            <input
+                type="tel"
+                id="dataPhone"
+                placeholder="08012345678"
+                required
+            >
+
+
+            <label>
+                Data Plan
+            </label>
+
+            <select id="dataPlan">
+
+                <option value="">
+                    Select a plan
+                </option>
+
+                <option value="500MB">
+                    500MB
+                </option>
+
+                <option value="1GB">
+                    1GB
+                </option>
+
+                <option value="2GB">
+                    2GB
+                </option>
+
+                <option value="5GB">
+                    5GB
+                </option>
+
+                <option value="10GB">
+                    10GB
+                </option>
+
+            </select>
+
+
+            <label>
+                Amount
+            </label>
+
+            <div class="money-input">
+
+                <span>
+                    ₦
+                </span>
+
+                <input
+                    type="number"
+                    id="dataAmount"
+                    min="1"
+                    placeholder="0.00"
+                    required
+                >
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="primary-btn"
+            >
+                Buy Data
+            </button>
+
+        </form>
+
+
+        <!-- =================================================
+             QR
+        ================================================== -->
+
+        <div
+            id="qrPanel"
+            class="qr-panel"
+            hidden
+        >
+
+            <div class="qr-placeholder">
+
+                <span>
+                    QR
+                </span>
+
+            </div>
+
+            <h3>
+                QR Pay
+            </h3>
+
+            <p>
+                Scan another MELO user's QR code
+                or show yours to receive money.
+            </p>
+
+            <div class="qr-actions">
+
+                <button
+                    type="button"
+                    id="openScanner"
+                    class="secondary-btn"
+                >
+                    Scan QR
+                </button>
+
+                <button
+                    type="button"
+                    id="showMyQR"
+                    class="primary-btn"
+                >
+                    My QR
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             REQUEST
+        ================================================== -->
+
+        <form
+            id="requestForm"
+            class="payment-form"
+            hidden
+        >
+
+            <label>
+                From
+            </label>
+
+            <input
+                type="text"
+                id="requestFrom"
+                placeholder="MELO ID or account name"
+                required
+            >
+
+
+            <label>
+                Amount
+            </label>
+
+            <div class="money-input">
+
+                <span>
+                    ₦
+                </span>
+
+                <input
+                    type="number"
+                    id="requestAmount"
+                    min="1"
+                    placeholder="0.00"
+                    required
+                >
+
+            </div>
+
+
+            <label>
+                Note
+            </label>
+
+            <input
+                type="text"
+                id="requestNote"
+                placeholder="What's the payment for?"
+            >
+
+
+            <button
+                type="submit"
+                class="primary-btn"
+            >
+                Create Request
+            </button>
+
+        </form>
+
+
+        <!-- =================================================
+             OTHER
+        ================================================== -->
+
+        <form
+            id="otherForm"
+            class="payment-form"
+            hidden
+        >
+
+            <label>
+                Payment Name
+            </label>
+
+            <input
+                type="text"
+                id="otherName"
+                placeholder="What are you paying for?"
+                required
+            >
+
+
+            <label>
+                Amount
+            </label>
+
+            <div class="money-input">
+
+                <span>
+                    ₦
+                </span>
+
+                <input
+                    type="number"
+                    id="otherAmount"
+                    min="1"
+                    placeholder="0.00"
+                    required
+                >
+
+            </div>
+
+
+            <label>
+                Note
+            </label>
+
+            <input
+                type="text"
+                id="otherNote"
+                placeholder="Optional"
+            >
+
+
+            <button
+                type="submit"
+                class="primary-btn"
+            >
+                Continue
+            </button>
+
+        </form>
+
+    </section>
+
+</main>
+
+
+<!-- =====================================================
+     BOTTOM NAV
+===================================================== -->
+
+<nav class="bottom-nav">
+
+    <a
+        href="home.html"
+        class="nav-item"
+    >
+
+        <span class="nav-icon">
+            01
+        </span>
+
+        <small>
+            Home
+        </small>
+
+    </a>
+
+
+    <a
+        href="transactions.html"
+        class="nav-item"
+    >
+
+        <span class="nav-icon">
+            02
+        </span>
+
+        <small>
+            Activity
+        </small>
+
+    </a>
+
+
+    <a
+        href="budget.html"
+        class="nav-item"
+    >
+
+        <span class="nav-icon">
+            03
+        </span>
+
+        <small>
+            Budget
+        </small>
+
+    </a>
+
+
+    <a
+        href="analytics.html"
+        class="nav-item"
+    >
+
+        <span class="nav-icon">
+            04
+        </span>
+
+        <small>
+            Insights
+        </small>
+
+    </a>
+
+
+    <a
+        href="profile.html"
+        class="nav-item"
+    >
+
+        <span class="nav-icon">
+            05
+        </span>
+
+        <small>
+            Profile
+        </small>
+
+    </a>
+
+</nav>
+
 
 <script src="storage.js"></script>
 <script src="theme.js"></script>

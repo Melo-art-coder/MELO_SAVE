@@ -1,0 +1,788 @@
+/* =====================================================
+   MELOSAV — ANALYTICS
+===================================================== */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+
+    background:
+        var(--melo-bg);
+
+    color:
+        var(--melo-text);
+
+    font-family:
+        "Poppins",
+        sans-serif;
+}
+
+.analytics-page {
+    width:
+        min(
+            calc(100% - 30px),
+            720px
+        );
+
+    margin:
+        auto;
+
+    padding:
+        28px 0 120px;
+}
+
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+.analytics-header {
+    display:
+        flex;
+
+    justify-content:
+        space-between;
+
+    align-items:
+        flex-start;
+
+    margin-bottom:
+        22px;
+}
+
+.eyebrow {
+    display:
+        block;
+
+    margin-bottom:
+        5px;
+
+    color:
+        var(--melo-muted);
+
+    font-size:
+        8px;
+
+    font-weight:
+        700;
+
+    letter-spacing:
+        .16em;
+}
+
+.analytics-header h1 {
+    margin:
+        0;
+
+    font-size:
+        30px;
+
+    letter-spacing:
+        -.05em;
+}
+
+.analytics-header p {
+    margin:
+        6px 0 0;
+
+    color:
+        var(--melo-muted);
+
+    font-size:
+        10px;
+}
+
+.period-button {
+    padding:
+        8px 12px;
+
+    border:
+        1px solid
+        var(--melo-border);
+
+    border-radius:
+        999px;
+
+    background:
+        var(--melo-surface);
+
+    color:
+        var(--melo-text);
+
+    font-family:
+        inherit;
+
+    font-size:
+        8px;
+}
+
+
+/* =====================================================
+   SUMMARY
+===================================================== */
+
+.summary-grid {
+    display:
+        grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap:
+        9px;
+}
+
+.summary-card {
+    min-width:
+        0;
+
+    padding:
+        15px;
+
+    border:
+        1px solid
+        var(--melo-border);
+
+    border-radius:
+        17px;
+
+    background:
+        var(--melo-surface);
+}
+
+.summary-card.featured {
+    background:
+        var(--melo-accent-soft);
+
+    border-color:
+        transparent;
+}
+
+.summary-card > span {
+    display:
+        block;
+
+    margin-bottom:
+        7px;
+
+    color:
+        var(--melo-muted);
+
+    font-size:
+        7px;
+
+    font-weight:
+        700;
+
+    letter-spacing:
+        .08em;
+}
+
+.summary-card strong {
+    display:
+        block;
+
+    overflow:
+        hidden;
+
+    text-overflow:
+        ellipsis;
+
+    font-size:
+        13px;
+
+    letter-spacing:
+        -.025em;
+}
+
+.summary-card small {
+    display:
+        block;
+
+    margin-top:
+        5px;
+
+    color:
+        var(--melo-muted);
+
+    font-size:
+        7px;
+}
+
+
+/* =====================================================
+   CARDS
+===================================================== */
+
+.insight-card {
+    margin-top:
+        12px;
+
+    padding:
+        19px;
+
+    border:
+        1px solid
+        var(--melo-border);
+
+    border-radius:
+        19px;
+
+    background:
+        var(--melo-surface);
+}
+
+.section-title {
+    margin-bottom:
+        18px;
+}
+
+.section-title h2 {
+    margin:
+        0;
+
+    font-size:
+        15px;
+
+    letter-spacing:
+        -.035em;
+}
+
+
+/* =====================================================
+   CATEGORY CHART
+===================================================== */
+
+.category-chart {
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    gap:
+        15px;
+}
+
+.chart-row {
+    position:
+        relative;
+}
+
+.chart-label {
+    display:
+        flex;
+
+    justify-content:
+        space-between;
+
+    margin-bottom:
+        6px;
+
+    font-size:
+        9px;
+}
+
+.chart-label strong {
+    font-size:
+        9px;
+}
+
+.chart-track {
+    height:
+        7px;
+
+    overflow:
+        hidden;
+
+    border-radius:
+        99px;
+
+    background:
+        var(--melo-surface-2);
+}
+
+.chart-fill {
+    height:
+        100%;
+
+    border-radius:
+        inherit;
+
+    background:
+        var(--melo-accent);
+}
+
+.chart-row > small {
+    display:
+        block;
+
+    margin-top:
+        4px;
+
+    color:
+        var(--melo-muted);
+
+    font-size:
+        7px;
+}
+
+.chart-empty {
+    padding:
+        30px 10px;
+
+    text-align:
+        center;
+
+    color:
+        var(--melo-muted);
+
+    font-size:
+        9px;
+}
+
+
+/* =====================================================
+   LEGEND
+===================================================== */
+
+.category-legend {
+    display:
+        grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap:
+        8px;
+
+    margin-top:
+        20px;
+
+    padding-top:
+        15px;
+
+    border-top:
+        1px solid
+        var(--melo-border);
+}
+
+.legend-item {
+    display:
+        flex;
+
+    justify-content:
+        space-between;
+
+    color:
+        var(--melo-muted);
+
+    font-size:
+        8px;
+}
+
+.legend-item strong {
+    color:
+        var(--melo-text);
+}
+
+
+/* =====================================================
+   TREND
+===================================================== */
+
+.trend-chart {
+    height:
+        170px;
+
+    display:
+        flex;
+
+    align-items:
+        flex-end;
+
+    gap:
+        3px;
+
+    padding:
+        10px 2px 0;
+
+    border-bottom:
+        1px solid
+        var(--melo-border);
+}
+
+.trend-bar {
+    flex:
+        1;
+
+    height:
+        100%;
+
+    min-width:
+        3px;
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    justify-content:
+        flex-end;
+
+    align-items:
+        center;
+
+    gap:
+        5px;
+}
+
+.trend-value {
+    width:
+        100%;
+
+    min-height:
+        2px;
+
+    border-radius:
+        4px 4px 0 0;
+
+    background:
+        var(--melo-accent);
+
+    opacity:
+        .8;
+}
+
+.trend-bar small {
+    color:
+        var(--melo-muted);
+
+    font-size:
+        6px;
+}
+
+
+/* =====================================================
+   TWO COLUMN
+===================================================== */
+
+.two-column {
+    display:
+        grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap:
+        10px;
+
+    margin-top:
+        12px;
+}
+
+.mini-card {
+    padding:
+        17px;
+
+    border:
+        1px solid
+        var(--melo-border);
+
+    border-radius:
+        18px;
+
+    background:
+        var(--melo-surface);
+}
+
+.mini-card strong {
+    display:
+        block;
+
+    margin-top:
+        8px;
+
+    overflow:
+        hidden;
+
+    text-overflow:
+        ellipsis;
+
+    white-space:
+        nowrap;
+
+    font-size:
+        15px;
+}
+
+.mini-card p {
+    margin:
+        4px 0 0;
+
+    color:
+        var(--melo-muted);
+
+    font-size:
+        8px;
+}
+
+
+/* =====================================================
+   INSIGHT
+===================================================== */
+
+.insight-message {
+    margin-top:
+        12px;
+
+    padding:
+        20px;
+
+    border-radius:
+        20px;
+
+    background:
+        var(--melo-accent-soft);
+}
+
+.insight-message h2 {
+    margin:
+        0;
+
+    font-size:
+        17px;
+
+    letter-spacing:
+        -.035em;
+}
+
+.insight-message p {
+    margin:
+        7px 0 0;
+
+    max-width:
+        550px;
+
+    color:
+        var(--melo-muted);
+
+    font-size:
+        9px;
+
+    line-height:
+        1.6;
+}
+
+
+/* =====================================================
+   ACTIVITY SUMMARY
+===================================================== */
+
+.activity-summary {
+    display:
+        grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap:
+        9px;
+
+    margin-top:
+        12px;
+}
+
+.activity-summary > div {
+    padding:
+        15px;
+
+    border:
+        1px solid
+        var(--melo-border);
+
+    border-radius:
+        16px;
+
+    background:
+        var(--melo-surface);
+}
+
+.activity-summary span {
+    display:
+        block;
+
+    margin-bottom:
+        5px;
+
+    color:
+        var(--melo-muted);
+
+    font-size:
+        7px;
+}
+
+.activity-summary strong {
+    font-size:
+        11px;
+}
+
+
+/* =====================================================
+   NAV
+===================================================== */
+
+.bottom-nav {
+    position:
+        fixed;
+
+    left:
+        50%;
+
+    bottom:
+        13px;
+
+    transform:
+        translateX(-50%);
+
+    width:
+        min(
+            calc(100% - 24px),
+            680px
+        );
+
+    display:
+        grid;
+
+    grid-template-columns:
+        repeat(5, 1fr);
+
+    gap:
+        3px;
+
+    padding:
+        7px;
+
+    background:
+        #fff;
+
+    border:
+        1px solid
+        #e6e1dd;
+
+    border-radius:
+        21px;
+
+    box-shadow:
+        0 12px 35px
+        rgba(0,0,0,.10);
+
+    z-index:
+        100;
+}
+
+.nav-item {
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    gap:
+        4px;
+
+    min-height:
+        48px;
+
+    border-radius:
+        15px;
+
+    color:
+        #777277;
+
+    text-decoration:
+        none;
+}
+
+.nav-item.active {
+    background:
+        var(--melo-accent-soft);
+
+    color:
+        var(--melo-accent);
+}
+
+.nav-icon {
+    font-size:
+        8px;
+
+    font-weight:
+        700;
+}
+
+.nav-item small {
+    font-size:
+        8px;
+
+    font-weight:
+        600;
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (
+    max-width: 480px
+) {
+
+    .analytics-page {
+        width:
+            calc(100% - 22px);
+
+        padding-top:
+            22px;
+    }
+
+    .analytics-header h1 {
+        font-size:
+            27px;
+    }
+
+    .summary-card {
+        padding:
+            12px 9px;
+    }
+
+    .summary-card strong {
+        font-size:
+            10px;
+    }
+
+    .summary-card small {
+        font-size:
+            6px;
+    }
+
+    .insight-card {
+        padding:
+            16px;
+    }
+
+    .trend-chart {
+        height:
+            145px;
+    }
+
+}

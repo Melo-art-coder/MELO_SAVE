@@ -430,3 +430,59 @@ body.dark .theme-box:hover{
     border-color:#A78BFA;
 
 }
+/* ======================================
+   MELOSAV THEME ENGINE
+   ====================================== */
+/* LIGHT THEME */
+body.theme-purple-light {
+    --primary: #7B2CFF;
+    --secondary: #B56CFF;
+    --background: #F7F3FF;
+    --card: #FFFFFF;
+    --text: #222222;
+    --text-light: #666666;
+}
+/* DARK THEME */
+body.theme-purple-dark {
+    --primary: #A78BFA;
+    --secondary: #7B2CFF;
+    --background: #10091D;
+    --card: #1E1632;
+    --text: #FFFFFF;
+    --text-light: #DDDDDD;
+    background: linear-gradient(
+        180deg,
+        #10091D,
+        #1B1235
+    );
+    color: white;
+}
+body.theme-purple-dark .signup-card {
+    background: rgba(30,22,50,.92);
+}
+body.theme-purple-dark .signup-container h1,
+body.theme-purple-dark .signup-card h2,
+body.theme-purple-dark .theme-title {
+    color: #A78BFA;
+}
+body.theme-purple-dark .subtitle,
+body.theme-purple-dark .card-text,
+body.theme-purple-dark .terms,
+body.theme-purple-dark .login-link {
+    color: #DDDDDD;
+}
+body.theme-purple-dark .input-group label {
+    color: white;
+}
+body.theme-purple-dark .input-group input {
+    background: #241A3D;
+    color: white;
+    border-color: #3B2E62;
+}
+body.theme-purple-dark .theme-box {
+    background: #241A3D;
+    color: white;
+}
+body.theme-purple-dark .theme-box:hover {
+    border-color: #A78BFA;
+}

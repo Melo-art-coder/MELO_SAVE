@@ -1,256 +1,1103 @@
-/* =====================================
-   MELOSAV TRANSFER
-===================================== */
+/* =====================================================
+   MELOSAV — PAYMENTS HUB
+   Premium / Real App / Attention Without Clutter
+===================================================== */
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:"Poppins",sans-serif;
+* {
+    box-sizing: border-box;
 }
 
-body{
+body {
+    margin: 0;
+    min-height: 100vh;
 
-    background:var(--background);
+    font-family: "Poppins", sans-serif;
 
-    color:var(--text);
+    background:
+        var(--melo-bg);
 
-    padding:20px;
-
-    padding-bottom:40px;
-
+    color:
+        var(--melo-text);
 }
 
-/* ================= HEADER ================= */
+.payments-page {
+    width: min(100% - 28px, 760px);
 
-.page-header{
+    margin: auto;
 
-    display:flex;
-
-    align-items:center;
-
-    gap:15px;
-
-    margin-bottom:25px;
-
+    padding:
+        28px 0 125px;
 }
 
-.back-btn{
 
-    width:45px;
+/* =====================================================
+   HEADER
+===================================================== */
 
-    height:45px;
+.payments-header {
+    display: flex;
+    align-items: flex-start;
 
-    border-radius:12px;
+    gap: 13px;
 
-    background:var(--card);
-
-    color:var(--text);
-
-    text-decoration:none;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    font-size:22px;
-
-    box-shadow:0 5px 18px rgba(0,0,0,.08);
-
+    margin-bottom: 24px;
 }
 
-.page-header h2{
+.back-btn {
+    width: 39px;
+    height: 39px;
 
-    font-size:24px;
+    flex-shrink: 0;
 
+    display: grid;
+    place-items: center;
+
+    border:
+        1px solid
+        var(--melo-border);
+
+    border-radius: 13px;
+
+    background:
+        var(--melo-surface);
+
+    color:
+        var(--melo-text);
+
+    text-decoration: none;
+
+    font-size: 18px;
+
+    transition:
+        .2s ease;
 }
 
-/* ================= HERO CARD ================= */
+.back-btn:hover {
+    transform:
+        translateX(-2px);
 
-.transfer-card{
-
-    background:linear-gradient(135deg,#7B2CFF,#A855F7);
-
-    color:#fff;
-
-    border-radius:25px;
-
-    padding:30px;
-
-    text-align:center;
-
-    margin-bottom:25px;
-
-    box-shadow:0 15px 35px rgba(123,44,255,.3);
-
+    border-color:
+        var(--melo-accent);
 }
 
-.transfer-icon{
+.eyebrow {
+    display: block;
 
-    font-size:60px;
+    color:
+        var(--melo-muted);
 
-    margin-bottom:15px;
+    font-size: 8px;
 
+    font-weight: 700;
+
+    letter-spacing:
+        .17em;
+
+    text-transform:
+        uppercase;
 }
 
-.transfer-card h1{
+.payments-header h1 {
+    margin:
+        2px 0 4px;
 
-    font-size:30px;
+    font-size:
+        clamp(25px, 6vw, 34px);
 
-    margin-bottom:10px;
+    line-height:
+        1;
 
+    letter-spacing:
+        -.06em;
 }
 
-.transfer-card p{
+.payments-header p {
+    margin: 7px 0 0;
 
-    opacity:.95;
+    color:
+        var(--melo-muted);
 
-    line-height:1.6;
-
+    font-size: 9px;
 }
 
-/* ================= FORM ================= */
 
-.transfer-form{
+/* =====================================================
+   BALANCE
+===================================================== */
 
-    display:flex;
+.payment-balance {
+    position: relative;
 
-    flex-direction:column;
+    overflow: hidden;
 
-    gap:18px;
+    padding:
+        22px;
 
+    margin-bottom:
+        29px;
+
+    border-radius:
+        24px;
+
+    background:
+        var(--melo-surface);
+
+    border:
+        1px solid
+        var(--melo-border);
+
+    box-shadow:
+        0 12px 30px
+        rgba(0, 0, 0, .04);
 }
 
-.transfer-form label{
+.payment-balance::after {
+    content: "";
 
-    font-weight:600;
+    position: absolute;
 
+    width: 130px;
+    height: 130px;
+
+    right: -55px;
+    top: -55px;
+
+    border-radius: 50%;
+
+    background:
+        var(--melo-accent-soft);
+
+    opacity:
+        .65;
 }
 
-.transfer-form input,
-.transfer-form textarea{
+.payment-balance span {
+    position: relative;
 
-    width:100%;
+    z-index: 1;
 
-    padding:16px;
+    display: block;
 
-    border:none;
+    color:
+        var(--melo-muted);
 
-    outline:none;
+    font-size: 7px;
 
-    border-radius:16px;
+    font-weight: 700;
 
-    background:var(--card);
-
-    color:var(--text);
-
-    font-size:16px;
-
-    box-shadow:0 5px 15px rgba(0,0,0,.08);
-
+    letter-spacing:
+        .13em;
 }
 
-.transfer-form textarea{
+.payment-balance strong {
+    position: relative;
 
-    resize:none;
+    z-index: 1;
 
-    min-height:120px;
+    display: block;
 
+    margin-top:
+        8px;
+
+    font-size:
+        clamp(25px, 7vw, 35px);
+
+    letter-spacing:
+        -.06em;
 }
 
-.transfer-form input:focus,
-.transfer-form textarea:focus{
+.payment-balance a {
+    position: relative;
 
-    border:2px solid #7B2CFF;
+    z-index: 1;
 
+    display: inline-block;
+
+    margin-top:
+        11px;
+
+    color:
+        var(--melo-accent);
+
+    text-decoration:
+        none;
+
+    font-size:
+        8px;
+
+    font-weight:
+        700;
 }
 
-/* ================= BUTTON ================= */
 
-.transfer-form button{
+/* =====================================================
+   SECTION HEADING
+===================================================== */
 
-    border:none;
+.section-heading {
+    display: flex;
 
-    cursor:pointer;
+    align-items: flex-end;
 
-    padding:18px;
+    justify-content: space-between;
 
-    border-radius:18px;
-
-    background:#7B2CFF;
-
-    color:#fff;
-
-    font-size:17px;
-
-    font-weight:700;
-
-    transition:.3s;
-
+    margin-bottom:
+        13px;
 }
 
-.transfer-form button:hover{
+.section-heading h2 {
+    margin:
+        3px 0 0;
 
-    transform:translateY(-3px);
+    font-size:
+        16px;
 
-    box-shadow:0 12px 25px rgba(123,44,255,.35);
-
+    letter-spacing:
+        -.04em;
 }
 
-/* ================= TIPS ================= */
 
-.tips-card{
+/* =====================================================
+   PAYMENT GRID
+===================================================== */
 
-    margin-top:30px;
+.payment-grid {
+    display: grid;
 
-    background:var(--card);
+    grid-template-columns:
+        repeat(2, 1fr);
 
-    padding:20px;
-
-    border-radius:20px;
-
-    box-shadow:0 5px 18px rgba(0,0,0,.08);
-
+    gap:
+        10px;
 }
 
-.tips-card h3{
 
-    color:#7B2CFF;
+/* =====================================================
+   PAYMENT CARD
+===================================================== */
 
-    margin-bottom:10px;
+.payment-option {
+    position: relative;
 
+    min-height:
+        137px;
+
+    padding:
+        18px;
+
+    overflow:
+        hidden;
+
+    text-align:
+        left;
+
+    border:
+        1px solid
+        var(--melo-border);
+
+    border-radius:
+        21px;
+
+    background:
+        var(--melo-surface);
+
+    color:
+        var(--melo-text);
+
+    font-family:
+        inherit;
+
+    cursor:
+        pointer;
+
+    transition:
+        transform .22s ease,
+        border-color .22s ease,
+        box-shadow .22s ease;
 }
 
-.tips-card p{
+.payment-option::before {
+    content: "";
 
-    color:var(--text-secondary);
+    position: absolute;
 
-    line-height:1.6;
+    width:
+        7px;
 
+    height:
+        7px;
+
+    right:
+        16px;
+
+    top:
+        17px;
+
+    border-radius:
+        50%;
+
+    background:
+        var(--melo-accent);
+
+    opacity:
+        .45;
+
+    transition:
+        .2s ease;
 }
 
-/* ================= MOBILE ================= */
+.payment-option:hover {
+    transform:
+        translateY(-3px);
 
-@media(max-width:600px){
+    border-color:
+        var(--melo-accent);
 
-    .transfer-card{
+    box-shadow:
+        0 12px 25px
+        rgba(0, 0, 0, .07);
+}
 
-        padding:25px;
+.payment-option:hover::before {
+    transform:
+        scale(1.5);
 
+    opacity:
+        1;
+}
+
+.payment-option:active {
+    transform:
+        scale(.98);
+}
+
+
+/* =====================================================
+   FEATURED SEND MONEY
+===================================================== */
+
+.featured-option {
+    grid-column:
+        span 2;
+
+    min-height:
+        155px;
+
+    background:
+        var(--melo-accent);
+
+    border-color:
+        var(--melo-accent);
+
+    color:
+        #fff;
+
+    box-shadow:
+        0 15px 35px
+        color-mix(
+            in srgb,
+            var(--melo-accent) 20%,
+            transparent
+        );
+}
+
+.featured-option::before {
+    width:
+        120px;
+
+    height:
+        120px;
+
+    right:
+        -40px;
+
+    top:
+        -50px;
+
+    background:
+        rgba(255,255,255,.10);
+
+    opacity:
+        1;
+}
+
+.featured-option .option-number,
+.featured-option small {
+    color:
+        rgba(255,255,255,.68);
+}
+
+.featured-option strong {
+    font-size:
+        17px;
+}
+
+.featured-option small {
+    max-width:
+        240px;
+}
+
+
+/* =====================================================
+   CARD TYPOGRAPHY
+===================================================== */
+
+.option-number {
+    display:
+        block;
+
+    margin-bottom:
+        27px;
+
+    color:
+        var(--melo-muted);
+
+    font-size:
+        8px;
+
+    font-weight:
+        700;
+
+    letter-spacing:
+        .08em;
+}
+
+.payment-option strong {
+    display:
+        block;
+
+    font-size:
+        12px;
+
+    letter-spacing:
+        -.025em;
+}
+
+.payment-option small {
+    display:
+        block;
+
+    margin-top:
+        5px;
+
+    max-width:
+        180px;
+
+    color:
+        var(--melo-muted);
+
+    font-size:
+        8px;
+
+    line-height:
+        1.55;
+}
+
+
+/* =====================================================
+   PAYMENT PANEL
+===================================================== */
+
+.payment-panel {
+    margin-top:
+        16px;
+
+    padding:
+        21px;
+
+    border-radius:
+        23px;
+
+    background:
+        var(--melo-surface);
+
+    border:
+        1px solid
+        var(--melo-border);
+
+    animation:
+        panelIn .25s ease;
+}
+
+@keyframes panelIn {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(8px);
     }
 
-    .transfer-card h1{
+    to {
+        opacity: 1;
 
-        font-size:25px;
-
+        transform:
+            translateY(0);
     }
 
-    .transfer-form button{
+}
 
-        width:100%;
+.panel-header {
+    position:
+        relative;
 
+    margin-bottom:
+        20px;
+
+    padding-right:
+        35px;
+}
+
+.panel-header h2 {
+    margin:
+        4px 0 5px;
+
+    font-size:
+        20px;
+
+    letter-spacing:
+        -.045em;
+}
+
+.panel-header p {
+    margin:
+        0;
+
+    color:
+        var(--melo-muted);
+
+    font-size:
+        8px;
+}
+
+.close-panel {
+    position:
+        absolute;
+
+    top:
+        0;
+
+    right:
+        0;
+
+    width:
+        30px;
+
+    height:
+        30px;
+
+    border:
+        1px solid
+        var(--melo-border);
+
+    border-radius:
+        50%;
+
+    background:
+        var(--melo-surface-2);
+
+    color:
+        var(--melo-text);
+
+    font-size:
+        18px;
+
+    cursor:
+        pointer;
+
+    transition:
+        .2s ease;
+}
+
+.close-panel:hover {
+    background:
+        var(--melo-accent);
+
+    color:
+        #fff;
+
+    border-color:
+        var(--melo-accent);
+}
+
+
+/* =====================================================
+   FORMS
+===================================================== */
+
+.payment-form {
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    gap:
+        8px;
+}
+
+.payment-form label {
+    margin-top:
+        6px;
+
+    color:
+        var(--melo-muted);
+
+    font-size:
+        8px;
+
+    font-weight:
+        600;
+}
+
+.payment-form input,
+.payment-form select {
+    width:
+        100%;
+
+    padding:
+        13px 14px;
+
+    border:
+        1px solid
+        var(--melo-border);
+
+    border-radius:
+        13px;
+
+    outline:
+        none;
+
+    background:
+        var(--melo-bg);
+
+    color:
+        var(--melo-text);
+
+    font-family:
+        inherit;
+
+    font-size:
+        10px;
+
+    transition:
+        .2s ease;
+}
+
+.payment-form input:focus,
+.payment-form select:focus {
+    border-color:
+        var(--melo-accent);
+
+    box-shadow:
+        0 0 0 3px
+        var(--melo-accent-soft);
+}
+
+
+/* =====================================================
+   MONEY INPUT
+===================================================== */
+
+.money-input {
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    border:
+        1px solid
+        var(--melo-border);
+
+    border-radius:
+        13px;
+
+    background:
+        var(--melo-bg);
+
+    overflow:
+        hidden;
+
+    transition:
+        .2s ease;
+}
+
+.money-input:focus-within {
+    border-color:
+        var(--melo-accent);
+
+    box-shadow:
+        0 0 0 3px
+        var(--melo-accent-soft);
+}
+
+.money-input span {
+    padding-left:
+        14px;
+
+    color:
+        var(--melo-muted);
+
+    font-size:
+        11px;
+
+    font-weight:
+        600;
+}
+
+.money-input input {
+    border:
+        0;
+
+    box-shadow:
+        none;
+
+    background:
+        transparent;
+}
+
+
+/* =====================================================
+   BUTTONS
+===================================================== */
+
+.primary-btn,
+.secondary-btn {
+    width:
+        100%;
+
+    padding:
+        14px;
+
+    margin-top:
+        12px;
+
+    border:
+        0;
+
+    border-radius:
+        13px;
+
+    font-family:
+        inherit;
+
+    font-size:
+        9px;
+
+    font-weight:
+        700;
+
+    cursor:
+        pointer;
+
+    transition:
+        transform .18s ease,
+        opacity .18s ease;
+}
+
+.primary-btn {
+    background:
+        var(--melo-accent);
+
+    color:
+        #fff;
+}
+
+.secondary-btn {
+    background:
+        var(--melo-surface-2);
+
+    color:
+        var(--melo-text);
+}
+
+.primary-btn:hover,
+.secondary-btn:hover {
+    transform:
+        translateY(-1px);
+
+    opacity:
+        .92;
+}
+
+
+/* =====================================================
+   QR
+===================================================== */
+
+.qr-panel {
+    text-align:
+        center;
+
+    padding:
+        5px 0;
+}
+
+.qr-placeholder {
+    width:
+        175px;
+
+    height:
+        175px;
+
+    margin:
+        3px auto 18px;
+
+    display:
+        grid;
+
+    place-items:
+        center;
+
+    background:
+        #fff;
+
+    border:
+        8px solid
+        #fff;
+
+    border-radius:
+        15px;
+
+    box-shadow:
+        0 8px 25px
+        rgba(0,0,0,.10);
+}
+
+.qr-placeholder span {
+    font-size:
+        34px;
+
+    font-weight:
+        800;
+
+    color:
+        #111;
+
+    letter-spacing:
+        -.08em;
+}
+
+.qr-panel h3 {
+    margin:
+        0;
+
+    font-size:
+        15px;
+}
+
+.qr-panel p {
+    max-width:
+        400px;
+
+    margin:
+        7px auto;
+
+    color:
+        var(--melo-muted);
+
+    font-size:
+        9px;
+
+    line-height:
+        1.6;
+}
+
+.qr-actions {
+    display:
+        grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap:
+        8px;
+}
+
+
+/* =====================================================
+   BOTTOM NAV
+===================================================== */
+
+.bottom-nav {
+    position:
+        fixed;
+
+    left:
+        50%;
+
+    bottom:
+        12px;
+
+    transform:
+        translateX(-50%);
+
+    width:
+        min(
+            calc(100% - 18px),
+            680px
+        );
+
+    display:
+        grid;
+
+    grid-template-columns:
+        repeat(5, 1fr);
+
+    gap:
+        3px;
+
+    padding:
+        6px;
+
+    background:
+        #fff;
+
+    border:
+        1px solid
+        #e5e0dc;
+
+    border-radius:
+        21px;
+
+    box-shadow:
+        0 12px 35px
+        rgba(0,0,0,.10);
+
+    z-index:
+        9999;
+}
+
+.bottom-nav a {
+    min-height:
+        46px;
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    gap:
+        4px;
+
+    border-radius:
+        15px;
+
+    text-decoration:
+        none;
+
+    color:
+        #777277;
+
+    transition:
+        .2s ease;
+}
+
+.bottom-nav a:hover {
+    color:
+        var(--melo-accent);
+}
+
+.bottom-nav a.active {
+    background:
+        var(--melo-accent-soft);
+
+    color:
+        var(--melo-accent);
+}
+
+.nav-icon {
+    font-size:
+        8px;
+
+    font-weight:
+        700;
+
+    letter-spacing:
+        .05em;
+}
+
+.bottom-nav small {
+    font-size:
+        7px;
+
+    font-weight:
+        600;
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 480px) {
+
+    .payments-page {
+        width:
+            calc(100% - 20px);
+
+        padding-top:
+            22px;
+    }
+
+    .payment-grid {
+        gap:
+            8px;
+    }
+
+    .payment-option {
+        min-height:
+            122px;
+
+        padding:
+            15px;
+    }
+
+    .featured-option {
+        min-height:
+            145px;
+    }
+
+    .payment-option strong {
+        font-size:
+            11px;
+    }
+
+    .payment-option small {
+        font-size:
+            7px;
+    }
+
+    .option-number {
+        margin-bottom:
+            20px;
+    }
+
+}
+
+
+/* =====================================================
+   VERY SMALL
+===================================================== */
+
+@media (max-width: 350px) {
+
+    .payment-grid {
+        grid-template-columns:
+            1fr;
+    }
+
+    .featured-option {
+        grid-column:
+            span 1;
     }
 
 }

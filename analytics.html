@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Insights | MELOSAV</title>
+
+    <link rel="manifest" href="manifest.json">
+
+    <link rel="stylesheet" href="theme.css">
+    <link rel="stylesheet" href="analytics.css">
+    <link rel="stylesheet" href="melo-toast.css">
+
+</head>
+
+<body>
+
+<main class="analytics-page">
+
+    <!-- HEADER -->
+
+    <header class="analytics-header">
+
+        <div>
+
+            <span class="eyebrow">
+                MELOSAV
+            </span>
+
+            <h1>
+                Insights
+            </h1>
+
+            <p>
+                A clearer look at your money.
+            </p>
+
+        </div>
+
+        <button
+            class="period-button"
+            id="periodButton"
+        >
+            This month
+        </button>
+
+    </header>
+
+
+    <!-- =================================================
+         SUMMARY
+    ================================================== -->
+
+    <section class="summary-grid">
+
+        <article class="summary-card">
+
+            <span>
+                MONEY IN
+            </span>
+
+            <strong id="totalIncome">
+                ₦0.00
+            </strong>
+
+            <small>
+                Income received
+            </small>
+
+        </article>
+
+
+        <article class="summary-card">
+
+            <span>
+                MONEY OUT
+            </span>
+
+            <strong id="totalExpenses">
+                ₦0.00
+            </strong>
+
+            <small>
+                Expenses recorded
+            </small>
+
+        </article>
+
+
+        <article class="summary-card featured">
+
+            <span>
+                NET CHANGE
+            </span>
+
+            <strong id="netChange">
+                ₦0.00
+            </strong>
+
+            <small id="netLabel">
+                This month's difference
+            </small>
+
+        </article>
+
+    </section>
+
+
+    <!-- =================================================
+         SPENDING OVERVIEW
+    ================================================== -->
+
+    <section class="insight-card">
+
+        <div class="section-title">
+
+            <div>
+
+                <span class="eyebrow">
+                    SPENDING
+                </span>
+
+                <h2>
+                    Where your money goes
+                </h2>
+
+            </div>
+
+        </div>
+
+
+        <div
+            class="category-chart"
+            id="categoryChart"
+        ></div>
+
+
+        <div
+            class="category-legend"
+            id="categoryLegend"
+        ></div>
+
+    </section>
+
+
+    <!-- =================================================
+         SPENDING TREND
+    ================================================== -->
+
+    <section class="insight-card">
+
+        <div class="section-title">
+
+            <div>
+
+                <span class="eyebrow">
+                    TREND
+                </span>
+
+                <h2>
+                    Spending this month
+                </h2>
+
+            </div>
+
+        </div>
+
+
+        <div
+            class="trend-chart"
+            id="trendChart"
+        ></div>
+
+    </section>
+
+
+    <!-- =================================================
+         TOP SPENDING
+    ================================================== -->
+
+    <section class="two-column">
+
+        <article class="mini-card">
+
+            <span class="eyebrow">
+                TOP CATEGORY
+            </span>
+
+            <strong id="topCategory">
+                —
+            </strong>
+
+            <p id="topCategoryAmount">
+                ₦0.00 spent
+            </p>
+
+        </article>
+
+
+        <article class="mini-card">
+
+            <span class="eyebrow">
+                LARGEST EXPENSE
+            </span>
+
+            <strong id="largestExpense">
+                —
+            </strong>
+
+            <p id="largestExpenseAmount">
+                ₦0.00
+            </p>
+
+        </article>
+
+    </section>
+
+
+    <!-- =================================================
+         INSIGHT MESSAGE
+    ================================================== -->
+
+    <section class="insight-message">
+
+        <span class="eyebrow">
+            MELO INSIGHT
+        </span>
+
+        <h2 id="insightTitle">
+            Your financial picture
+        </h2>
+
+        <p id="insightText">
+            Add some transactions to start seeing
+            personalized spending insights.
+        </p>
+
+    </section>
+
+
+    <!-- =================================================
+         TRANSACTION COUNT
+    ================================================== -->
+
+    <section class="activity-summary">
+
+        <div>
+
+            <span>
+                Transactions
+            </span>
+
+            <strong id="transactionCount">
+                0
+            </strong>
+
+        </div>
+
+
+        <div>
+
+            <span>
+                Average expense
+            </span>
+
+            <strong id="averageExpense">
+                ₦0.00
+            </strong>
+
+        </div>
+
+
+        <div>
+
+            <span>
+                Saving rate
+            </span>
+
+            <strong id="savingRate">
+                0%
+            </strong>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- =====================================================
+     BOTTOM NAV
+===================================================== -->
+
+<nav class="bottom-nav">
+
+    <a
+        href="home.html"
+        class="nav-item"
+    >
+
+        <span class="nav-icon">
+            01
+        </span>
+
+        <small>
+            Home
+        </small>
+
+    </a>
+
+
+    <a
+        href="transactions.html"
+        class="nav-item"
+    >
+
+        <span class="nav-icon">
+            02
+        </span>
+
+        <small>
+            Activity
+        </small>
+
+    </a>
+
+
+    <a
+        href="budget.html"
+        class="nav-item"
+    >
+
+        <span class="nav-icon">
+            03
+        </span>
+
+        <small>
+            Budget
+        </small>
+
+    </a>
+
+
+    <a
+        href="analytics.html"
+        class="nav-item active"
+    >
+
+        <span class="nav-icon">
+            04
+        </span>
+
+        <small>
+            Insights
+        </small>
+
+    </a>
+
+
+    <a
+        href="profile.html"
+        class="nav-item"
+    >
+
+        <span class="nav-icon">
+            05
+        </span>
+
+        <small>
+            Profile
+        </small>
+
+    </a>
+
+</nav>
+
+
+<script src="storage.js"></script>
+<script src="theme.js"></script>
+<script src="melo-toast.js"></script>
+<script src="analytics.js"></script>
+<script src="pwa.js"></script>
+
+</body>
+
+</html>

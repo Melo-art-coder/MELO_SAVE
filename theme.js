@@ -1,130 +1,331 @@
-/* =====================================
-   MELOSAV THEME ENGINE
-===================================== */
+/* =====================================================
+   MELOSAV — THEME ENGINE
+===================================================== */
+
+const MELO_THEMES = {
+
+    purple: {
+
+        name: "Purple",
+
+        accent: "#7B2CFF",
+
+        dark: "#5D20D1",
+
+        soft:
+            "rgba(123,44,255,.10)",
+
+        rgb:
+            "123,44,255"
+
+    },
 
 
-/*
-   Available themes:
+    blue: {
 
-   purple-light
-   purple-dark
+        name: "Ocean Blue",
 
-   emerald-light
-   emerald-dark
+        accent: "#2878FF",
 
-   ocean-light
-   ocean-dark
+        dark: "#145BD0",
 
-   rose-light
-   rose-dark
+        soft:
+            "rgba(40,120,255,.10)",
 
-   gold-light
-   gold-dark
-*/
+        rgb:
+            "40,120,255"
+
+    },
 
 
-const DEFAULT_THEME = "purple-light";
+    green: {
+
+        name: "Emerald",
+
+        accent: "#16A36A",
+
+        dark: "#08784B",
+
+        soft:
+            "rgba(22,163,106,.10)",
+
+        rgb:
+            "22,163,106"
+
+    },
 
 
+    pink: {
 
-/* =========================
+        name: "Pink",
+
+        accent: "#E94D91",
+
+        dark: "#C83272",
+
+        soft:
+            "rgba(233,77,145,.10)",
+
+        rgb:
+            "233,77,145"
+
+    },
+
+
+    orange: {
+
+        name: "Orange",
+
+        accent: "#F07824",
+
+        dark: "#C6570E",
+
+        soft:
+            "rgba(240,120,36,.10)",
+
+        rgb:
+            "240,120,36"
+
+    },
+
+
+    red: {
+
+        name: "Ruby",
+
+        accent: "#D9415D",
+
+        dark: "#B72A45",
+
+        soft:
+            "rgba(217,65,93,.10)",
+
+        rgb:
+            "217,65,93"
+
+    },
+
+
+    cyan: {
+
+        name: "Cyan",
+
+        accent: "#159EBD",
+
+        dark: "#087B95",
+
+        soft:
+            "rgba(21,158,189,.10)",
+
+        rgb:
+            "21,158,189"
+
+    },
+
+
+    gold: {
+
+        name: "Gold",
+
+        accent: "#C49318",
+
+        dark: "#98720C",
+
+        soft:
+            "rgba(196,147,24,.10)",
+
+        rgb:
+            "196,147,24"
+
+    },
+
+
+    espresso: {
+
+        name: "Espresso",
+
+        accent: "#754936",
+
+        dark: "#573124",
+
+        soft:
+            "rgba(117,73,54,.10)",
+
+        rgb:
+            "117,73,54"
+
+    },
+
+
+    midnight: {
+
+        name: "Midnight",
+
+        accent: "#252A36",
+
+        dark: "#151923",
+
+        soft:
+            "rgba(37,42,54,.10)",
+
+        rgb:
+            "37,42,54"
+
+    }
+
+};
+
+
+/* =====================================================
+   GET SAVED THEME
+===================================================== */
+
+function getMeloTheme() {
+
+    return (
+        localStorage.getItem(
+            "meloTheme"
+        ) ||
+        "purple"
+    );
+
+}
+
+
+/* =====================================================
    APPLY THEME
-========================= */
+===================================================== */
 
-function applyTheme(theme){
+function applyMeloTheme(
+    themeName
+) {
 
-    const body = document.body;
-
-
-    // Remove old theme classes
-
-    body.classList.forEach(className=>{
-
-        if(className.startsWith("theme-")){
-
-            body.classList.remove(className);
-
-        }
-
-    });
+    const theme =
+        MELO_THEMES[
+            themeName
+        ] ||
+        MELO_THEMES.purple;
 
 
-    // Add selected theme
+    const root =
+        document.documentElement;
 
-    body.classList.add(
-        "theme-" + theme
+
+    root.style.setProperty(
+        "--melo-accent",
+        theme.accent
     );
 
 
-    // Save theme
+    root.style.setProperty(
+        "--melo-accent-dark",
+        theme.dark
+    );
 
-    localStorage.setItem(
-        "meloTheme",
+
+    root.style.setProperty(
+        "--melo-accent-soft",
+        theme.soft
+    );
+
+
+    root.style.setProperty(
+        "--melo-accent-rgb",
+        theme.rgb
+    );
+
+
+    root.dataset.theme =
+        themeName;
+
+}
+
+
+/* =====================================================
+   LOAD THEME
+===================================================== */
+
+function loadTheme() {
+
+    const theme =
+        getMeloTheme();
+
+
+    applyMeloTheme(
         theme
     );
 
 }
 
 
+/* =====================================================
+   SAVE THEME
+===================================================== */
 
-/* =========================
-   LOAD SAVED THEME
-========================= */
+function saveMeloTheme(
+    themeName
+) {
 
-function loadTheme(){
+    if (
+        !MELO_THEMES[
+            themeName
+        ]
+    ) {
 
-    const savedTheme =
-    localStorage.getItem("meloTheme");
-
-
-    if(savedTheme){
-
-        applyTheme(savedTheme);
+        themeName =
+            "purple";
 
     }
 
-    else{
 
-        applyTheme(DEFAULT_THEME);
+    localStorage.setItem(
+
+        "meloTheme",
+
+        themeName
+
+    );
+
+
+    applyMeloTheme(
+        themeName
+    );
+
+
+    const user =
+        typeof getCurrentUser ===
+        "function"
+            ? getCurrentUser()
+            : null;
+
+
+    if (user) {
+
+        user.themeColor =
+            themeName;
+
+
+        if (
+            typeof saveUser ===
+            "function"
+        ) {
+
+            saveUser(
+                user
+            );
+
+        }
 
     }
 
 }
 
 
-
-/* =========================
-   CHANGE THEME
-========================= */
-
-function changeTheme(theme){
-
-    applyTheme(theme);
-
-
-    // Optional toast if MeloToast exists
-
-    if(typeof meloToast === "function"){
-
-        meloToast(
-            "Theme changed successfully 🎨"
-        );
-
-    }
-
-}
-
-
-
-/* =========================
+/* =====================================================
    AUTO LOAD
-========================= */
-
+===================================================== */
 
 document.addEventListener(
-"DOMContentLoaded",
-()=>{
-
-    loadTheme();
-
-});
+    "DOMContentLoaded",
+    loadTheme
+);

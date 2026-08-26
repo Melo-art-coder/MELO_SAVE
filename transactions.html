@@ -2,174 +2,503 @@
 <html lang="en">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activity | MELOSAV</title>
 
-<title>Transactions | MELOSAV</title>
+    <link rel="manifest" href="manifest.json">
 
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#7B2CFF">
-<link rel="stylesheet" href="theme.css">
-<link rel="stylesheet" href="transactions.css">
-<link rel="stylesheet" href="melo-toast.css">
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
+    <link rel="stylesheet" href="theme.css">
+    <link rel="stylesheet" href="transactions.css">
+    <link rel="stylesheet" href="melo-toast.css">
 </head>
 
 <body>
 
-<header class="top-header">
+<main class="transactions-page">
 
-<a href="home.html" class="back-btn">
-←
-</a>
+    <!-- HEADER -->
 
-<div>
+    <header class="page-header">
 
-<h1>Transactions</h1>
+        <div>
+            <span class="eyebrow">MELOSAV</span>
 
-<p>Your complete money history</p>
+            <h1>Activity</h1>
+
+            <p>Your complete money history.</p>
+        </div>
+
+        <button
+            class="add-button"
+            id="openTransaction"
+        >
+            +
+        </button>
+
+    </header>
+
+
+    <!-- SUMMARY -->
+
+    <section class="summary-grid">
+
+        <div class="summary-card">
+
+            <span>Money in</span>
+
+            <strong id="summaryIncome">
+                ₦0.00
+            </strong>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <span>Money out</span>
+
+            <strong id="summaryExpenses">
+                ₦0.00
+            </strong>
+
+        </div>
+
+    </section>
+
+
+    <!-- SEARCH -->
+
+    <div class="search-box">
+
+        <input
+            type="search"
+            id="transactionSearch"
+            placeholder="Search transactions..."
+            autocomplete="off"
+        >
+
+    </div>
+
+
+    <!-- FILTERS -->
+
+    <div class="filters">
+
+        <button
+            class="filter active"
+            data-filter="all"
+        >
+            All
+        </button>
+
+        <button
+            class="filter"
+            data-filter="income"
+        >
+            Money in
+        </button>
+
+        <button
+            class="filter"
+            data-filter="expense"
+        >
+            Money out
+        </button>
+
+    </div>
+
+
+    <!-- CATEGORY FILTER -->
+
+    <div class="category-scroll">
+
+        <button
+            class="category-filter active"
+            data-category="all"
+        >
+            Everything
+        </button>
+
+        <button
+            class="category-filter"
+            data-category="transfer"
+        >
+            Transfers
+        </button>
+
+        <button
+            class="category-filter"
+            data-category="airtime"
+        >
+            Airtime
+        </button>
+
+        <button
+            class="category-filter"
+            data-category="data"
+        >
+            Data
+        </button>
+
+        <button
+            class="category-filter"
+            data-category="bills"
+        >
+            Bills
+        </button>
+
+        <button
+            class="category-filter"
+            data-category="food"
+        >
+            Food
+        </button>
+
+        <button
+            class="category-filter"
+            data-category="shopping"
+        >
+            Shopping
+        </button>
+
+        <button
+            class="category-filter"
+            data-category="transport"
+        >
+            Transport
+        </button>
+
+        <button
+            class="category-filter"
+            data-category="education"
+        >
+            Education
+        </button>
+
+    </div>
+
+
+    <!-- TRANSACTIONS -->
+
+    <section class="activity-section">
+
+        <div class="section-title">
+
+            <h2>Recent activity</h2>
+
+            <span id="transactionCount">
+                0 transactions
+            </span>
+
+        </div>
+
+
+        <div
+            id="transactionList"
+            class="transaction-list"
+        ></div>
+
+    </section>
+
+
+</main>
+
+
+<!-- =================================================
+     ADD TRANSACTION MODAL
+================================================= -->
+
+<div
+    class="modal"
+    id="transactionModal"
+    hidden
+>
+
+    <div class="modal-card">
+
+        <div class="modal-header">
+
+            <div>
+
+                <span class="eyebrow">
+                    NEW ACTIVITY
+                </span>
+
+                <h2>Add transaction</h2>
+
+            </div>
+
+            <button
+                class="close-button"
+                id="closeTransaction"
+                type="button"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <!-- TYPE -->
+
+        <label>Type</label>
+
+        <div class="type-switch">
+
+            <button
+                class="type-button active"
+                data-type="expense"
+                type="button"
+            >
+                Money out
+            </button>
+
+            <button
+                class="type-button"
+                data-type="income"
+                type="button"
+            >
+                Money in
+            </button>
+
+        </div>
+
+
+        <!-- CATEGORY -->
+
+        <label for="transactionCategory">
+            Category
+        </label>
+
+        <select id="transactionCategory">
+
+            <option value="transfer">
+                Transfer
+            </option>
+
+            <option value="airtime">
+                Airtime
+            </option>
+
+            <option value="data">
+                Data
+            </option>
+
+            <option value="bills">
+                Bills
+            </option>
+
+            <option value="food">
+                Food
+            </option>
+
+            <option value="shopping">
+                Shopping
+            </option>
+
+            <option value="transport">
+                Transport
+            </option>
+
+            <option value="education">
+                Education
+            </option>
+
+            <option value="other">
+                Other
+            </option>
+
+        </select>
+
+
+        <!-- AMOUNT -->
+
+        <label for="transactionAmount">
+            Amount
+        </label>
+
+        <div class="amount-field">
+
+            <span>₦</span>
+
+            <input
+                type="number"
+                id="transactionAmount"
+                min="1"
+                placeholder="0.00"
+            >
+
+        </div>
+
+
+        <!-- DESCRIPTION -->
+
+        <label for="transactionDescription">
+            Description
+        </label>
+
+        <input
+            type="text"
+            id="transactionDescription"
+            placeholder="What was this for?"
+        >
+
+
+        <button
+            class="save-button"
+            id="saveTransaction"
+            type="button"
+        >
+            Save transaction
+        </button>
+
+    </div>
 
 </div>
 
-</header>
+
+<!-- =================================================
+     TRANSACTION DETAILS
+================================================= -->
+
+<div
+    class="modal"
+    id="detailsModal"
+    hidden
+>
+
+    <div class="modal-card details-card">
+
+        <button
+            class="close-button"
+            id="closeDetails"
+            type="button"
+        >
+            ×
+        </button>
 
 
-<section class="summary">
-
-<div class="summary-card income">
-
-<h3>Income</h3>
-
-<h2 id="incomeTotal">
-₦0.00
-</h2>
-
-</div>
-
-<div class="summary-card expense">
-
-<h3>Expenses</h3>
-
-<h2 id="expenseTotal">
-₦0.00
-</h2>
-
-</div>
-
-<div class="summary-card savings">
-
-<h3>Savings</h3>
-
-<h2 id="savingsTotal">
-₦0.00
-</h2>
-
-</div>
-
-</section>
+        <span class="eyebrow">
+            TRANSACTION
+        </span>
 
 
-<section class="search-box">
-
-<input
-type="text"
-id="searchTransaction"
-placeholder="Search transactions...">
-
-</section>
+        <div
+            class="details-icon"
+            id="detailsIcon"
+        >
+            T
+        </div>
 
 
-<section class="filter-row">
-
-<button class="active" data-filter="all">
-All
-</button>
-
-<button data-filter="income">
-Income
-</button>
-
-<button data-filter="expense">
-Expense
-</button>
-
-<button data-filter="savings">
-Savings
-</button>
-
-</section>
+        <h2 id="detailsTitle">
+            Transaction
+        </h2>
 
 
-<section class="transaction-section">
+        <strong
+            class="details-amount"
+            id="detailsAmount"
+        >
+            ₦0.00
+        </strong>
 
-<div id="transactionList">
 
-<div class="empty-state">
+        <div class="details-list">
 
-<div class="emoji">
-📄
-</div>
+            <div>
+                <span>Category</span>
+                <strong id="detailsCategory">
+                    —
+                </strong>
+            </div>
 
-<h2>
-No Transactions Yet
-</h2>
+            <div>
+                <span>Date</span>
+                <strong id="detailsDate">
+                    —
+                </strong>
+            </div>
 
-<p>
+            <div>
+                <span>Description</span>
+                <strong id="detailsDescription">
+                    —
+                </strong>
+            </div>
 
-Your income, expenses and savings
-will appear here.
+        </div>
 
-</p>
+
+        <button
+            class="delete-button"
+            id="deleteTransaction"
+            type="button"
+        >
+            Delete transaction
+        </button>
+
+    </div>
 
 </div>
 
-</div>
 
-</section>
-
-
-<div class="fab">
-
-<button id="addTransaction">
-
-＋
-
-</button>
-
-</div>
-
+<!-- NAV -->
 
 <nav class="bottom-nav">
 
-<a href="home.html">
-🏠
-</a>
+    <a
+        href="home.html"
+        class="nav-item"
+    >
+        <span class="nav-icon">01</span>
+        <small>Home</small>
+    </a>
 
-<a href="goals.html">
-🎯
-</a>
 
-<a href="transactions.html" class="active">
-📄
-</a>
+    <a
+        href="transactions.html"
+        class="nav-item active"
+    >
+        <span class="nav-icon">02</span>
+        <small>Activity</small>
+    </a>
 
-<a href="profile.html">
-👤
-</a>
+
+    <a
+        href="budget.html"
+        class="nav-item"
+    >
+        <span class="nav-icon">03</span>
+        <small>Budget</small>
+    </a>
+
+
+    <a
+        href="analytics.html"
+        class="nav-item"
+    >
+        <span class="nav-icon">04</span>
+        <small>Insights</small>
+    </a>
+
+
+    <a
+        href="profile.html"
+        class="nav-item"
+    >
+        <span class="nav-icon">05</span>
+        <small>Profile</small>
+    </a>
 
 </nav>
 
 
+<script src="storage.js"></script>
 <script src="theme.js"></script>
 <script src="melo-toast.js"></script>
-<script src="storage.js"></script>
 <script src="transactions.js"></script>
 <script src="pwa.js"></script>
 

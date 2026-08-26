@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>MELO QR Pay</title>
+
+<link rel="manifest" href="manifest.json">
+
+<link rel="stylesheet" href="theme.css">
+<link rel="stylesheet" href="qr.css">
+<link rel="stylesheet" href="melo-toast.css">
+
+<link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+>
+
+<link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+>
+
+<link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet"
+>
+
+<!-- QR GENERATOR -->
+<script
+    src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js">
+</script>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================
+     HEADER
+===================================== -->
+
+<header class="qr-header">
+
+    <a
+        href="home.html"
+        class="back-btn"
+        aria-label="Go back"
+    >
+        ←
+    </a>
+
+
+    <div>
+
+        <small>
+            MELOSAV
+        </small>
+
+        <h1>
+            QR Pay
+        </h1>
+
+    </div>
+
+</header>
+
+
+
+<!-- =====================================
+     MAIN
+===================================== -->
+
+<main class="qr-container">
+
+
+    <!-- =================================
+         HERO
+    ================================== -->
+
+    <section class="qr-hero">
+
+        <div class="qr-hero-icon">
+            ▦
+        </div>
+
+
+        <h2>
+            Pay with MELO
+        </h2>
+
+
+        <p>
+            Send and receive money quickly
+            using your MELOSAV QR.
+        </p>
+
+    </section>
+
+
+
+    <!-- =================================
+         ACTIONS
+    ================================== -->
+
+    <section class="qr-actions">
+
+
+        <button
+            class="qr-action"
+            id="scanQR"
+            type="button"
+        >
+
+            <div class="action-icon">
+                📷
+            </div>
+
+
+            <div>
+
+                <strong>
+                    Scan QR
+                </strong>
+
+                <small>
+                    Scan someone's MELO QR
+                </small>
+
+            </div>
+
+
+            <span>
+                →
+            </span>
+
+        </button>
+
+
+
+        <button
+            class="qr-action"
+            id="myQR"
+            type="button"
+        >
+
+            <div class="action-icon">
+                💜
+            </div>
+
+
+            <div>
+
+                <strong>
+                    My QR
+                </strong>
+
+                <small>
+                    Show your personal payment QR
+                </small>
+
+            </div>
+
+
+            <span>
+                →
+            </span>
+
+        </button>
+
+
+
+        <button
+            class="qr-action"
+            id="requestQR"
+            type="button"
+        >
+
+            <div class="action-icon">
+                💰
+            </div>
+
+
+            <div>
+
+                <strong>
+                    Request Money
+                </strong>
+
+                <small>
+                    Create a QR payment request
+                </small>
+
+            </div>
+
+
+            <span>
+                →
+            </span>
+
+        </button>
+
+
+    </section>
+
+
+
+    <!-- =================================
+         SCANNER
+    ================================== -->
+
+    <section
+        class="scanner-card"
+        id="scannerCard"
+        hidden
+    >
+
+        <span class="qr-label">
+            SCAN
+        </span>
+
+
+        <div class="scanner-box">
+
+            <div class="scan-corners">
+
+                <i></i>
+                <i></i>
+                <i></i>
+                <i></i>
+
+            </div>
+
+
+            <div class="scanner-line">
+            </div>
+
+
+            <div class="scanner-center">
+                ▦
+            </div>
+
+        </div>
+
+
+        <h3>
+            Scan a MELO QR
+        </h3>
+
+
+        <p>
+            Point your camera at a MELOSAV QR code.
+        </p>
+
+
+        <button
+            id="startCamera"
+            class="primary-btn"
+            type="button"
+        >
+
+            Open Camera
+
+        </button>
+
+
+        <button
+            id="simulateScan"
+            class="secondary-btn"
+            type="button"
+        >
+
+            Test QR Scan
+
+        </button>
+
+
+        <video
+            id="qrVideo"
+            class="qr-video"
+            autoplay
+            playsinline
+            hidden
+        ></video>
+
+
+        <canvas
+            id="qrCanvas"
+            hidden
+        ></canvas>
+
+
+    </section>
+
+
+
+    <!-- =================================
+         MY QR
+    ================================== -->
+
+    <section
+        class="my-qr-card"
+        id="myQRCard"
+        hidden
+    >
+
+        <span class="qr-label">
+            YOUR MELO QR
+        </span>
+
+
+        <div
+            class="qr-display"
+            id="userQR"
+        ></div>
+
+
+        <h3 id="qrName">
+            MELO User
+        </h3>
+
+
+        <p>
+            Scan this code to pay me.
+        </p>
+
+
+        <button
+            class="secondary-btn"
+            id="copyMyQR"
+            type="button"
+        >
+
+            Copy QR Data
+
+        </button>
+
+
+    </section>
+
+
+
+    <!-- =================================
+         REQUEST
+    ================================== -->
+
+    <section
+        class="request-card"
+        id="requestCard"
+        hidden
+    >
+
+        <span class="qr-label">
+            REQUEST MONEY
+        </span>
+
+
+        <h2>
+            Create a payment request
+        </h2>
+
+
+        <form id="requestForm">
+
+
+            <label for="qrAmount">
+                Amount
+            </label>
+
+
+            <div class="money-input">
+
+                <span>
+                    ₦
+                </span>
+
+
+                <input
+                    type="number"
+                    id="qrAmount"
+                    min="1"
+                    step="0.01"
+                    placeholder="5000"
+                    required
+                >
+
+            </div>
+
+
+
+            <label for="qrNote">
+                Note
+            </label>
+
+
+            <input
+                type="text"
+                id="qrNote"
+                maxlength="80"
+                placeholder="What's this for?"
+            >
+
+
+
+            <button
+                type="submit"
+                class="primary-btn"
+            >
+
+                Generate QR Request
+
+            </button>
+
+
+        </form>
+
+
+    </section>
+
+
+
+    <!-- =================================
+         GENERATED REQUEST
+    ================================== -->
+
+    <section
+        class="generated-card"
+        id="generatedCard"
+        hidden
+    >
+
+        <span class="qr-label">
+            PAYMENT REQUEST
+        </span>
+
+
+        <div
+            class="qr-display"
+            id="generatedQR"
+        ></div>
+
+
+        <h3 id="generatedAmount">
+            ₦0.00
+        </h3>
+
+
+        <p id="generatedNote">
+            Payment request
+        </p>
+
+
+        <button
+            class="secondary-btn"
+            id="copyRequestQR"
+            type="button"
+        >
+
+            Copy QR Data
+
+        </button>
+
+
+        <button
+            class="secondary-btn"
+            id="closeQR"
+            type="button"
+        >
+
+            Done
+
+        </button>
+
+
+    </section>
+
+
+
+    <!-- =================================
+         INFO
+    ================================== -->
+
+    <section class="qr-info">
+
+        <div>
+            🔐
+        </div>
+
+        <p>
+            MELOSAV QR payments are designed
+            to make sending and receiving money
+            simple.
+        </p>
+
+    </section>
+
+
+</main>
+
+
+
+<!-- =====================================
+     BOTTOM NAV
+===================================== -->
+
+<nav class="bottom-nav">
+
+
+    <a href="home.html">
+
+        <span>
+            🏠
+        </span>
+
+        <small>
+            Home
+        </small>
+
+    </a>
+
+
+
+    <a href="transactions.html">
+
+        <span>
+            💳
+        </span>
+
+        <small>
+            Activity
+        </small>
+
+    </a>
+
+
+
+    <a href="budget.html">
+
+        <span>
+            📊
+        </span>
+
+        <small>
+            Budget
+        </small>
+
+    </a>
+
+
+
+    <a href="analytics.html">
+
+        <span>
+            📈
+        </span>
+
+        <small>
+            Insights
+        </small>
+
+    </a>
+
+
+
+    <a href="profile.html">
+
+        <span>
+            👤
+        </span>
+
+        <small>
+            Profile
+        </small>
+
+    </a>
+
+
+</nav>
+
+
+
+<!-- =====================================
+     SCRIPTS
+===================================== -->
+
+<script src="theme.js"></script>
+
+<script src="melo-toast.js"></script>
+
+<script src="qr.js"></script>
+
+
+</body>
+
+</html>
